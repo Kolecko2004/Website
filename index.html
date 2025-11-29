@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Website</title>
+
+    <!-- Tailwind output CSS -->
+    <link rel="stylesheet" href="output.css" />
+  </head>
+
+  <body>
+    <main class="min-h-screen flex flex-col">
+      <div id="header"></div>
+
+      <div class="flex-grow bg-brand-spark">
+        <div id="hero" class="mx-auto p-4"></div>
+      </div>
+
+      <div id="footer"></div>
+    </main>
+
+    <!-- React root inside the layout -->
+    <div id="root"></div>
+
+    <!-- React + Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Load HTML components -->
+    <script>
+      fetch("components/header.html")
+        .then((res) => res.text())
+        .then((data) => (document.getElementById("header").innerHTML = data));
+
+      fetch("components/footer.html")
+        .then((res) => res.text())
+        .then((data) => (document.getElementById("footer").innerHTML = data));
+
+      fetch("components/hero.html")
+        .then((res) => res.text())
+        .then((data) => (document.getElementById("hero").innerHTML = data));
+    </script>
+
+    <!-- React App -->
+    <script type="text/babel">
+      function App() {
+        return (
+          <div className="text-2xl text-blue-500 text-center p-4">
+            Hello from React!
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>

@@ -1,7 +1,7 @@
 module.exports = {
   content: [
-    "./main/**/*.html",
-    "./main/components/**/*.html",
+    "./**/*.html",
+    "./components/**/*.html",
   ],
   theme: {
     extend: {
@@ -10,8 +10,8 @@ module.exports = {
           light: "#eee9df",
           default: "#2c3b4d",
           spark: "#ffb162",
-          accent: "#a35139",
           dark: "1b2632",
+          accent: "#a35139",
         },
         
       },
