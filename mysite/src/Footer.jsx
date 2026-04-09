@@ -1,5 +1,6 @@
 import React from "react";
 import { MoveUpRight } from "lucide-react";
+import blobBg from "./assets/blob-scene-haikei.svg"; 
 
 const FooterLink = ({ href, children }) => (
   <a
@@ -15,23 +16,26 @@ const FooterLink = ({ href, children }) => (
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-900 rounded-t-[82px] text-white pt-24 pb-12">
-      <div className="max-w-6xl grid grid-cols-3 w-full text-center mx-auto">
+    <footer className="relative overflow-hidden bg-slate-900 rounded-t-[82px] text-white pt-24 pb-12">
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `url(${blobBg})`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center center", 
+          backgroundSize: "cover",
+          zIndex: 0 
+        }}
+      />
+      
+      <div className="relative z-10 max-w-6xl grid grid-cols-3 w-full text-center mx-auto">
         <div>
           <p className="font-bold mb-4 text-2xl">Socials</p>
           <div className="text-left px-10 grid">
-            <FooterLink href="https://www.instagram.com/vojtech_drozd">
-              Instagram
-            </FooterLink>
-            <FooterLink href="https://github.com/Kolecko2004">
-              GitHub
-            </FooterLink>
-            <FooterLink href="https://www.facebook.com/vojta.drozd.1/">
-              Facebook
-            </FooterLink>
-            <FooterLink href="https://www.linkedin.com/in/vojt%C4%9Bch-drozd-3918bb28b/">
-              LinkedIn
-            </FooterLink>
+            <FooterLink href="https://www.instagram.com/vojtech_drozd">Instagram</FooterLink>
+            <FooterLink href="https://github.com/Kolecko2004">GitHub</FooterLink>
+            <FooterLink href="https://www.facebook.com/vojta.drozd.1/">Facebook</FooterLink>
+            <FooterLink href="https://www.linkedin.com/in/vojt%C4%9Bch-drozd-3918bb28b/">LinkedIn</FooterLink>
           </div>
         </div>
 
@@ -42,6 +46,7 @@ export default function Footer() {
             <FooterLink href="https://linkedin.com/...">LinkedIn</FooterLink>
           </div>
         </div>
+
         <div>
           <p className="font-bold mb-4 text-2xl">Discovery</p>
           <div className="px-10 grid">
@@ -52,7 +57,8 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="text-center pt-12 text-slate-600 text-xs">
+
+      <div className="relative z-10 text-center pt-12 text-slate-600 text-xs font-medium">
         <p>Copyright: © 2026 Vojtěch Drozd</p>
         <p>Built with React, Tailwind, and Lucide.</p>
         <p>Last updated: 9.4.2026</p>
