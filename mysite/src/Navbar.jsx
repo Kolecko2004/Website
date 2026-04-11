@@ -10,7 +10,7 @@ const NavbarLink = ({ href, children }) => (
     <span>{children}</span>
 
     <div className="relative h-[2px] w-full mt-0.5 overflow-hidden">
-      <div className="absolute inset-0 bg-white/10"></div>
+      <div className="absolute inset-0 bg-slate-600"></div>
       <div className="absolute inset-0 bg-green-400 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></div>
     </div>
   </a>
@@ -41,7 +41,7 @@ export default function Navbar() {
         <NavbarLink href="/hello">About</NavbarLink>
       </div>
 
-      <button className="hidden border-2 hover:border-transparent border-white md:block py-3 relative z-10 hover:bg-white hover:text-green-400 px-4 rounded-xl text-md font-bold bg-green-400 text-white">
+      <button className="hidden border-2 hover:border-transparent border-white md:block py-3 relative z-10 hover:bg-white hover:text-green-400 px-4 rounded-xl text-md font-bold bg-transparent text-white">
         Get in Touch
       </button>
     </nav>
