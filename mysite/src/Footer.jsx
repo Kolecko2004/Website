@@ -1,40 +1,43 @@
 import React from "react";
 import { MoveUpRight } from "lucide-react";
-import blobBg from "./assets/blob-scene-haikei.svg";
 
 const FooterLink = ({ href, children }) => (
   <a
-    className="group flex flex-col font-semibold text-lg text-white py-1 mix-blend-difference"
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group flex flex-col py-2 text-lg font-semibold text-white transition-colors hover:text-green-400"
   >
-    <div className="flex justify-between items-center w-full">
+    <div className="flex items-center justify-between w-full">
       <span>{children}</span>
-      <MoveUpRight size={18} />
+      <MoveUpRight
+        size={18}
+        className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+      />
     </div>
-    
-    <div className="relative h-[1px] w-full mt-0.5 overflow-hidden">
-      <div className="absolute inset-0 bg-white/20"></div>
-      <div className="absolute inset-0 bg-white translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></div>
+
+    {/* Animated Underline */}
+    <div className="relative h-px w-full mt-1 bg-white/20 overflow-hidden">
+      <div className="absolute inset-0 bg-green-400 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out" />
     </div>
   </a>
 );
 
-export default function Footer() {
-  return (
-    <footer className="relative overflow-hidden bg-slate-900 text-white pt-24 pb-12">
-      <div
-        className="absolute inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage: `url("${blobBg}")`,
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}
-      />
+const SectionTitle = ({ children }) => (
+  <h2 className="text-3xl font-black uppercase tracking-widest bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent mb-6">
+    {children}
+  </h2>
+);
 
-      <div className="relative z-10 max-w-6xl grid grid-cols-1 w-full text-center mx-auto md:grid-cols-3">
-        <div>
-          <p className="font-bold mb-4 text-2xl">Socials</p>
-          <div className="text-left px-10 grid">
+export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <footer className="relative bg-slate-900 text-white pt-24 pb-12 px-6">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+        <nav aria-label="Social links">
+          <SectionTitle>Socials</SectionTitle>
+          <div className="flex flex-col">
             <FooterLink href="https://www.instagram.com/vojtech_drozd">
               Instagram
             </FooterLink>
@@ -48,29 +51,29 @@ export default function Footer() {
               LinkedIn
             </FooterLink>
           </div>
-        </div>
+        </nav>
 
-        <div>
-          <p className="font-bold mb-4 text-2xl">Contact</p>
-          <div className="px-10 grid">
+        <nav aria-label="Contact info">
+          <SectionTitle>Contact</SectionTitle>
+          <div className="flex flex-col">
             <FooterLink href="mailto:your@email.com">Email Me</FooterLink>
-            <FooterLink href="https://linkedin.com/...">LinkedIn</FooterLink>
+            <FooterLink href="https://linkedin.com/in/...">LinkedIn</FooterLink>
           </div>
-        </div>
+        </nav>
 
-        <div>
-          <p className="font-bold mb-4 text-2xl">Discovery</p>
-          <div className="px-10 grid">
-            <FooterLink href="">Schools</FooterLink>
-            <FooterLink href="">Work</FooterLink>
-            <FooterLink href="">Internships</FooterLink>
-            <FooterLink href="">Hobbies</FooterLink>
+        <nav aria-label="Discovery links">
+          <SectionTitle>Discovery</SectionTitle>
+          <div className="flex flex-col">
+            <FooterLink href="#schools">Schools</FooterLink>
+            <FooterLink href="#work">Work</FooterLink>
+            <FooterLink href="#internships">Internships</FooterLink>
+            <FooterLink href="#hobbies">Hobbies</FooterLink>
           </div>
-        </div>
+        </nav>
       </div>
 
-      <div className="relative z-10 text-center pt-12 text-slate-600 text-xs font-medium">
-        <p>Copyright: © 2026 Vojtěch Drozd</p>
+      <div className="mt-20 pt-8 border-t border-slate-800 text-center text-slate-500 text-xs font-medium space-y-1">
+        <p>© {currentYear} Vojtěch Drozd</p>
         <p>Built with React, Tailwind, and Lucide.</p>
         <p>Last updated: 9.4.2026</p>
       </div>
