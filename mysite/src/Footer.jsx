@@ -72,10 +72,13 @@ export default function Footer() {
         </nav>
       </div>
 
-      <div className="mt-20 pt-8 border-t border-slate-800 text-center text-slate-500 text-xs font-medium space-y-1">
+      <div
+        className="mt-20 pt-8 border-t-2 border-transparent text-center text-slate-500 text-xs font-medium space-y-1"
+        style={{ borderImage: "linear-gradient(to right, #4ade80, #22d3ee) 1" }}
+      >
         <p>© {currentYear} Vojtěch Drozd</p>
         <p>Built with React, Tailwind, and Lucide.</p>
-        <p>Last updated: 9.4.2026</p>
+        <p>Last updated: 12.4.2026</p>
       </div>
     </footer>
   );
