@@ -17,7 +17,7 @@ export const FeatureBlock = ({
           {title}
         </Header>
         <div className={`w-16 h-1 ${accentColor} mx-auto rounded-full`}></div>
-        <p className="px-4 md:px-8 text-slate-400 leading-relaxed text-lg">
+        <p className="px-4 md:px-8 text-slate-300 leading-relaxed text-lg whitespace-pre-line">
           {description}
         </p>
 

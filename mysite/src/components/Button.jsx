@@ -1,10 +1,12 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Button = ({ 
   href, 
   onClick, // Added onClick support
-  children, 
+  children,
+  to,
   className = "", 
   variant = "secondary" 
 }) => {
@@ -39,6 +41,14 @@ export const Button = ({
       <a href={href} className={`${baseStyles} ${variants[variant]} ${className}`}>
         {content}
       </a>
+    );
+  }
+
+  if (to) {
+    return (
+      <Link to={to} className={`${baseStyles} ${variants[variant]} ${className}`}>
+        {content}
+      </Link>
     );
   }
 

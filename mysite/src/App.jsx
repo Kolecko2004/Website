@@ -8,14 +8,19 @@ import Experience from "./pages/Experience";
 import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
 import { projectData } from "./data/ProjectData";
+import Hobbies from "./pages/Hobbies";
 
 function ProjectWrapper() {
   const { projectId } = useParams(); 
   const data = projectData[projectId];
   
-  // DOBRÁ PRAXE: Kontrola, zda data existují
   if (!data) {
-    return <div className="text-white text-center py-20">Project not found!</div>;
+    // Schválně přidáme křiklavě červené pozadí, abychom měli jistotu, že to nepřehlédneme
+    return (
+      <div className="bg-red-500 text-white text-4xl text-center py-20">
+        DATA NENALEZENA PRO: {projectId}
+      </div>
+    );
   }
 
   return <ProjectDetail data={data} />;
@@ -30,6 +35,8 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/experience" element={<Experience />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/hobbies" element={<Hobbies />} />
+
           <Route path="/projects/:projectId" element={<ProjectWrapper />} />
         </Routes>
       </main>

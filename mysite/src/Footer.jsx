@@ -34,7 +34,7 @@ export default function Footer() {
 
   return (
     <footer className="relative bg-slate-900 text-white pt-24 pb-12 px-6">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 text-center">
         <nav aria-label="Social links">
           <SectionTitle>Socials</SectionTitle>
           <div className="flex flex-col">
@@ -44,30 +44,16 @@ export default function Footer() {
             <FooterLink href="https://github.com/Kolecko2004">
               GitHub
             </FooterLink>
-            <FooterLink href="https://www.facebook.com/vojta.drozd.1/">
-              Facebook
-            </FooterLink>
-            <FooterLink href="https://www.linkedin.com/in/vojt%C4%9Bch-drozd-3918bb28b/">
-              LinkedIn
-            </FooterLink>
+            <FooterLink href="https://linkedin.com/in/...">LinkedIn</FooterLink>
           </div>
         </nav>
 
         <nav aria-label="Contact info">
           <SectionTitle>Contact</SectionTitle>
           <div className="flex flex-col">
-            <FooterLink href="mailto:your@email.com">Email Me</FooterLink>
-            <FooterLink href="https://linkedin.com/in/...">LinkedIn</FooterLink>
-          </div>
-        </nav>
-
-        <nav aria-label="Discovery links">
-          <SectionTitle>Discovery</SectionTitle>
-          <div className="flex flex-col">
-            <FooterLink href="#schools">Schools</FooterLink>
-            <FooterLink href="#work">Work</FooterLink>
-            <FooterLink href="#internships">Internships</FooterLink>
-            <FooterLink href="#hobbies">Hobbies</FooterLink>
+            <FooterLink href="mailto:vojtech.drozd@protonmail.com">
+              Email Me
+            </FooterLink>
           </div>
         </nav>
       </div>
