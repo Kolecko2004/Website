@@ -26,4 +26,9 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
+  // Netlify funkce a vite.config běží v Node, ne v prohlížeči
+  {
+    files: ['netlify/**/*.{js,mjs}', '*.config.js'],
+    languageOptions: { globals: globals.node },
+  },
 ])

@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import Hero from "../components/Hero";
 import { FeatureBlock } from "../components/FeatureBlock";
 import { Button } from "../components/Button";
+import PortfolioReturns from "../components/PortfolioReturns";
 
 import img1 from "../data/3d-modeling-img1.png";
 import img2 from "../data/3d-modeling-img2.png";
@@ -79,6 +80,8 @@ export default function ProjectDetail({ projectId: propProjectId }) {
                 ))}
               </div>
             )}
+
+            {section.type === "portfolio" && <PortfolioReturns />}
 
             {section.type === "contact" && (
               <Button

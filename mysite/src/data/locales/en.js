@@ -220,6 +220,21 @@ const en = {
   },
 
   // ============================================================
+  // Živá výnosnost portfolia (sekce "portfolio" v projectDetails)
+  // ============================================================
+  portfolio: {
+    periods: {
+      threeMonths: "Last 3 months",
+      ytd: "Year to date",
+      oneYear: "Last year",
+    },
+    since: "since {{date}}",
+    updated: "Updated {{date}}",
+    note: "Time-weighted return, deposits and withdrawals excluded. Live data from Trading 212.",
+    unavailable: "Live portfolio data is not available right now.",
+  },
+
+  // ============================================================
   // STRÁNKA: Detail projektu – společné texty UI
   // ============================================================
   projectDetailUI: {
@@ -269,6 +284,11 @@ const en = {
           title: "My Approach to Investing",
           content:
             "I apply an analytical approach to managing my personal portfolio, focusing on long-term growth, market analysis, and risk management.\n\nIt is a great way to combine data analysis with real-world economics.",
+        },
+        {
+          type: "portfolio",
+          title: "Portfolio Performance",
+          description: "Live return of my personal portfolio, updated every hour.",
         },
         {
           type: "contact",

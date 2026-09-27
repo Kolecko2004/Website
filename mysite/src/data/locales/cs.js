@@ -219,6 +219,21 @@ const cs = {
   },
 
   // ============================================================
+  // Živá výnosnost portfolia (sekce "portfolio" v projectDetails)
+  // ============================================================
+  portfolio: {
+    periods: {
+      threeMonths: "Poslední 3 měsíce",
+      ytd: "Od začátku roku",
+      oneYear: "Poslední rok",
+    },
+    since: "od {{date}}",
+    updated: "Aktualizováno {{date}}",
+    note: "Časově vážený výnos, bez vlivu vkladů a výběrů. Živá data z Trading 212.",
+    unavailable: "Živá data portfolia teď nejsou k dispozici.",
+  },
+
+  // ============================================================
   // STRÁNKA: Detail projektu – společné texty UI
   // ============================================================
   projectDetailUI: {
@@ -268,6 +283,12 @@ const cs = {
           title: "Můj přístup k investování",
           content:
             "K budování svého osobního portfolia přistupuji analyticky. Zaměřuji se na dlouhodobý růst, analýzu tržních trendů a efektivní řízení rizik.\n\nBaví mě propojovat práci s daty a analytické myšlení s reálnou ekonomikou.",
+        },
+        {
+          type: "portfolio",
+          title: "Výkonnost portfolia",
+          description:
+            "Živá výnosnost mého osobního portfolia, aktualizovaná každou hodinu.",
         },
         {
           type: "contact",
