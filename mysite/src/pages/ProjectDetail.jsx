@@ -1,41 +1,71 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { FeatureBlock } from "../components/FeatureBlock";
 import { Header } from "../components/Headers";
 import { Button } from "../components/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function ProjectDetail({ data }) {
+import img1 from "../data/3d-modeling-img1.png";
+import img2 from "../data/3d-modeling-img2.png";
+
+const projectConfig = {
+  "web-production": {
+    color: "bg-cyan-400"
+  },
+  "3d-modeling": {
+    color: "bg-green-400",
+    images: [img1, img2]
+  },
+  "3d-printing": {
+    color: "bg-green-400"
+  }
+};
+
+export default function ProjectDetail({ projectId: propProjectId }) {
   const navigate = useNavigate();
+  const { projectId: urlProjectId } = useParams();
+  const { t } = useTranslation();
 
-  if (!data)
+  const activeId = propProjectId || urlProjectId;
+  const projectData = t(`projectDetails.${activeId}`, { returnObjects: true });
+  const config = projectConfig[activeId];
+
+  if (!projectData || typeof projectData === "string" || !config) {
     return (
-      <div className="text-white p-20 text-center">Project not found.</div>
+      <div className="text-white p-20 text-center">
+        {t("projectDetailUI.notFound", "Project not found.")}
+      </div>
     );
+  }
 
   return (
     <div className="min-h-screen pb-20">
       <div className="text-center grid gap-4 justify-center my-12 px-6">
-        <Header level={4}>{data.badge}</Header>
-        <Header>{data.title}</Header>
+        <Header level={4}>{projectData.badge}</Header>
+        <Header>{projectData.title}</Header>
         <Header level={3} className="text-slate-400 max-w-2xl mx-auto">
-          {data.description}
+          {projectData.description}
         </Header>
         <Button className="mx-auto" onClick={() => navigate(-1)}>
-          Back to Projects
+          {t("projectDetailUI.backButton", "Back to Projects")}
         </Button>
       </div>
 
       <div className="grid gap-8 px-6">
-        {data.sections?.map((section, index) => (
+        {projectData.sections?.map((section, index) => (
           <FeatureBlock
             key={index}
             title={section.title}
-            description={section.content || section.description}
-            accentColor={data.color}
+            description={
+              <span className="whitespace-pre-line">
+                {section.content || section.description}
+              </span>
+            }
+            accentColor={config.color}
           >
-            {section.type === "image-grid" && (
+            {section.type === "image-grid" && config.images && (
               <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-                {section.images?.map((img, i) => (
+                {config.images.map((img, i) => (
                   <img
                     key={i}
                     src={img}
@@ -53,7 +83,7 @@ export default function ProjectDetail({ data }) {
                   variant="secondary"
                   className="mx-auto"
                 >
-                  {section.buttonText || "Contact Me"}
+                  {section.buttonText || t("projectDetailUI.contactFallback", "Contact Me")}
                 </Button>
               </div>
             )}

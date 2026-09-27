@@ -1,6 +1,8 @@
 import React from "react";
 import logoBlack from "./assets/logo_white_transparent_cropped.png";
 import { Button } from "./components/Button";
+import { LanguageSwitcher } from "./components/LanguageSwitcher";
+import { Mail } from "lucide-react";
 
 const NavbarLink = ({ href, children }) => (
   <a
@@ -34,11 +36,14 @@ export default function Navbar() {
         <div className="flex items-center space-x-8 md:space-x-16 z-10">
           <NavbarLink href="/">Home</NavbarLink>
           <NavbarLink href="/projects">Projects</NavbarLink>
-          <NavbarLink href="/experience">About</NavbarLink>
+          <NavbarLink href="/experience">Experience</NavbarLink>
         </div>
 
-        <div className="hidden md:block absolute right-0">
-          <Button>Get in Touch</Button>
+        <div className="hidden md:flex md:gap-4 absolute right-0">
+          <Button href="mailto:vojtech.drozd@protonmail.com">
+            <Mail size={20} />
+          </Button>
+          <LanguageSwitcher />
         </div>
       </div>
     </nav>

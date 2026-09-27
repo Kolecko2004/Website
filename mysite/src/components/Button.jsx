@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export const Button = ({ 
   href, 
-  onClick, // Added onClick support
+  onClick,
   children,
   to,
   className = "", 
@@ -19,7 +19,6 @@ export const Button = ({
 
   const content = (
     <>
-      {/* Shine Effect */}
       <div className="absolute inset-0 flex justify-center">
         <div className="relative h-full w-full">
           <div className="absolute top-0 -left-[100%] h-full w-1/2 bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-[-25deg] group-hover:left-[150%] transition-all duration-[1250ms] ease-in-out"></div>
@@ -35,7 +34,6 @@ export const Button = ({
     </>
   );
 
-  // If href is present, render <a>, otherwise render <button>
   if (href) {
     return (
       <a href={href} className={`${baseStyles} ${variants[variant]} ${className}`}>

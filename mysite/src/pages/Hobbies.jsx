@@ -1,11 +1,7 @@
 import React from "react";
 import Hero from "../components/Hero";
-import Timeline from "../components/Timeline";
-import { Header } from "../components/Headers";
 import { FeatureBlock } from "../components/FeatureBlock";
 import { Printer, Box, Globe, Cpu } from "lucide-react";
-import { Button } from "../components/Button";
-import { useNavigate } from "react-router-dom";
 
 const hobbies = [
   {
