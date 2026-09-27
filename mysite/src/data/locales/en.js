@@ -27,9 +27,9 @@ const en = {
   // ============================================================
   // HOME PAGE – hero
   // ============================================================
-  heroBadge: "Software Developer",
+  heroBadge: "Student & Developer",
   heroDescription:
-    "I build functional web applications using React and Tailwind. Focused on clean code and simple interfaces.",
+    "Welcome to my digital portfolio. Explore my background, projects, and the things I enjoy doing in my free time.",
   explore: "Explore",
 
   // ============================================================
@@ -38,17 +38,17 @@ const en = {
   projects: {
     title: "Projects",
     description:
-      "Here you can see all my projects and the things I work on in my free time.",
+      "Web apps, 3D models, prints and investing – a look at what I build and explore outside of school and work.",
   },
   experience: {
     title: "Experience",
     description:
-      "Here you can see my professional and educational journey.",
+      "From my first job to university – the roles and schools that shaped me.",
   },
   hobbies: {
     title: "Hobbies",
     description:
-      "Here you can see how I relax, have fun, and spend my free time.",
+      "Gym, Formula 1, good films and time with friends – what keeps me going.",
   },
 
   // ============================================================

@@ -17,7 +17,7 @@ const cs = {
     closeMenu: "Zavřít menu",
   },
   footer: {
-    socials: "Sítě",
+    socials: "Sociální Sítě",
     contact: "Kontakt",
     emailMe: "Napište mi",
     builtWith: "Vytvořeno pomocí Reactu, Tailwindu a Lucide.",
@@ -27,9 +27,9 @@ const cs = {
   // ============================================================
   // HOME PAGE – hero
   // ============================================================
-  heroBadge: "Softwarový vývojář",
+  heroBadge: "Student & vývojář",
   heroDescription:
-    "Tvořím funkční webové aplikace v Reactu a Tailwindu. Zaměřuji se na čistý kód a jednoduchá uživatelská rozhraní.",
+    "Vítej v mém digitálním portfoliu. Prozkoumej mé dosavadní zkušenosti, projekty a věci, kterým se věnuji ve volném čase.",
   explore: "Prozkoumat",
 
   // ============================================================
@@ -38,17 +38,17 @@ const cs = {
   projects: {
     title: "Projekty",
     description:
-      "Tady můžete vidět všechny moje projekty nebo věci, na kterých pracuji ve svém volném čase.",
+      "Weby, 3D modely, tisk i investování – na čem pracuji a co zkouším mimo školu a práci.",
   },
   experience: {
     title: "Zkušenosti",
     description:
-      "Zde můžete vidět moji dosavadní profesní a studentskou cestu.",
+      "Od první brigády až po vysokou školu – práce a studium, které mě formovaly.",
   },
   hobbies: {
     title: "Zájmy",
     description:
-      "Zde můžete vidět, jakým způsobem odpočívám, bavím se nebo trávím svůj volný čas.",
+      "Posilovna, Formule 1 a čas s přáteli – co mě baví a nabíjí.",
   },
 
   // ============================================================
@@ -157,7 +157,7 @@ const cs = {
       {
         id: "plants",
         title: "Rostliny",
-        description: "Baví mě starat se o své rostliny a sledovat, jak rostou.",
+        description: "Baví mě starat se o mé rostliny",
       },
       {
         id: "cats",
