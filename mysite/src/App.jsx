@@ -7,6 +7,7 @@ import Experience from "./pages/Experience";
 import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
 import Hobbies from "./pages/Hobbies";
+import ScrollToTop from "./components/ScrollToTop";
 
 function ProjectWrapper() {
   const { projectId } = useParams(); 
@@ -16,6 +17,7 @@ function ProjectWrapper() {
 export default function App() {
   return (
     <div className="min-h-screen flex flex-col">
+      <ScrollToTop />
       <Navbar />
       <main className="flex-grow">
         <Routes>

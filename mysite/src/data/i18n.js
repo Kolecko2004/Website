@@ -11,17 +11,17 @@ const resources = {
       projects: {
         title: "Projects",
         description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tellus nibh, dapibus in euismod sit amet, efficitur quis sem. Phasellus aliquet diam a feugiat placerat.",
+          "Here you can see all my projects and the things I work on in my free time.",
       },
       experience: {
         title: "Experience",
         description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tellus nibh, dapibus in euismod sit amet, efficitur quis sem. Phasellus aliquet diam a feugiat placerat.",
+          "Here you can see my professional and educational journey.",
       },
       hobbies: {
         title: "Hobbies",
         description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tellus nibh, dapibus in euismod sit amet, efficitur quis sem. Phasellus aliquet diam a feugiat placerat.",
+          "Here you can see how I relax, have fun, and spend my free time.",
       },
       experiencePage: {
         badge: "experience",
@@ -226,17 +226,16 @@ const resources = {
       projects: {
         title: "Projekty",
         description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tellus nibh, dapibus in euismod sit amet, efficitur quis sem. Phasellus aliquet diam a feugiat placerat.",
+          "Tady můžete vidět všechny moje projekty nebo věci, na kterých pracuji ve svém volném čase.",
       },
       experience: {
         title: "Zkušenosti",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tellus nibh, dapibus in euismod sit amet, efficitur quis sem. Phasellus aliquet diam a feugiat placerat.",
+        description: "Zde můžete vidět moji dosavadní profesní a studentskou cestu.",
       },
       hobbies: {
         title: "Zájmy",
         description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tellus nibh, dapibus in euismod sit amet, efficitur quis sem. Phasellus aliquet diam a feugiat placerat.",
+          "Zde můžete vidět, jakým způsobem odpočívám, bavím se nebo trávím svůj volný čas.",
       },
       experiencePage: {
         badge: "zkušenosti",
