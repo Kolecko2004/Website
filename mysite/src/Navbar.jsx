@@ -23,8 +23,8 @@ export default function Navbar() {
       <div className="absolute -top-24 -left-24 w-64 h-64 bg-green-400/20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-cyan-400/20 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto flex items-center justify-center py-6 min-h-[80px]">
-        <div className="hidden md:block absolute left-0">
+      <div className="relative max-w-7xl mx-auto flex items-center justify-center md:justify-between xl:justify-center py-6 min-h-[80px]">
+        <div className="hidden xl:block absolute left-0">
           <Link to="/" className="cursor-pointer">
             <img
               src={logoBlack}

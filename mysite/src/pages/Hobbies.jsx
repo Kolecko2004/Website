@@ -41,7 +41,7 @@ function Hobbies() {
         title={<>{t("hobbiesPage.heroTitle")}</>}
         description={t("hobbiesPage.heroDescription")}
       />
-      <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-12">
+      <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-12 px-6">
         {hobbies.map((hobby, index) => {
           const blockColor = USE_ALTERNATING_COLORS
             ? COLORS[index % COLORS.length]

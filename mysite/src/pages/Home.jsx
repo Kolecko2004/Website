@@ -38,7 +38,7 @@ export default function Home() {
         }
         description={t("heroDescription")}
       />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto my-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto my-12 px-6">
         {featureData.map((item, index) => (
           <div key={item.id} className={index === 0 ? "md:col-span-2" : ""}>
             <FeatureBlock title={item.title} description={item.description}>
