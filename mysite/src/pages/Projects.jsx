@@ -2,25 +2,28 @@ import React from "react";
 import { useTranslation, Trans } from "react-i18next";
 import Hero from "../components/Hero";
 import { FeatureBlock } from "../components/FeatureBlock";
-import { Printer, Box, Globe } from "lucide-react";
+import { Printer, Box, Globe, TrendingUp } from "lucide-react";
 import { Button } from "../components/Button";
 
 export default function Projects() {
   const { t } = useTranslation();
 
-  // Konfigurace vizuálních prvků podle slugů
   const categoryConfig = {
     "web-production": {
       icon: <Globe className="text-cyan-400" size={32} />,
       color: "bg-cyan-400",
+    },
+    "investing": {
+      icon: <TrendingUp className="text-green-400" size={32} />,
+      color: "bg-green-400",
     },
     "3d-modeling": {
       icon: <Box className="text-green-400" size={32} />,
       color: "bg-green-400",
     },
     "3d-printing": {
-      icon: <Printer className="text-green-400" size={32} />,
-      color: "bg-green-400",
+      icon: <Printer className="text-cyan-400" size={32} />,
+      color: "bg-cyan-400",
     },
   };
 

@@ -97,6 +97,12 @@ const resources = {
               "Building web applications with React and Tailwind CSS, done primarily for fun and personal growth.",
           },
           {
+            slug: "investing",
+            title: "Investování & Finance",
+            description:
+              "Analýza finančních trhů, správa osobního portfolia a investiční strategie.",
+          },
+          {
             slug: "3d-modeling",
             title: "3D Modeling",
             description:
@@ -133,6 +139,28 @@ const resources = {
               title: "Get in Touch",
               description:
                 "Have a question about web development or want to collaborate? Feel free to reach out.",
+              buttonText: "Send an Email",
+              email: "vojtech.drozd.web@protonmail.com",
+            },
+          ],
+        },
+        investing: {
+          title: "Investing & Finance",
+          badge: "Finance",
+          description:
+            "Financial market analysis, personal portfolio management, and investment strategies.",
+          sections: [
+            {
+              type: "text",
+              title: "My Approach to Investing",
+              content:
+                "I apply an analytical approach to managing my personal portfolio, focusing on long-term growth, market analysis, and risk management.\n\nIt is a great way to combine data analysis with real-world economics.",
+            },
+            {
+              type: "contact",
+              title: "Get in Touch",
+              description:
+                "Want to discuss financial markets or investment strategies? Feel free to reach out.",
               buttonText: "Send an Email",
               email: "vojtech.drozd.web@protonmail.com",
             },
@@ -284,6 +312,12 @@ const resources = {
               "Tvorba webových stránek v Reactu a Tailwindu, kterou dělám primárně pro radost a osobní rozvoj.",
           },
           {
+            slug: "investing",
+            title: "Investing & Finance",
+            description:
+              "Financial market analysis, personal portfolio management, and investment strategies.",
+          },
+          {
             slug: "3d-modeling",
             title: "3D Modelování",
             description:
@@ -300,71 +334,102 @@ const resources = {
       projectDetailUI: {
         notFound: "Projekt nenalezen.",
         backButton: "Zpět na projekty",
-        contactFallback: "Napsat"
+        contactFallback: "Napsat",
       },
       projectDetails: {
         "web-production": {
           title: "Vývoj webů",
           badge: "Development",
-          description: "Tvorba webových stránek v Reactu a Tailwindu, kterou dělám primárně pro radost a osobní rozvoj.",
+          description:
+            "Tvorba webových stránek v Reactu a Tailwindu, kterou dělám primárně pro radost a osobní rozvoj.",
           sections: [
             {
               type: "text",
               title: "O mém webovém vývoji",
-              content: "Programovat webové stránky pomocí moderních technologií jako React a Tailwind CSS jsem se naučil především díky své praxi ve firmě numoteq.\n\nDnes se webovému vývoji věnuji hlavně jako zábavě a skvělému způsobu, jak si neustále rozšiřovat své individuální schopnosti.\n\nA pokud vás zajímá, jak takový web z mé dílny vypadá v praxi, nemusíte chodit daleko – tou nejlepší vizitkou je přímo tato stránka, kterou si právě prohlížíte."
+              content:
+                "Programovat webové stránky pomocí moderních technologií jako React a Tailwind CSS jsem se naučil především díky své praxi ve firmě numoteq.\n\nDnes se webovému vývoji věnuji hlavně jako zábavě a skvělému způsobu, jak si neustále rozšiřovat své individuální schopnosti.\n\nA pokud vás zajímá, jak takový web z mé dílny vypadá v praxi, nemusíte chodit daleko – tou nejlepší vizitkou je přímo tato stránka, kterou si právě prohlížíte.",
             },
             {
               type: "contact",
               title: "Napište mi",
-              description: "Máš otázku k webům nebo chceš na něčem spolupracovat? Ozvi se mi.",
+              description:
+                "Máš otázku k webům nebo chceš na něčem spolupracovat? Ozvi se mi.",
               buttonText: "Napsat e-mail",
-              email: "vojtech.drozd.web@protonmail.com"
-            }
-          ]
+              email: "vojtech.drozd.web@protonmail.com",
+            },
+          ],
+        },
+        investing: {
+          title: "Investování a finance",
+          badge: "Finance",
+          description:
+            "Analýza finančních trhů, správa osobního portfolia a investiční strategie.",
+          sections: [
+            {
+              type: "text",
+              title: "Můj přístup k investování",
+              content:
+                "K budování svého osobního portfolia přistupuji analyticky. Zaměřuji se na dlouhodobý růst, analýzu tržních trendů a efektivní řízení rizik.\n\nBaví mě propojovat práci s daty a analytické myšlení s reálnou ekonomikou.",
+            },
+            {
+              type: "contact",
+              title: "Napište mi",
+              description:
+                "Zajímají tě finance nebo chceš probrat investiční strategie? Ozvi se mi.",
+              buttonText: "Napsat e-mail",
+              email: "vojtech.drozd.web@protonmail.com",
+            },
+          ],
         },
         "3d-modeling": {
           title: "3D Modelování",
           badge: "Design",
-          description: "Tvorba funkčních a estetických CAD modelů, od technických návrhů až po přípravu pro 3D tisk.",
+          description:
+            "Tvorba funkčních a estetických CAD modelů, od technických návrhů až po přípravu pro 3D tisk.",
           sections: [
             {
               type: "text",
               title: "Moje cesta k 3D modelování",
-              content: "Základy 3D modelování a technického kreslení jsem získal už na střední škole. Učili jsme se převádět technické návrhy do reálných 3D modelů pomocí softwaru (AutoCAD, Inventor, Solid Edge).\n\nZa pomyslný vrchol svých dosavadních CAD schopností považuji praktickou maturitní zkoušku z 3D modelování. Naším úkolem bylo podle dodané dokumentace vymodelovat kompletní parní stroj – od konstrukce jednotlivých menších součástek až po jejich finální složení do jedné velké funkční sestavy.\n\nAčkoliv na vysoké škole nemám tolik příležitostí tento obor přímo studijně rozvíjet, díky 3D tisku s ním zůstávám v pravidelném kontaktu. Navrhování vlastních funkčních dílů nebo jen modelování pro zábavu je pro mě skvělý způsob, jak si tyto dovednosti udržet a dále je posouvat, zejména s ohledem na 3D tisknutelnost a software jako Fusion 360."
+              content:
+                "Základy 3D modelování a technického kreslení jsem získal už na střední škole. Učili jsme se převádět technické návrhy do reálných 3D modelů pomocí softwaru (AutoCAD, Inventor, Solid Edge).\n\nZa pomyslný vrchol svých dosavadních CAD schopností považuji praktickou maturitní zkoušku z 3D modelování. Naším úkolem bylo podle dodané dokumentace vymodelovat kompletní parní stroj – od konstrukce jednotlivých menších součástek až po jejich finální složení do jedné velké funkční sestavy.\n\nAčkoliv na vysoké škole nemám tolik příležitostí tento obor přímo studijně rozvíjet, díky 3D tisku s ním zůstávám v pravidelném kontaktu. Navrhování vlastních funkčních dílů nebo jen modelování pro zábavu je pro mě skvělý způsob, jak si tyto dovednosti udržet a dále je posouvat, zejména s ohledem na 3D tisknutelnost a software jako Fusion 360.",
             },
             {
               type: "image-grid",
               title: "Ukázky práce",
-              description: "Návrhy a finální rendery mechanické sestavy."
+              description: "Návrhy a finální rendery mechanické sestavy.",
             },
             {
               type: "contact",
               title: "Napište mi",
-              description: "Zaujala tě moje práce nebo potřebuješ něco vymodelovat? Ozvi se mi.",
+              description:
+                "Zaujala tě moje práce nebo potřebuješ něco vymodelovat? Ozvi se mi.",
               buttonText: "Napsat e-mail",
-              email: "vojtech.drozd.web@protonmail.com"
-            }
-          ]
+              email: "vojtech.drozd.web@protonmail.com",
+            },
+          ],
         },
         "3d-printing": {
           title: "3D Tisk",
           badge: "Hardware",
-          description: "Můj nový koníček, díky kterému převádím digitální nápady do reálných předmětů, primárně pro osobní účely a zábavu.",
+          description:
+            "Můj nový koníček, díky kterému převádím digitální nápady do reálných předmětů, primárně pro osobní účely a zábavu.",
           sections: [
             {
               type: "text",
               title: "Moje cesta k 3D tisku",
-              content: "3D tisk je mým poměrně novým koníčkem, který mě ale okamžitě naplno chytnul. Nedávno jsem si pořídil vlastní 3D tiskárnu a otevřely se mi tak úplně nové možnosti, jak zhmotnit své nápady.\n\nTiskárnu využívám hlavně pro osobní účely a pro zábavu. Ať už jde o tisk různých praktických organizérů, náhradních dílů, nebo jen drobných vychytávek pro radost, hrozně mě baví sledovat, jak mi fyzický výrobek roste doslova před očima.\n\nCelé se to navíc neuvěřitelně skvěle doplňuje s mými zkušenostmi s CAD softwarem. Když mi doma něco chybí nebo potřebuji specifickou součástku, prostě si ji sám navrhnu, připravím ve sliceru a rovnou vytisknu přesně podle svých představ."
+              content:
+                "3D tisk je mým poměrně novým koníčkem, který mě ale okamžitě naplno chytnul. Nedávno jsem si pořídil vlastní 3D tiskárnu a otevřely se mi tak úplně nové možnosti, jak zhmotnit své nápady.\n\nTiskárnu využívám hlavně pro osobní účely a pro zábavu. Ať už jde o tisk různých praktických organizérů, náhradních dílů, nebo jen drobných vychytávek pro radost, hrozně mě baví sledovat, jak mi fyzický výrobek roste doslova před očima.\n\nCelé se to navíc neuvěřitelně skvěle doplňuje s mými zkušenostmi s CAD softwarem. Když mi doma něco chybí nebo potřebuji specifickou součástku, prostě si ji sám navrhnu, připravím ve sliceru a rovnou vytisknu přesně podle svých představ.",
             },
             {
               type: "contact",
               title: "Napište mi",
-              description: "Zajímá tě 3D tisk nebo bys chtěl poradit či něco probrat? Napiš mi.",
+              description:
+                "Zajímá tě 3D tisk nebo bys chtěl poradit či něco probrat? Napiš mi.",
               buttonText: "Napsat e-mail",
-              email: "vojtech.drozd.web@protonmail.com"
-            }
-          ]
-        }
+              email: "vojtech.drozd.web@protonmail.com",
+            },
+          ],
+        },
       },
     },
   },

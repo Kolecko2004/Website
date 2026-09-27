@@ -12,12 +12,15 @@ const projectConfig = {
   "web-production": {
     color: "bg-cyan-400"
   },
+  "investing": {
+    color: "bg-green-400"
+  },
   "3d-modeling": {
     color: "bg-green-400",
     images: [img1, img2]
   },
   "3d-printing": {
-    color: "bg-green-400"
+    color: "bg-cyan-400"
   }
 };
 
