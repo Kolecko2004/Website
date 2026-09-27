@@ -3,17 +3,18 @@ import logoBlack from "./assets/logo_white_transparent_cropped.png";
 import { Button } from "./components/Button";
 import { LanguageSwitcher } from "./components/LanguageSwitcher";
 import { Mail } from "lucide-react";
+import { Link } from "react-router-dom";
 
-const NavbarLink = ({ href, children }) => (
-  <a
-    href={href}
+const NavbarLink = ({ to, children }) => (
+  <Link
+    to={to}
     className="group flex flex-col font-semibold text-lg text-white py-1"
   >
     <span>{children}</span>
     <div className="relative h-[2px] w-full mt-0.5 bg-slate-700 overflow-hidden">
       <div className="absolute inset-0 bg-green-400 -translate-x-[101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out" />
     </div>
-  </a>
+  </Link>
 );
 
 export default function Navbar() {
@@ -24,23 +25,23 @@ export default function Navbar() {
 
       <div className="relative max-w-7xl mx-auto flex items-center justify-center py-6 min-h-[80px]">
         <div className="hidden md:block absolute left-0">
-          <a href="/" className="cursor-pointer">
+          <Link to="/" className="cursor-pointer">
             <img
               src={logoBlack}
               alt="logo"
               className="h-16 w-auto brightness-0 invert transition-opacity hover:opacity-80"
             />
-          </a>
+          </Link>
         </div>
 
         <div className="flex items-center space-x-8 md:space-x-16 z-10">
-          <NavbarLink href="/">Home</NavbarLink>
-          <NavbarLink href="/projects">Projects</NavbarLink>
-          <NavbarLink href="/experience">Experience</NavbarLink>
+          <NavbarLink to="/">Home</NavbarLink>
+          <NavbarLink to="/projects">Projects</NavbarLink>
+          <NavbarLink to="/experience">Experience</NavbarLink>
         </div>
 
         <div className="hidden md:flex md:gap-4 absolute right-0">
-          <Button href="mailto:vojtech.drozd@protonmail.com">
+          <Button href="mailto:vojtech.drozd.web@protonmail.com">
             <Mail size={20} />
           </Button>
           <LanguageSwitcher />

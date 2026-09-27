@@ -42,7 +42,7 @@ export default function Home() {
         {featureData.map((item, index) => (
           <div key={item.id} className={index === 0 ? "md:col-span-2" : ""}>
             <FeatureBlock title={item.title} description={item.description}>
-              <Button className="mx-auto" href={item.path}>
+              <Button className="mx-auto" to={item.path}>
                 {t("explore")} {item.title}
               </Button>
             </FeatureBlock>

@@ -38,7 +38,7 @@ export default function Footer() {
         <nav aria-label="Social links">
           <SectionTitle>Socials</SectionTitle>
           <div className="flex flex-col">
-            <FooterLink href="https://www.instagram.com/vojtech_drozd">
+            <FooterLink href="https://www.instagram.com/drozd_vojtech">
               Instagram
             </FooterLink>
             <FooterLink href="https://github.com/Kolecko2004">
@@ -51,7 +51,7 @@ export default function Footer() {
         <nav aria-label="Contact info">
           <SectionTitle>Contact</SectionTitle>
           <div className="flex flex-col">
-            <FooterLink href="mailto:vojtech.drozd@protonmail.com">
+            <FooterLink href="mailto:vojtech.drozd.web@protonmail.com">
               Email Me
             </FooterLink>
           </div>

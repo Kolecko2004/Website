@@ -134,7 +134,7 @@ const resources = {
               description:
                 "Have a question about web development or want to collaborate? Feel free to reach out.",
               buttonText: "Send an Email",
-              email: "vojtech.drozd@protonmail.com",
+              email: "vojtech.drozd.web@protonmail.com",
             },
           ],
         },
@@ -161,7 +161,7 @@ const resources = {
               description:
                 "Interested in my work or need something modeled? Get in touch.",
               buttonText: "Send an Email",
-              email: "vojtech.drozd@protonmail.com",
+              email: "vojtech.drozd.web@protonmail.com",
             },
           ],
         },
@@ -183,7 +183,7 @@ const resources = {
               description:
                 "Interested in 3D printing or want to discuss something? Write to me.",
               buttonText: "Send an Email",
-              email: "vojtech.drozd@protonmail.com",
+              email: "vojtech.drozd.web@protonmail.com",
             },
           ],
         },
@@ -318,7 +318,7 @@ const resources = {
               title: "Napište mi",
               description: "Máš otázku k webům nebo chceš na něčem spolupracovat? Ozvi se mi.",
               buttonText: "Napsat e-mail",
-              email: "vojtech.drozd@protonmail.com"
+              email: "vojtech.drozd.web@protonmail.com"
             }
           ]
         },
@@ -342,7 +342,7 @@ const resources = {
               title: "Napište mi",
               description: "Zaujala tě moje práce nebo potřebuješ něco vymodelovat? Ozvi se mi.",
               buttonText: "Napsat e-mail",
-              email: "vojtech.drozd@protonmail.com"
+              email: "vojtech.drozd.web@protonmail.com"
             }
           ]
         },
@@ -361,7 +361,7 @@ const resources = {
               title: "Napište mi",
               description: "Zajímá tě 3D tisk nebo bys chtěl poradit či něco probrat? Napiš mi.",
               buttonText: "Napsat e-mail",
-              email: "vojtech.drozd@protonmail.com"
+              email: "vojtech.drozd.web@protonmail.com"
             }
           ]
         }
