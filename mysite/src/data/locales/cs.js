@@ -99,6 +99,66 @@ const cs = {
   },
 
   // ============================================================
+  // STRÁNKA: Zájmy (/hobbies)
+  // ============================================================
+  hobbiesPage: {
+    badge: "Zájmy",
+    heroTitle: "Volný čas",
+    heroDescription:
+      "Zde najdete, čemu se rád věnuji, když zrovna nestuduji nebo nepracuji.",
+
+    // --- Karty zájmů (id musí odpovídat ikoně v Hobbies.jsx) ---
+    items: [
+      {
+        id: "gym",
+        title: "Posilovna",
+        description:
+          "Pravidelné cvičení mi pomáhá vyčistit hlavu a udržet se v kondici.",
+      },
+      {
+        id: "formula1",
+        title: "Formule 1",
+        description:
+          "Sleduji závody, strategii týmů i technologie, které stojí za monoposty.",
+      },
+      {
+        id: "3d-printing",
+        title: "3D Tisk",
+        description:
+          "Navrhuji a tisknu praktické díly a drobné vychytávky pro domov i pro zábavu.",
+      },
+      {
+        id: "friends",
+        title: "Čas s přáteli",
+        description:
+          "Čas strávený s přáteli je pro mě nejlepší způsob, jak si odpočinout a nabít baterky.",
+      },
+      {
+        id: "plants",
+        title: "Rostliny",
+        description: "Baví mě starat se o své rostliny a sledovat, jak rostou.",
+      },
+      {
+        id: "cats",
+        title: "Kočky",
+        description: "Kočky jsou prostě ta nejlepší společnost doma.",
+      },
+      {
+        id: "investing",
+        title: "Investování",
+        description:
+          "Spravuji své vlastní portfolio a baví mě sledovat dění na trzích a v ekonomice.",
+      },
+      {
+        id: "movies",
+        title: "Filmy a seriály",
+        description:
+          "Po dlouhém dni si rád odpočinu u dobrého filmu nebo nového seriálu.",
+      },
+    ],
+  },
+
+  // ============================================================
   // STRÁNKA: Projekty – přehled (/projects)
   // ============================================================
   projectsPage: {

@@ -99,6 +99,67 @@ const en = {
   },
 
   // ============================================================
+  // STRÁNKA: Zájmy (/hobbies)
+  // ============================================================
+  hobbiesPage: {
+    badge: "Hobbies",
+    heroTitle: "Free time",
+    heroDescription:
+      "In here you can find what I enjoy doing when I'm not studying or working.",
+
+    // --- Karty zájmů (id musí odpovídat ikoně v Hobbies.jsx) ---
+    items: [
+      {
+        id: "gym",
+        title: "Gym",
+        description:
+          "Regular workouts help me clear my head and stay in good shape.",
+      },
+      {
+        id: "formula1",
+        title: "Formula 1",
+        description:
+          "I follow the races, the strategy, and the technology behind the cars.",
+      },
+      {
+        id: "3d-printing",
+        title: "3D Printing",
+        description:
+          "Designing and printing practical parts and small gadgets for home and fun.",
+      },
+      {
+        id: "friends",
+        title: "Going out with friends",
+        description:
+          "Spending time with friends is the best way for me to relax and recharge.",
+      },
+      {
+        id: "plants",
+        title: "Plants",
+        description:
+          "I enjoy taking care of my plants and watching them grow.",
+      },
+      {
+        id: "cats",
+        title: "Cats",
+        description: "Cats are simply the best company at home.",
+      },
+      {
+        id: "investing",
+        title: "Investing",
+        description:
+          "I manage my own portfolio and enjoy following the markets and the economy.",
+      },
+      {
+        id: "movies",
+        title: "Movies & TV Shows",
+        description:
+          "After a long day, I like to unwind with a good movie or a new series.",
+      },
+    ],
+  },
+
+  // ============================================================
   // STRÁNKA: Projekty – přehled (/projects)
   // ============================================================
   projectsPage: {
