@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const Button = ({ 
@@ -8,7 +8,8 @@ export const Button = ({
   children,
   to,
   className = "", 
-  variant = "secondary" 
+  variant = "secondary",
+  back = false, // šipka doleva před textem (tlačítka „Zpět“)
 }) => {
   const baseStyles = "relative overflow-hidden group flex items-center justify-center gap-4 px-6 py-2 font-semibold rounded-full border transition-all w-fit cursor-pointer";
   
@@ -25,12 +26,21 @@ export const Button = ({
         </div>
       </div>
 
+      {back && (
+        <ArrowLeft
+          size={20}
+          className={`relative z-10 ${variant === 'primary' ? 'text-slate-900' : 'text-green-400'} group-hover:-translate-x-2 transition-transform duration-[400ms]`}
+        />
+      )}
+
       <span className="relative z-10">{children}</span>
       
-      <ArrowRight
-        size={20}
-        className={`relative z-10 ${variant === 'primary' ? 'text-slate-900' : 'text-green-400'} group-hover:translate-x-2 transition-transform duration-[400ms]`}
-      />
+      {!back && (
+        <ArrowRight
+          size={20}
+          className={`relative z-10 ${variant === 'primary' ? 'text-slate-900' : 'text-green-400'} group-hover:translate-x-2 transition-transform duration-[400ms]`}
+        />
+      )}
     </>
   );
 

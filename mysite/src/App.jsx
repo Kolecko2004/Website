@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, useParams } from "react-router-dom"; 
+import { Routes, Route, useParams, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -15,11 +15,13 @@ function ProjectWrapper() {
 }
 
 export default function App() {
+  const { pathname } = useLocation();
+
   return (
     <div className="min-h-screen flex flex-col">
       <ScrollToTop />
       <Navbar />
-      <main className="flex-grow">
+      <main key={pathname} className="flex-grow page-in">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/experience" element={<Experience />} />

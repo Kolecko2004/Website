@@ -17,7 +17,7 @@ const TimelineItem = ({ year, title, subtitle, description, isLast }) => (
       </span>
       <h3 className="text-xl font-bold text-slate-900">{title}</h3>
       <h4 className="text-md font-medium text-slate-500 mb-3">{subtitle}</h4>
-      <p className="text-slate-400 leading-relaxed max-w-2xl text-sm">
+      <p className="text-slate-500 leading-relaxed max-w-2xl text-sm">
         {description}
       </p>
     </div>

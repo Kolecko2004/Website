@@ -1,30 +1,43 @@
 import React from "react";
-import { ArrowRight } from "lucide-react";
 import { Header } from "./Headers";
 import { Button } from "./Button";
 
+// fullHeight: velký úvod přes většinu obrazovky (jen domovská stránka),
+// ostatní stránky mají kompaktní hero, aby byl obsah hned vidět
 export default function Hero({
-  badge = "Software Developer",
+  badge,
   title,
   description,
+  fullHeight = false,
+  children,
   primaryBtnText,
   primaryBtnAction,
   secondaryBtnText,
   secondaryBtnHref,
 }) {
   return (
-    <section className="w-full min-h-[70vh] flex justify-center text-center items-center bg-white px-10 my-12">
+    <section
+      className={`w-full flex justify-center text-center items-center bg-white px-6 ${
+        fullHeight ? "min-h-[calc(85vh-72px)] py-16" : "pt-16 pb-12 md:pt-24 md:pb-16"
+      }`}
+    >
       <div className="max-w-4xl grid gap-4">
-        <Header level={4}>{badge}</Header>
+        {badge && <Header level={4}>{badge}</Header>}
 
-        <Header level={1}>{title}</Header>
+        <Header level={1} className="break-words hyphens-auto">
+          {title}
+        </Header>
 
-        <p className="text-xl text-slate-400 max-w-xl mx-auto mb-10 leading-relaxed">
-          {description}
-        </p>
+        {description && (
+          <p className="text-lg md:text-xl text-slate-500 max-w-xl mx-auto leading-relaxed">
+            {description}
+          </p>
+        )}
+
+        {children && <div className="mt-6">{children}</div>}
 
         {(primaryBtnText || secondaryBtnText) && (
-          <div className="flex flex-wrap justify-center items-center gap-6">
+          <div className="flex flex-wrap justify-center items-center gap-6 mt-6">
             {primaryBtnText && (
               <Button onClick={primaryBtnAction} className="py-4">
                 {primaryBtnText}

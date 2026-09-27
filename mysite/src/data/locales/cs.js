@@ -5,8 +5,29 @@ import { CONTACT_EMAIL } from "./shared";
 
 const cs = {
   // ============================================================
+  // SPOLEČNÉ – navigace a patička (na všech stránkách)
+  // ============================================================
+  nav: {
+    home: "Domů",
+    projects: "Projekty",
+    experience: "Zkušenosti",
+    hobbies: "Zájmy",
+    email: "Napsat e-mail",
+    openMenu: "Otevřít menu",
+    closeMenu: "Zavřít menu",
+  },
+  footer: {
+    socials: "Sítě",
+    contact: "Kontakt",
+    emailMe: "Napište mi",
+    builtWith: "Vytvořeno pomocí Reactu, Tailwindu a Lucide.",
+    lastUpdated: "Naposledy aktualizováno",
+  },
+
+  // ============================================================
   // HOME PAGE – hero
   // ============================================================
+  heroBadge: "Softwarový vývojář",
   heroDescription:
     "Tvořím funkční webové aplikace v Reactu a Tailwindu. Zaměřuji se na čistý kód a jednoduchá uživatelská rozhraní.",
   explore: "Prozkoumat",

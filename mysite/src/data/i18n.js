@@ -17,9 +17,16 @@ i18n
   .init({
     resources,
     fallbackLng: "en",
+    supportedLngs: ["en", "cs"],
+    nonExplicitSupportedLngs: true,
     interpolation: {
       escapeValue: false,
     },
   });
+
+// Jazyk stránky pro prohlížeč / čtečky obrazovky
+i18n.on("languageChanged", (lng) => {
+  document.documentElement.lang = lng.startsWith("cs") ? "cs" : "en";
+});
 
 export default i18n;

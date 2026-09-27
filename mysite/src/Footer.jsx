@@ -1,5 +1,10 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { MoveUpRight } from "lucide-react";
+import { CONTACT_EMAIL } from "./data/locales/shared";
+
+// Datum posledního commitu – doplní se automaticky při buildu (viz vite.config.js)
+const LAST_UPDATED = import.meta.env.VITE_LAST_UPDATED;
 
 const FooterLink = ({ href, children }) => (
   <a
@@ -24,19 +29,20 @@ const FooterLink = ({ href, children }) => (
 );
 
 const SectionTitle = ({ children }) => (
-  <h2 className="text-3xl font-black uppercase tracking-widest bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent mb-6">
+  <h2 className="text-2xl md:text-3xl font-black uppercase tracking-widest bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent mb-6">
     {children}
   </h2>
 );
 
 export default function Footer() {
+  const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-slate-900 text-white pt-24 pb-12 px-6">
+    <footer className="relative bg-slate-900 text-white pt-20 pb-10 px-6">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 text-center">
-        <nav aria-label="Social links">
-          <SectionTitle>Socials</SectionTitle>
+        <nav aria-label={t("footer.socials")}>
+          <SectionTitle>{t("footer.socials")}</SectionTitle>
           <div className="flex flex-col">
             <FooterLink href="https://www.instagram.com/drozd_vojtech">
               Instagram
@@ -48,23 +54,25 @@ export default function Footer() {
           </div>
         </nav>
 
-        <nav aria-label="Contact info">
-          <SectionTitle>Contact</SectionTitle>
+        <nav aria-label={t("footer.contact")}>
+          <SectionTitle>{t("footer.contact")}</SectionTitle>
           <div className="flex flex-col">
-            <FooterLink href="mailto:vojtech.drozd.web@protonmail.com">
-              Email Me
+            <FooterLink href={`mailto:${CONTACT_EMAIL}`}>
+              {t("footer.emailMe")}
             </FooterLink>
           </div>
         </nav>
       </div>
 
       <div
-        className="mt-20 pt-8 border-t-2 border-transparent text-center text-slate-500 text-xs font-medium space-y-1"
+        className="max-w-6xl mx-auto mt-16 pt-8 border-t-2 border-transparent text-center text-slate-500 text-xs font-medium space-y-1"
         style={{ borderImage: "linear-gradient(to right, #4ade80, #22d3ee) 1" }}
       >
         <p>© {currentYear} Vojtěch Drozd</p>
-        <p>Built with React, Tailwind, and Lucide.</p>
-        <p>Last updated: 12.4.2026</p>
+        <p>{t("footer.builtWith")}</p>
+        <p>
+          {t("footer.lastUpdated")}: {LAST_UPDATED}
+        </p>
       </div>
     </footer>
   );

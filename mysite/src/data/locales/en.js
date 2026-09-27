@@ -5,8 +5,29 @@ import { CONTACT_EMAIL } from "./shared";
 
 const en = {
   // ============================================================
+  // SPOLEČNÉ – navigace a patička (na všech stránkách)
+  // ============================================================
+  nav: {
+    home: "Home",
+    projects: "Projects",
+    experience: "Experience",
+    hobbies: "Hobbies",
+    email: "Send me an email",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
+  },
+  footer: {
+    socials: "Socials",
+    contact: "Contact",
+    emailMe: "Email Me",
+    builtWith: "Built with React, Tailwind, and Lucide.",
+    lastUpdated: "Last updated",
+  },
+
+  // ============================================================
   // HOME PAGE – hero
   // ============================================================
+  heroBadge: "Software Developer",
   heroDescription:
     "I build functional web applications using React and Tailwind. Focused on clean code and simple interfaces.",
   explore: "Explore",

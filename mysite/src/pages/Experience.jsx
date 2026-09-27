@@ -22,13 +22,13 @@ function Experience() {
         }
         description={t("experiencePage.heroDescription")}
       />
-      <div>
-        <Header className="text-center" level={2}>
+      <div className="pb-8">
+        <Header className="text-center px-6" level={2}>
           {t("experiencePage.workTitle")}
         </Header>
         <Timeline items={jobs} />
 
-        <Header className="text-center" level={2}>
+        <Header className="text-center px-6 mt-8" level={2}>
           {t("experiencePage.educationTitle")}
         </Header>
         <Timeline items={education} />

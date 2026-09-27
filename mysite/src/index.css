@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  font-family: system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -13,4 +13,40 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  background-color: #fff;
+  color: #0f172a;
+}
+
+::selection {
+  background-color: #4ade80;
+  color: #0f172a;
+}
+
+/* Viditelný obrys při ovládání klávesnicí */
+:focus-visible {
+  outline: 2px solid #22d3ee;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Jemné objevení obsahu při přechodu mezi stránkami */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.page-in {
+  animation: page-in 400ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-in {
+    animation: none;
+  }
 }
