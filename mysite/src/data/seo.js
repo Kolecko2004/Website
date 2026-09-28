@@ -56,7 +56,8 @@ export function pageMeta(path, t) {
   const page = pages[path];
   if (page) return { title: withName(page.title), description: stripHtml(page.description) };
 
-  return { title: SITE_NAME, description: stripHtml(t.heroDescription) };
+  // Neznámá adresa → stránka 404
+  return { title: withName(t.notFoundPage.title), description: stripHtml(t.notFoundPage.description) };
 }
 
 // Strukturovaná data pro Google (schema.org) – kdo je autor webu

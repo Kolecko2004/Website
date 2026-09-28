@@ -6,6 +6,7 @@ import { FeatureBlock } from "../components/FeatureBlock";
 import Reveal from "../components/Reveal";
 import { Button } from "../components/Button";
 import PortfolioReturns from "../components/PortfolioReturns";
+import NotFound from "./NotFound";
 
 import img1 from "../data/3d-modeling-img1.png";
 import img2 from "../data/3d-modeling-img2.png";
@@ -46,11 +47,7 @@ export default function ProjectDetail({ projectId: propProjectId }) {
   );
 
   if (!projectData || typeof projectData === "string" || !config) {
-    return (
-      <Hero title={t("projectDetailUI.notFound", "Project not found.")}>
-        {backButton}
-      </Hero>
-    );
+    return <NotFound />;
   }
 
   return (

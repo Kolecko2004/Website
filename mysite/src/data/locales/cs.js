@@ -234,10 +234,21 @@ const cs = {
   },
 
   // ============================================================
+  // STRÁNKA: 404 – stránka nenalezena
+  // ============================================================
+  notFoundPage: {
+    badge: "Chyba 404",
+    title: "Stránka nenalezena",
+    description:
+      "Stránka, kterou hledáte, neexistuje nebo byla přesunuta. Zkuste se vrátit na úvod nebo se podívat na moje projekty.",
+    homeButton: "Zpět na úvod",
+    projectsButton: "Zobrazit projekty",
+  },
+
+  // ============================================================
   // STRÁNKA: Detail projektu – společné texty UI
   // ============================================================
   projectDetailUI: {
-    notFound: "Projekt nenalezen.",
     backButton: "Zpět na projekty",
     contactFallback: "Napsat",
   },

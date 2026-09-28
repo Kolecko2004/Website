@@ -99,6 +99,15 @@ const seoPages = {
       writeFileSync(join(dir, 'index.html'), html)
     }
 
+    // 404.html – Netlify ji vrací pro neexistující adresy se stavem 404 (viz public/_redirects),
+    // React pak vykreslí stránku NotFound. noindex, ať ji Google neindexuje.
+    const notFound = pageMeta('/404', en)
+    const notFoundHtml = template
+      .replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(notFound.title)}</title>`)
+      .replace(/<meta name="description" content="[^"]*"\s*\/>/, `<meta name="description" content="${escapeHtml(notFound.description)}" />`)
+      .replace('</head>', `  <meta name="robots" content="noindex" />\n  </head>`)
+    writeFileSync(join(dist, '404.html'), notFoundHtml)
+
     const sitemap = [
       '<?xml version="1.0" encoding="UTF-8"?>',
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',

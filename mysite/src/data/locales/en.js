@@ -235,10 +235,21 @@ const en = {
   },
 
   // ============================================================
+  // STRÁNKA: 404 – stránka nenalezena
+  // ============================================================
+  notFoundPage: {
+    badge: "Error 404",
+    title: "Page not found",
+    description:
+      "The page you are looking for doesn't exist or has been moved. Try heading back home or check out my projects.",
+    homeButton: "Back to Home",
+    projectsButton: "View Projects",
+  },
+
+  // ============================================================
   // STRÁNKA: Detail projektu – společné texty UI
   // ============================================================
   projectDetailUI: {
-    notFound: "Project not found.",
     backButton: "Back to Projects",
     contactFallback: "Contact Me",
   },

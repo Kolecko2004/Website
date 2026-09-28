@@ -7,6 +7,7 @@ import Experience from "./pages/Experience";
 import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
 import Hobbies from "./pages/Hobbies";
+import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 import usePageMeta from "./components/usePageMeta";
 
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/hobbies" element={<Hobbies />} />
           <Route path="/projects/:projectId" element={<ProjectWrapper />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />
