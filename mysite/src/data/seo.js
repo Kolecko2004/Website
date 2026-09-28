@@ -35,16 +35,12 @@ export const ROUTES = [
 
 const stripHtml = (text) => text.replace(/<br\s*\/?>/g, " ").replace(/\s+/g, " ").trim();
 
-// Titulek a popis stránky z textů daného jazyka (t = objekt z locales/en.js nebo cs.js)
+// Titulek a popis stránky z textů daného jazyka (t = objekt z locales/en.js nebo cs.js).
+// Domovská stránka vrací null → použije se <title> a description přímo z index.html.
 export function pageMeta(path, t) {
   const withName = (title) => `${title} – ${SITE_NAME}`;
 
-  if (path === "/") {
-    return {
-      title: `${SITE_NAME} – ${t.heroBadge}`,
-      description: `${SITE_NAME}: ${t.heroDescription}`,
-    };
-  }
+  if (path === "/") return null;
 
   const project = path.match(/^\/projects\/(.+)$/);
   if (project) {

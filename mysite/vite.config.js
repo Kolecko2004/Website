@@ -45,7 +45,8 @@ const portfolioMock = {
 }
 
 // SEO při buildu: každá stránka dostane vlastní HTML se správným titulkem,
-// popisem a canonical odkazem + vznikne sitemap.xml a robots.txt.
+// popisem a canonical odkazem + vznikne sitemap.xml.
+// Domovská stránka přebírá title a description z index.html.
 // Adresa webu je SITE_URL v src/data/seo.js.
 const escapeHtml = (text) =>
   String(text).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -57,18 +58,29 @@ const seoPages = {
     const siteUrl = SITE_URL.replace(/\/+$/, '')
 
     const dist = join(process.cwd(), 'dist')
+    // Open Graph z index.html se nahradí verzí pro konkrétní stránku (ať nejsou dvakrát)
     const template = readFileSync(join(dist, 'index.html'), 'utf8')
+      .replace(/\n\s*<!-- Open Graph[^>]*-->/, '')
+      .replace(/\n\s*<meta property="og:[^>]*>/g, '')
     const lastmod = new Date().toISOString().slice(0, 10)
 
+    // Domovská stránka: texty přímo z index.html
+    const homeMeta = {
+      title: template.match(/<title>([^<]*)<\/title>/)[1],
+      description: template.match(/<meta name="description" content="([^"]*)"/)[1],
+    }
+
     for (const route of ROUTES) {
-      const { title, description } = pageMeta(route, en)
+      const meta = pageMeta(route, en)
+      const title = meta ? escapeHtml(meta.title) : homeMeta.title
+      const description = meta ? escapeHtml(meta.description) : homeMeta.description
       const url = route === '/' ? `${siteUrl}/` : `${siteUrl}${route}`
       const tags = [
         `<link rel="canonical" href="${url}" />`,
-        `<meta property="og:type" content="${route === '/' ? 'profile' : 'website'}" />`,
+        `<meta property="og:type" content="website" />`,
         `<meta property="og:site_name" content="${escapeHtml(SITE_NAME)}" />`,
-        `<meta property="og:title" content="${escapeHtml(title)}" />`,
-        `<meta property="og:description" content="${escapeHtml(description)}" />`,
+        `<meta property="og:title" content="${title}" />`,
+        `<meta property="og:description" content="${description}" />`,
         `<meta property="og:url" content="${url}" />`,
         `<meta property="og:image" content="${siteUrl}/favicon.png" />`,
         `<meta name="twitter:card" content="summary" />`,
@@ -78,8 +90,8 @@ const seoPages = {
       }
 
       const html = template
-        .replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(title)}</title>`)
-        .replace(/<meta name="description" content="[^"]*"\s*\/>/, `<meta name="description" content="${escapeHtml(description)}" />`)
+        .replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`)
+        .replace(/<meta name="description" content="[^"]*"\s*\/>/, `<meta name="description" content="${description}" />`)
         .replace('</head>', `  ${tags.join('\n    ')}\n  </head>`)
 
       const dir = join(dist, route)
@@ -97,7 +109,7 @@ const seoPages = {
       '',
     ].join('\n')
     writeFileSync(join(dist, 'sitemap.xml'), sitemap)
-    writeFileSync(join(dist, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\n`)
+    // robots.txt je v public/robots.txt
   },
 }
 
