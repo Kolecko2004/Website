@@ -8,6 +8,7 @@ import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
 import Hobbies from "./pages/Hobbies";
 import ScrollToTop from "./components/ScrollToTop";
+import usePageMeta from "./components/usePageMeta";
 
 function ProjectWrapper() {
   const { projectId } = useParams(); 
@@ -16,6 +17,7 @@ function ProjectWrapper() {
 
 export default function App() {
   const { pathname } = useLocation();
+  usePageMeta();
 
   return (
     <div className="min-h-screen flex flex-col">

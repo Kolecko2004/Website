@@ -1,7 +1,7 @@
 // Texty webu – čeština (CS)
 // Struktura je stejná jako v ostatních jazycích; klíče musí sedět.
 
-import { CONTACT_EMAIL } from "./shared";
+import { CONTACT_EMAIL } from "./shared.js";
 
 const cs = {
   // ============================================================
