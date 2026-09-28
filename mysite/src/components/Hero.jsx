@@ -21,7 +21,7 @@ export default function Hero({
         fullHeight ? "min-h-[calc(85vh-72px)] py-16" : "pt-16 pb-12 md:pt-24 md:pb-16"
       }`}
     >
-      <div className="max-w-4xl grid gap-4">
+      <div className="hero-in max-w-4xl grid gap-4">
         {badge && <Header level={4}>{badge}</Header>}
 
         <Header level={1} className="break-words hyphens-auto">

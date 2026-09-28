@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation, Trans } from "react-i18next";
 import Hero from "../components/Hero";
 import Timeline from "../components/Timeline";
+import Reveal from "../components/Reveal";
 import { Header } from "../components/Headers";
 
 function Experience() {
@@ -23,14 +24,18 @@ function Experience() {
         description={t("experiencePage.heroDescription")}
       />
       <div className="pb-8">
-        <Header className="text-center px-6" level={2}>
-          {t("experiencePage.workTitle")}
-        </Header>
+        <Reveal>
+          <Header className="text-center px-6" level={2}>
+            {t("experiencePage.workTitle")}
+          </Header>
+        </Reveal>
         <Timeline items={jobs} />
 
-        <Header className="text-center px-6 mt-8" level={2}>
-          {t("experiencePage.educationTitle")}
-        </Header>
+        <Reveal>
+          <Header className="text-center px-6 mt-8" level={2}>
+            {t("experiencePage.educationTitle")}
+          </Header>
+        </Reveal>
         <Timeline items={education} />
       </div>
     </div>

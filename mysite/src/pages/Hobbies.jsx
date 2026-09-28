@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import Hero from "../components/Hero";
 import { FeatureBlock } from "../components/FeatureBlock";
+import Reveal from "../components/Reveal";
 import {
   Printer,
   Dumbbell,
@@ -47,14 +48,14 @@ function Hobbies() {
             ? COLORS[index % COLORS.length]
             : "bg-green-400";
           return (
-            <div key={hobby.id} className="flex flex-col">
+            <Reveal key={hobby.id} delay={(index % 2) * 150} className="flex flex-col">
               <FeatureBlock
                 title={hobby.title}
                 description={hobby.description}
                 icon={ICONS[hobby.id]}
                 accentColor={blockColor}
               />
-            </div>
+            </Reveal>
           );
         })}
       </div>

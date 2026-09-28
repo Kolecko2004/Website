@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation, Trans } from "react-i18next";
 import Hero from "../components/Hero";
 import { FeatureBlock } from "../components/FeatureBlock";
+import Reveal from "../components/Reveal";
 import { Printer, Box, Globe, TrendingUp } from "lucide-react";
 import { Button } from "../components/Button";
 
@@ -9,18 +10,22 @@ const categoryConfig = {
   "web-production": {
     icon: <Globe className="text-cyan-400" size={28} />,
     color: "bg-cyan-400",
+    text: "text-cyan-400",
   },
   investing: {
     icon: <TrendingUp className="text-green-400" size={28} />,
     color: "bg-green-400",
+    text: "text-green-400",
   },
   "3d-modeling": {
     icon: <Box className="text-green-400" size={28} />,
     color: "bg-green-400",
+    text: "text-green-400",
   },
   "3d-printing": {
     icon: <Printer className="text-cyan-400" size={28} />,
     color: "bg-cyan-400",
+    text: "text-cyan-400",
   },
 };
 
@@ -47,8 +52,9 @@ export default function Projects() {
             index === categories.length - 1 && categories.length % 2 !== 0;
 
           return (
-            <div
+            <Reveal
               key={project.slug || index}
+              delay={(index % 2) * 150}
               className={`flex flex-col ${isLastAndOdd ? "md:col-span-2" : ""}`}
             >
               <FeatureBlock
@@ -57,11 +63,15 @@ export default function Projects() {
                 icon={config.icon}
                 accentColor={config.color}
               >
-                <Button to={`/projects/${project.slug}`} className="mx-auto">
+                <Button
+                  to={`/projects/${project.slug}`}
+                  className="mx-auto"
+                  arrowColor={config.text}
+                >
                   {t("projectsPage.viewProject")}
                 </Button>
               </FeatureBlock>
-            </div>
+            </Reveal>
           );
         })}
       </div>

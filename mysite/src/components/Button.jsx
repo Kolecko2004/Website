@@ -10,6 +10,7 @@ export const Button = ({
   className = "", 
   variant = "secondary",
   back = false, // šipka doleva před textem (tlačítka „Zpět“)
+  arrowColor = "text-green-400", // barva šipky (sladit s barvou karty)
 }) => {
   const baseStyles = "relative overflow-hidden group flex items-center justify-center gap-4 px-6 py-2 font-semibold rounded-full border transition-all w-fit cursor-pointer";
   
@@ -29,7 +30,7 @@ export const Button = ({
       {back && (
         <ArrowLeft
           size={20}
-          className={`relative z-10 ${variant === 'primary' ? 'text-slate-900' : 'text-green-400'} group-hover:-translate-x-2 transition-transform duration-[400ms]`}
+          className={`relative z-10 ${variant === 'primary' ? 'text-slate-900' : arrowColor} group-hover:-translate-x-2 transition-transform duration-[400ms]`}
         />
       )}
 
@@ -38,7 +39,7 @@ export const Button = ({
       {!back && (
         <ArrowRight
           size={20}
-          className={`relative z-10 ${variant === 'primary' ? 'text-slate-900' : 'text-green-400'} group-hover:translate-x-2 transition-transform duration-[400ms]`}
+          className={`relative z-10 ${variant === 'primary' ? 'text-slate-900' : arrowColor} group-hover:translate-x-2 transition-transform duration-[400ms]`}
         />
       )}
     </>

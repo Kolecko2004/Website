@@ -1,4 +1,5 @@
 import React from "react";
+import Reveal from "./Reveal";
 
 const TimelineItem = ({ year, title, subtitle, description, isLast }) => (
   <div className="relative pl-8 pb-12 group">
@@ -28,11 +29,9 @@ export default function Timeline({ items }) {
   return (
     <div className="max-w-3xl mx-auto py-12 px-6">
       {items.map((item, index) => (
-        <TimelineItem 
-          key={index} 
-          {...item} 
-          isLast={index === items.length - 1} 
-        />
+        <Reveal key={index}>
+          <TimelineItem {...item} isLast={index === items.length - 1} />
+        </Reveal>
       ))}
     </div>
   );
