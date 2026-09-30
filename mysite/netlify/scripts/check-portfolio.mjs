@@ -1,14 +1,14 @@
 // Kontrola napojení na Trading 212 (spouští se lokálně: npm run portfolio:check).
 // Klíče čte ze souboru .env.local (není v gitu):
-//   T212_API_KEY=...
-//   T212_API_SECRET=...
+//   TRADING212_API_KEY=...
+//   TRADING212_SECRET_KEY=...
 // Nic neukládá – jen vypíše, co by naplánovaná funkce uložila.
 
 const API = "https://live.trading212.com";
-const { T212_API_KEY: key, T212_API_SECRET: secret } = process.env;
+const { TRADING212_API_KEY: key, TRADING212_SECRET_KEY: secret } = process.env;
 
 if (!key || !secret) {
-  console.error("Chybí T212_API_KEY nebo T212_API_SECRET v .env.local");
+  console.error("Chybí TRADING212_API_KEY nebo TRADING212_SECRET_KEY v .env.local");
   process.exit(1);
 }
 

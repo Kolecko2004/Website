@@ -3,7 +3,7 @@
 // `portfolio` počítá výnosnost.
 //
 // Potřebné proměnné prostředí (Netlify → Site configuration → Environment variables):
-//   T212_API_KEY, T212_API_SECRET
+//   TRADING212_API_KEY, TRADING212_SECRET_KEY
 //
 // Historie vkladů PŘED začátkem sledování se nestahuje – pro výnos jsou důležité
 // jen vklady/výběry mezi jednotlivými snapshoty, ne jejich celkový součet.
@@ -22,9 +22,9 @@ const MAX_PAGES = 5;
 const MAX_SEEN_REFS = 500;
 
 function authHeader() {
-  const key = process.env.T212_API_KEY;
-  const secret = process.env.T212_API_SECRET;
-  if (!key || !secret) throw new Error("Chybí T212_API_KEY / T212_API_SECRET v Netlify");
+  const key = process.env.TRADING212_API_KEY;
+  const secret = process.env.TRADING212_SECRET_KEY;
+  if (!key || !secret) throw new Error("Chybí TRADING212_API_KEY / TRADING212_SECRET_KEY v Netlify");
   return "Basic " + Buffer.from(`${key}:${secret}`).toString("base64");
 }
 
