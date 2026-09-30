@@ -74,7 +74,8 @@ const seoPages = {
       const meta = pageMeta(route, en)
       const title = meta ? escapeHtml(meta.title) : homeMeta.title
       const description = meta ? escapeHtml(meta.description) : homeMeta.description
-      const url = route === '/' ? `${siteUrl}/` : `${siteUrl}${route}`
+      // Netlify podstránky přesměrovává na tvar s lomítkem na konci → canonical stejně
+      const url = route === '/' ? `${siteUrl}/` : `${siteUrl}${route}/`
       const tags = [
         `<link rel="canonical" href="${url}" />`,
         `<meta property="og:type" content="website" />`,
@@ -112,7 +113,7 @@ const seoPages = {
       '<?xml version="1.0" encoding="UTF-8"?>',
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
       ...ROUTES.map((route) =>
-        `  <url><loc>${siteUrl}${route === '/' ? '/' : route}</loc><lastmod>${lastmod}</lastmod></url>`,
+        `  <url><loc>${siteUrl}${route === '/' ? '/' : `${route}/`}</loc><lastmod>${lastmod}</lastmod></url>`,
       ),
       '</urlset>',
       '',

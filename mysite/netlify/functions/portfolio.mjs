@@ -8,7 +8,14 @@ export default async () => {
   const state = await getStore("portfolio").get("state", { type: "json" });
   const data = state ? computeReturns(state.snapshots) : null;
 
-  const body = data ? { available: true, ...data } : { available: false };
+  // Diagnostika – stav naplánované funkce (bez částek)
+  const status = {
+    lastAttemptAt: state?.lastAttemptAt || null,
+    lastError: state?.lastError || null,
+    snapshots: state?.snapshots?.length || 0,
+  };
+
+  const body = data ? { available: true, ...data, status } : { available: false, status };
 
   return Response.json(body, {
     headers: {
