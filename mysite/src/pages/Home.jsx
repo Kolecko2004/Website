@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 import Hero from "../components/Hero";
 import { FeatureBlock } from "../components/FeatureBlock";
 import Reveal from "../components/Reveal";
@@ -42,9 +42,9 @@ export default function Home() {
         fullHeight
         badge={t("heroBadge")}
         title={
-          <>
+          <Trans i18nKey="heroTitle">
             Vojtěch <br /> Drozd
-          </>
+          </Trans>
         }
         description={t("heroDescription")}
       />

@@ -45,12 +45,12 @@ export default function Footer() {
           <SectionTitle>{t("footer.socials")}</SectionTitle>
           <div className="flex flex-col">
             <FooterLink href="https://www.instagram.com/drozd_vojtech">
-              Instagram
+              {t("footer.instagram")}
             </FooterLink>
             <FooterLink href="https://github.com/Kolecko2004">
-              GitHub
+              {t("footer.github")}
             </FooterLink>
-            <FooterLink href="https://linkedin.com/in/...">LinkedIn</FooterLink>
+            <FooterLink href="https://linkedin.com/in/...">{t("footer.linkedin")}</FooterLink>
           </div>
         </nav>
 
@@ -68,7 +68,7 @@ export default function Footer() {
         className="max-w-6xl mx-auto mt-16 pt-8 border-t-2 border-transparent text-center text-slate-500 text-xs font-medium space-y-1"
         style={{ borderImage: "linear-gradient(to right, #4ade80, #22d3ee) 1" }}
       >
-        <p>© {currentYear} Vojtěch Drozd</p>
+        <p>© {currentYear} {t("footer.copyright")}</p>
         <p>{t("footer.builtWith")}</p>
         <p>
           {t("footer.lastUpdated")}: {LAST_UPDATED}

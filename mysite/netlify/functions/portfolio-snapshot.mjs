@@ -24,7 +24,10 @@ const MAX_SEEN_REFS = 500;
 function authHeader() {
   const key = process.env.TRADING212_API_KEY;
   const secret = process.env.TRADING212_SECRET_KEY;
-  if (!key || !secret) throw new Error("Chybí TRADING212_API_KEY / TRADING212_SECRET_KEY v Netlify");
+  const missing = [!key && "TRADING212_API_KEY", !secret && "TRADING212_SECRET_KEY"].filter(Boolean);
+  if (missing.length) {
+    throw new Error(`Chybí ${missing.join(" a ")} v Netlify (po změně proměnných je potřeba nový deploy)`);
+  }
   return "Basic " + Buffer.from(`${key}:${secret}`).toString("base64");
 }
 

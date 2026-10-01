@@ -4,12 +4,15 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import "@fontsource-variable/inter";
 import "./index.css";
-import "./data/i18n.js"
+import { loadContent } from "./data/i18n.js";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>,
-);
+// Nejdřív načíst upravené texty (aby neproblikly původní), pak vykreslit
+loadContent().finally(() => {
+  ReactDOM.createRoot(document.getElementById("root")).render(
+    <React.StrictMode>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </React.StrictMode>,
+  );
+});

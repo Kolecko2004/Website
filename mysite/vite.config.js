@@ -44,6 +44,64 @@ const portfolioMock = {
   },
 }
 
+// `npm run dev:mock` – administrace a /api/content lokálně: skutečný kód z netlify/lib,
+// úložiště jen v paměti (po restartu se smaže), přihlášení admin / admin
+const memoryStore = () => {
+  const data = new Map()
+  return {
+    get: async (key) => (data.has(key) ? structuredClone(data.get(key)) : null),
+    setJSON: async (key, value) => void data.set(key, structuredClone(value)),
+    delete: async (key) => void data.delete(key),
+  }
+}
+
+async function toWebRequest(req) {
+  const chunks = []
+  for await (const chunk of req) chunks.push(chunk)
+  const hasBody = !['GET', 'HEAD'].includes(req.method)
+  return new Request(`http://${req.headers.host}${req.originalUrl}`, {
+    method: req.method,
+    headers: req.headers,
+    body: hasBody ? Buffer.concat(chunks) : undefined,
+  })
+}
+
+async function sendWebResponse(res, response) {
+  res.statusCode = response.status
+  response.headers.forEach((value, key) => key !== 'set-cookie' && res.setHeader(key, value))
+  const cookies = response.headers.getSetCookie()
+  if (cookies.length) res.setHeader('Set-Cookie', cookies)
+  res.end(Buffer.from(await response.arrayBuffer()))
+}
+
+const adminMock = {
+  name: 'admin-mock',
+  apply: 'serve',
+  async configureServer(server) {
+    if (!process.env.PORTFOLIO_MOCK) return
+    const { createAdminHandler, createContentHandler } = await import('./netlify/lib/admin-handler.mjs')
+    const { hashPassword } = await import('./netlify/lib/auth.mjs')
+    const contentStore = memoryStore()
+    const admin = createAdminHandler({
+      contentStore,
+      adminStore: memoryStore(),
+      env: {
+        ADMIN_USERNAME: 'admin',
+        ADMIN_PASSWORD_HASH: hashPassword('admin'),
+        ADMIN_SESSION_SECRET: 'dev-only-secret',
+      },
+    })
+    const content = createContentHandler({ contentStore })
+
+    server.middlewares.use('/api/admin', async (req, res) => {
+      sendWebResponse(res, await admin(await toWebRequest(req), '127.0.0.1'))
+    })
+    server.middlewares.use('/api/content', async (req, res) => {
+      sendWebResponse(res, await content(await toWebRequest(req)))
+    })
+  },
+}
+
 // SEO při buildu: každá stránka dostane vlastní HTML se správným titulkem,
 // popisem a canonical odkazem + vznikne sitemap.xml.
 // Domovská stránka přebírá title a description z index.html.
@@ -125,7 +183,7 @@ const seoPages = {
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), portfolioMock, seoPages],
+  plugins: [react(), portfolioMock, adminMock, seoPages],
   define: {
     'import.meta.env.VITE_LAST_UPDATED': JSON.stringify(lastCommitDate()),
   },

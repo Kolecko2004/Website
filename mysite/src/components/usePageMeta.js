@@ -22,6 +22,7 @@ export default function usePageMeta() {
     if (!texts) return;
 
     const path = pathname.replace(/\/+$/, "") || "/";
+    if (path.startsWith("/admin")) return; // administrace si titulek nastavuje sama
     const { title, description } = pageMeta(path, texts) || HOME_META;
 
     document.title = title;

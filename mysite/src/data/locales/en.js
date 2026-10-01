@@ -21,12 +21,17 @@ const en = {
     contact: "Contact",
     emailMe: "Email Me",
     builtWith: "Built with React, Tailwind, and Lucide.",
+    copyright: "Vojtěch Drozd",
+    instagram: "Instagram",
+    github: "GitHub",
+    linkedin: "LinkedIn",
     lastUpdated: "Last updated",
   },
 
   // ============================================================
   // HOME PAGE – hero
   // ============================================================
+  heroTitle: "Vojtěch <br /> Drozd",
   heroBadge: "Student & Developer",
   heroDescription:
     "Welcome to my digital portfolio. Explore my background, projects, and the things I enjoy doing in my free time.",
