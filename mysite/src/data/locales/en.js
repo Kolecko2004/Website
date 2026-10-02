@@ -15,6 +15,9 @@ const en = {
     email: "Send me an email",
     openMenu: "Open menu",
     closeMenu: "Close menu",
+    theme: "Color mode",
+    lightMode: "Light mode",
+    darkMode: "Dark mode",
   },
   footer: {
     socials: "Socials",
@@ -234,9 +237,10 @@ const en = {
       oneYear: "Last year",
     },
     since: "since {{date}}",
-    updated: "Updated {{date}}",
-    note: "Time-weighted return, deposits and withdrawals excluded. Live data from Trading 212.",
+    updated: "Last updated:",
+    nextUpdate: "Next update in",
     unavailable: "Live portfolio data is not available right now.",
+    syncing: "Loading trade history from Trading 212 – the numbers will appear shortly.",
   },
 
   // ============================================================

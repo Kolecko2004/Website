@@ -1,3 +1,8 @@
 node_modules
 dist
 .DS_Store
+
+# Lokální tajné klíče – nikdy do gitu
+.env
+.env.*
+*.local

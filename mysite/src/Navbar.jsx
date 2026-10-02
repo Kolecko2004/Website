@@ -4,6 +4,7 @@ import { NavLink, Link, useLocation } from "react-router-dom";
 import { Mail, Menu, X } from "lucide-react";
 import logo from "./assets/logo_white_transparent_cropped.png";
 import { LanguageSwitcher } from "./components/LanguageSwitcher";
+import { ThemeSwitcher } from "./components/ThemeSwitcher";
 import { CONTACT_EMAIL } from "./data/locales/shared";
 
 const LINKS = [
@@ -42,7 +43,7 @@ const MailButton = () => {
       href={`mailto:${CONTACT_EMAIL}`}
       aria-label={t("nav.email")}
       title={t("nav.email")}
-      className="flex items-center justify-center size-10 rounded-full bg-slate-800 border border-slate-700 text-green-400 hover:border-green-400 transition-colors"
+      className="flex items-center justify-center size-10 rounded-full bg-slate-800 border border-slate-700 dark:bg-white/5 dark:border-white/10 text-green-400 hover:border-green-400 transition-colors"
     >
       <Mail size={18} />
     </a>
@@ -58,7 +59,7 @@ export default function Navbar() {
   const menuOpen = openedAt === pathname;
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-slate-900/95 backdrop-blur px-6 md:px-10 overflow-hidden border-b border-slate-800">
+    <nav className="sticky top-0 z-50 w-full bg-slate-900/95 backdrop-blur px-6 md:px-10 overflow-hidden border-b border-slate-800 dark:bg-slate-950/75 dark:border-white/10">
       <div className="absolute -top-24 -left-24 w-64 h-64 bg-green-400/20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-cyan-400/20 rounded-full blur-3xl pointer-events-none" />
 
@@ -82,6 +83,7 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-3">
           <MailButton />
+          <ThemeSwitcher />
           <LanguageSwitcher />
         </div>
 
@@ -91,7 +93,7 @@ export default function Navbar() {
           onClick={() => setOpenedAt(menuOpen ? null : pathname)}
           aria-label={menuOpen ? t("nav.closeMenu") : t("nav.openMenu")}
           aria-expanded={menuOpen}
-          className="md:hidden flex items-center justify-center size-10 rounded-full bg-slate-800 border border-slate-700 text-white cursor-pointer"
+          className="md:hidden flex items-center justify-center size-10 rounded-full bg-slate-800 border border-slate-700 dark:bg-white/5 dark:border-white/10 text-white cursor-pointer"
         >
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
@@ -107,6 +109,7 @@ export default function Navbar() {
           ))}
           <div className="flex items-center gap-3 pt-4">
             <MailButton />
+            <ThemeSwitcher />
             <LanguageSwitcher />
           </div>
         </div>

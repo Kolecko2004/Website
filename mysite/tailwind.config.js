@@ -5,6 +5,8 @@ module.exports = {
     "./public/**/*.html",            // Scans all folders inside public
     "./src/**/*.{js,ts,jsx,tsx,html}" // Scans your source code files
   ],
+  // Tmavý režim přes třídu „dark“ na <html> (přepínač v navigaci)
+  darkMode: "class",
   theme: {
     extend: {
       colors: {

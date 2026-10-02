@@ -33,7 +33,7 @@ const portfolioMock = {
           available: true,
           returns: {
             threeMonths: { value: 0.0412, from: '2026-06-27', complete: true },
-            ytd: { value: -0.0135, from: '2025-12-31', complete: true },
+            ytd: { value: -0.0135, from: '2026-01-01', complete: true },
             oneYear: { value: 0.0873, from: '2026-01-15', complete: false },
           },
           updatedAt: new Date().toISOString(),
@@ -46,15 +46,6 @@ const portfolioMock = {
 
 // `npm run dev:mock` – administrace a /api/content lokálně: skutečný kód z netlify/lib,
 // úložiště jen v paměti (po restartu se smaže), přihlášení admin / admin
-const memoryStore = () => {
-  const data = new Map()
-  return {
-    get: async (key) => (data.has(key) ? structuredClone(data.get(key)) : null),
-    setJSON: async (key, value) => void data.set(key, structuredClone(value)),
-    delete: async (key) => void data.delete(key),
-  }
-}
-
 async function toWebRequest(req) {
   const chunks = []
   for await (const chunk of req) chunks.push(chunk)
@@ -81,10 +72,11 @@ const adminMock = {
     if (!process.env.PORTFOLIO_MOCK) return
     const { createAdminHandler, createContentHandler } = await import('./netlify/lib/admin-handler.mjs')
     const { hashPassword } = await import('./netlify/lib/auth.mjs')
-    const contentStore = memoryStore()
+    const { createMemoryStore } = await import('./netlify/lib/memory-store.mjs')
+    const contentStore = createMemoryStore()
     const admin = createAdminHandler({
       contentStore,
-      adminStore: memoryStore(),
+      adminStore: createMemoryStore(),
       env: {
         ADMIN_USERNAME: 'admin',
         ADMIN_PASSWORD_HASH: hashPassword('admin'),
@@ -179,6 +171,17 @@ const seoPages = {
     writeFileSync(join(dist, 'sitemap.xml'), sitemap)
     // robots.txt je v public/robots.txt
   },
+}
+
+// Pojistka: proměnné VITE_* může Vite vložit do veřejného JavaScriptu webu.
+// Když název vypadá jako tajný údaj, build skončí chybou místo úniku klíče.
+const SECRET_LIKE = /KEY|SECRET|TOKEN|PASSWORD|PASS|PRIVATE|CREDENTIAL/i
+const leakyEnv = Object.keys(process.env).filter((name) => name.startsWith('VITE_') && SECRET_LIKE.test(name))
+if (leakyEnv.length) {
+  throw new Error(
+    `Proměnné ${leakyEnv.join(', ')} začínají na VITE_, takže by se mohly dostat do veřejného JavaScriptu. ` +
+      'Přejmenuj je bez předpony VITE_ (čte je jen serverová Netlify funkce) nebo je smaž.',
+  )
 }
 
 // https://vite.dev/config/

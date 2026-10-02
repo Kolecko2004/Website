@@ -20,9 +20,28 @@ import {
 
 export const CONTENT_KEY = "overrides";
 
-// Ochrana proti hádání hesla: max. 5 chybných pokusů z jedné IP za 15 minut
-const MAX_ATTEMPTS = 5;
+// Ochrana proti hádání hesla (za 15 minut): max. 5 pokusů z jedné IP a max. 30
+// pokusů celkem ze všech IP (proti střídání IP adres). Každý pokus se započítá
+// atomicky PŘED ověřením hesla, takže limit nejde obejít souběžnými požadavky.
+const MAX_ATTEMPTS_PER_IP = 5;
+const MAX_ATTEMPTS_GLOBAL = 30;
 const ATTEMPT_WINDOW_MS = 15 * 60 * 1000;
+const GLOBAL_ATTEMPTS_KEY = "login-attempts/_global";
+
+// Atomické zvýšení počítadla v Blobs (compare-and-swap přes ETag). Vrací nový počet.
+async function bumpCounter(store, key) {
+  for (let retry = 0; retry < 8; retry++) {
+    const current = await store.getWithMetadata(key, { type: "json" });
+    let data = current?.data;
+    if (!data || Date.now() - data.since > ATTEMPT_WINDOW_MS) data = { count: 0, since: Date.now() };
+    data.count += 1;
+    const { modified } = current
+      ? await store.setJSON(key, data, { onlyIfMatch: current.etag })
+      : await store.setJSON(key, data, { onlyIfNew: true });
+    if (modified) return data.count;
+  }
+  return Infinity; // velký souběh = útok → zablokovat
+}
 
 const json = (body, status = 200, headers = {}) =>
   Response.json(body, {
@@ -33,15 +52,17 @@ const json = (body, status = 200, headers = {}) =>
 /**
  * @param {object} deps
  * @param {{get: Function, setJSON: Function, delete: Function}} deps.contentStore
- * @param {{get: Function, setJSON: Function, delete: Function}} deps.adminStore
+ * @param {{get: Function, getWithMetadata: Function, setJSON: Function, delete: Function}} deps.adminStore
+ *   – musí podporovat podmíněný zápis (onlyIfMatch / onlyIfNew) jako Netlify Blobs
  * @param {{ADMIN_USERNAME?: string, ADMIN_PASSWORD_HASH?: string, ADMIN_SESSION_SECRET?: string}} deps.env
  * @param {() => Promise<void>} [deps.onContentSaved] – např. vyčištění CDN cache
  */
 export function createAdminHandler({ contentStore, adminStore, env, onContentSaved }) {
   const configured = env.ADMIN_USERNAME && env.ADMIN_PASSWORD_HASH && env.ADMIN_SESSION_SECRET;
 
+  const credentials = { username: env.ADMIN_USERNAME, passwordHash: env.ADMIN_PASSWORD_HASH };
   const currentUser = (request) =>
-    configured ? readSession(getCookie(request, SESSION_COOKIE), env.ADMIN_SESSION_SECRET) : null;
+    configured ? readSession(getCookie(request, SESSION_COOKIE), env.ADMIN_SESSION_SECRET, credentials) : null;
 
   return async (request, ip = "unknown") => {
     const url = new URL(request.url);
@@ -63,10 +84,10 @@ export function createAdminHandler({ contentStore, adminStore, env, onContentSav
     }
 
     if (route === "login" && method === "POST") {
-      const attemptsKey = `login-attempts/${ip}`;
-      const attempts = (await adminStore.get(attemptsKey, { type: "json" })) || { count: 0, since: Date.now() };
-      if (Date.now() - attempts.since > ATTEMPT_WINDOW_MS) Object.assign(attempts, { count: 0, since: Date.now() });
-      if (attempts.count >= MAX_ATTEMPTS) {
+      const ipKey = `login-attempts/${ip}`;
+      const ipCount = await bumpCounter(adminStore, ipKey);
+      const globalCount = await bumpCounter(adminStore, GLOBAL_ATTEMPTS_KEY);
+      if (ipCount > MAX_ATTEMPTS_PER_IP || globalCount > MAX_ATTEMPTS_GLOBAL) {
         return json({ error: "Příliš mnoho pokusů. Zkus to znovu za 15 minut." }, 429);
       }
 
@@ -76,13 +97,12 @@ export function createAdminHandler({ contentStore, adminStore, env, onContentSav
       const usernameOk = safeEqual(username, env.ADMIN_USERNAME);
 
       if (!passwordOk || !usernameOk) {
-        attempts.count += 1;
-        await adminStore.setJSON(attemptsKey, attempts);
         return json({ error: "Špatné jméno nebo heslo." }, 401);
       }
 
-      await adminStore.delete(attemptsKey);
-      const token = createSession(env.ADMIN_USERNAME, env.ADMIN_SESSION_SECRET);
+      // Úspěch vynuluje počítadlo této IP; globální počítadlo vyprší samo
+      await adminStore.delete(ipKey);
+      const token = createSession(env.ADMIN_SESSION_SECRET, credentials);
       return json({ authenticated: true, username: env.ADMIN_USERNAME }, 200, {
         "Set-Cookie": sessionCookie(token, request, SESSION_HOURS * 60 * 60),
       });

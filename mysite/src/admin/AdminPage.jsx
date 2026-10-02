@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { LoaderCircle } from "lucide-react";
 import { getSession } from "./api";
+import { applyTheme } from "../components/useTheme";
 import LoginForm from "./LoginForm";
 import Editor from "./Editor";
 
@@ -19,6 +20,9 @@ export default function AdminPage() {
 
   useEffect(() => {
     document.title = "Administrace – Vojtěch Drozd";
+    // Administrace je vždy světlá; po odchodu se vrátí režim webu
+    const wasDark = document.documentElement.classList.contains("dark");
+    applyTheme("light");
     // Administraci nechceme ve vyhledávačích
     const robots = document.createElement("meta");
     robots.name = "robots";
@@ -35,7 +39,10 @@ export default function AdminPage() {
         setStatus(err.status === 503 ? "not-configured" : "error");
       });
 
-    return () => robots.remove();
+    return () => {
+      robots.remove();
+      applyTheme(wasDark ? "dark" : "light");
+    };
   }, []);
 
   if (status === "loading") {

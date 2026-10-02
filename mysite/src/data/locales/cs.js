@@ -15,6 +15,9 @@ const cs = {
     email: "Napsat e-mail",
     openMenu: "Otevřít menu",
     closeMenu: "Zavřít menu",
+    theme: "Barevný režim",
+    lightMode: "Světlý režim",
+    darkMode: "Tmavý režim",
   },
   footer: {
     socials: "Sociální Sítě",
@@ -233,9 +236,10 @@ const cs = {
       oneYear: "Poslední rok",
     },
     since: "od {{date}}",
-    updated: "Aktualizováno {{date}}",
-    note: "Časově vážený výnos, bez vlivu vkladů a výběrů. Živá data z Trading 212.",
+    updated: "Naposledy aktualizováno:",
+    nextUpdate: "Další aktualizace za",
     unavailable: "Živá data portfolia teď nejsou k dispozici.",
+    syncing: "Načítám historii obchodů z Trading 212 – čísla se brzy objeví.",
   },
 
   // ============================================================

@@ -3,6 +3,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createAdminHandler, createContentHandler } from "./admin-handler.mjs";
 import { hashPassword, createSession } from "./auth.mjs";
+import { createMemoryStore as memoryStore } from "./memory-store.mjs";
 import cs from "../../src/data/locales/cs.js";
 
 const EXPERIENCE_CS = cs.experiencePage.heroDescription;
@@ -10,22 +11,17 @@ const EXPERIENCE_CS = cs.experiencePage.heroDescription;
 const ORIGIN = "https://vojtechdrozd.com";
 const SECRET = "test-secret";
 
-const memoryStore = () => {
-  const data = new Map();
-  return {
-    get: async (key) => (data.has(key) ? structuredClone(data.get(key)) : null),
-    setJSON: async (key, value) => void data.set(key, structuredClone(value)),
-    delete: async (key) => void data.delete(key),
-  };
-};
+const PASSWORD_HASH = hashPassword("spravne-heslo-123");
 
-function setup() {
-  const contentStore = memoryStore();
+// envOverrides / stores: např. změna hesla v Netlify při zachování úložiště
+function setup(envOverrides = {}, stores = {}) {
+  const contentStore = stores.contentStore || memoryStore();
+  const adminStore = stores.adminStore || memoryStore();
   let purged = 0;
   const handler = createAdminHandler({
     contentStore,
-    adminStore: memoryStore(),
-    env: { ADMIN_USERNAME: "vojta", ADMIN_PASSWORD_HASH: hashPassword("spravne-heslo-123"), ADMIN_SESSION_SECRET: SECRET },
+    adminStore,
+    env: { ADMIN_USERNAME: "vojta", ADMIN_PASSWORD_HASH: PASSWORD_HASH, ADMIN_SESSION_SECRET: SECRET, ...envOverrides },
     onContentSaved: async () => void purged++,
   });
   const call = (path, { method = "GET", body, cookie, origin = ORIGIN, ip = "1.1.1.1" } = {}) =>
@@ -42,7 +38,7 @@ function setup() {
       ip,
     );
   const content = createContentHandler({ contentStore });
-  return { call, content, purged: () => purged };
+  return { call, content, purged: () => purged, stores: { contentStore, adminStore } };
 }
 
 const loginCookie = async (call) => {
@@ -101,7 +97,7 @@ test("bez přihlášení nejde číst ani ukládat texty", async () => {
 
 test("podvržená nebo prošlá session → 401", async () => {
   const { call } = setup();
-  const forged = createSession("vojta", "jiny-secret");
+  const forged = createSession("jiny-secret", { username: "vojta", passwordHash: PASSWORD_HASH });
   assert.equal((await call("content", { cookie: `admin_session=${forged}` })).status, 401);
 
   const valid = await loginCookie(call);
@@ -164,4 +160,65 @@ test("dříve uložené přepisy textů, které už nejdou upravit, se nevrací"
     cs: { heroBadge: "Platné" },
     en: {},
   });
+});
+
+// --- M1: limit pokusů nejde obejít souběžnými požadavky ani střídáním IP ---
+
+const wrongLogin = (call, ip) =>
+  call("login", { method: "POST", body: { username: "vojta", password: "spatne-heslo" }, ip });
+
+test("30 souběžných pokusů z jedné IP → heslo se ověří nejvýš 5×", async () => {
+  const { call } = setup();
+  const results = await Promise.all(Array.from({ length: 30 }, () => wrongLogin(call, "6.6.6.6")));
+  const statuses = results.map((r) => r.status);
+  assert.ok(statuses.filter((s) => s === 401).length <= 5, JSON.stringify(statuses));
+  assert.ok(statuses.filter((s) => s === 429).length >= 25);
+});
+
+test("střídání IP adres → globální limit 30 pokusů", async () => {
+  const { call } = setup();
+  for (let i = 0; i < 30; i++) assert.equal((await wrongLogin(call, `10.0.0.${i}`)).status, 401);
+  assert.equal((await wrongLogin(call, "10.0.1.1")).status, 429);
+  // i se správným heslem z nové IP
+  const res = await call("login", {
+    method: "POST",
+    body: { username: "vojta", password: "spravne-heslo-123" },
+    ip: "10.0.2.2",
+  });
+  assert.equal(res.status, 429);
+});
+
+test("úspěšné přihlášení vynuluje počítadlo IP", async () => {
+  const { call } = setup();
+  for (let i = 0; i < 4; i++) await wrongLogin(call, "7.7.7.7");
+  const ok = await call("login", { method: "POST", body: { username: "vojta", password: "spravne-heslo-123" }, ip: "7.7.7.7" });
+  assert.equal(ok.status, 200);
+  for (let i = 0; i < 4; i++) assert.equal((await wrongLogin(call, "7.7.7.7")).status, 401);
+});
+
+// --- M2: session je navázaná na aktuální přihlašovací údaje ---
+
+test("změna hesla v Netlify zneplatní dříve vydané session", async () => {
+  const before = setup();
+  const cookie = await loginCookie(before.call);
+  assert.equal((await before.call("content", { cookie })).status, 200);
+
+  const after = setup({ ADMIN_PASSWORD_HASH: hashPassword("nove-heslo-456789") }, before.stores);
+  assert.equal((await after.call("content", { cookie })).status, 401);
+  assert.deepEqual(await (await after.call("session", { cookie })).json(), { authenticated: false, username: null });
+});
+
+test("změna uživatelského jména zneplatní dříve vydané session", async () => {
+  const before = setup();
+  const cookie = await loginCookie(before.call);
+  const after = setup({ ADMIN_USERNAME: "jiny" }, before.stores);
+  assert.equal((await after.call("content", { cookie })).status, 401);
+});
+
+test("session ve starém formátu (bez otisku údajů) neplatí", async () => {
+  const { call } = setup();
+  const { createHmac } = await import("node:crypto");
+  const payload = Buffer.from(JSON.stringify({ u: "vojta", exp: Date.now() + 3600_000 })).toString("base64url");
+  const signature = createHmac("sha256", SECRET).update(payload).digest("base64url");
+  assert.equal((await call("content", { cookie: `admin_session=${payload}.${signature}` })).status, 401);
 });

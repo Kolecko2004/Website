@@ -84,8 +84,8 @@ const KEY_LABELS = {
   ytd: "Od začátku roku",
   oneYear: "Poslední rok",
   since: "Text „od {datum}“",
-  updated: "Text „Aktualizováno {datum}“",
-  note: "Poznámka pod čísly",
+  updated: "Text „Naposledy aktualizováno“",
+  nextUpdate: "Text „Další aktualizace za“",
   unavailable: "Text, když data nejsou k dispozici",
 };
 

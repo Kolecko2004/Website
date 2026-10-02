@@ -16,7 +16,7 @@ export const Button = ({
   
   const variants = {
     primary: "bg-green-400 text-slate-900 border-green-400",
-    secondary: "bg-slate-800 text-white border-slate-700"
+    secondary: "bg-slate-800 text-white border-slate-700 dark:bg-white/5 dark:border-white/15 dark:hover:border-white/30"
   };
 
   const content = (

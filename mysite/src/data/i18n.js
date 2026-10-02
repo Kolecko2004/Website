@@ -13,7 +13,15 @@ i18n
       en: { translation: DEFAULT_TEXTS.en },
       cs: { translation: DEFAULT_TEXTS.cs },
     },
+    // Výchozí jazyk je angličtina; čeština jen po přepnutí (volba se pamatuje).
+    // Jazyk prohlížeče se záměrně nepoužívá. Nový klíč „language“ = staré
+    // automaticky uložené volby (i18nextLng) se ignorují.
     fallbackLng: "en",
+    detection: {
+      order: ["localStorage"],
+      lookupLocalStorage: "language",
+      caches: ["localStorage"],
+    },
     supportedLngs: ["en", "cs"],
     nonExplicitSupportedLngs: true,
     interpolation: {

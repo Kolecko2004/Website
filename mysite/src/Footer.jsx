@@ -39,7 +39,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-slate-900 text-white pt-20 pb-10 px-6">
+    <footer className="relative bg-slate-900 text-white pt-20 pb-10 px-6 dark:bg-slate-950/80 dark:border-t dark:border-white/10">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 text-center">
         <nav aria-label={t("footer.socials")}>
           <SectionTitle>{t("footer.socials")}</SectionTitle>

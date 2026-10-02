@@ -17,7 +17,7 @@ export default function Hero({
 }) {
   return (
     <section
-      className={`w-full flex justify-center text-center items-center bg-white px-6 ${
+      className={`w-full flex justify-center text-center items-center bg-white dark:bg-transparent px-6 ${
         fullHeight ? "min-h-[calc(85vh-72px)] py-16" : "pt-16 pb-12 md:pt-24 md:pb-16"
       }`}
     >
@@ -29,7 +29,7 @@ export default function Hero({
         </Header>
 
         {description && (
-          <p className="text-lg md:text-xl text-slate-500 max-w-xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
             {description}
           </p>
         )}
@@ -47,11 +47,11 @@ export default function Hero({
             {secondaryBtnText && (
               <a
                 href={secondaryBtnHref || "#"}
-                className="text-slate-900 font-bold group flex flex-col text-lg py-4 cursor-pointer transition-all"
+                className="text-slate-900 dark:text-white font-bold group flex flex-col text-lg py-4 cursor-pointer transition-all"
               >
                 {secondaryBtnText}
                 <div className="relative h-[2px] w-full mt-0.5 overflow-hidden">
-                  <div className="absolute inset-0 bg-slate-300"></div>
+                  <div className="absolute inset-0 bg-slate-300 dark:bg-slate-700"></div>
                   <div className="absolute inset-0 bg-green-400 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></div>
                 </div>
               </a>
