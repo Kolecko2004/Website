@@ -71,6 +71,7 @@ export function personJsonLd(siteUrl) {
         name: PERSON.name,
         alternateName: PERSON.alternateName,
         url: `${siteUrl}/`,
+        image: `${siteUrl}/icon-512.png`,
         jobTitle: PERSON.jobTitle,
         sameAs: PERSON.sameAs,
         alumniOf: { "@type": "CollegeOrUniversity", name: PERSON.alumniOf },

@@ -133,7 +133,7 @@ const seoPages = {
         `<meta property="og:title" content="${title}" />`,
         `<meta property="og:description" content="${description}" />`,
         `<meta property="og:url" content="${url}" />`,
-        `<meta property="og:image" content="${siteUrl}/favicon.png" />`,
+        `<meta property="og:image" content="${siteUrl}/icon-512.png" />`,
         `<meta name="twitter:card" content="summary" />`,
       ]
       if (route === '/') {
