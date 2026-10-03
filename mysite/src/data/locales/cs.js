@@ -1,8 +1,6 @@
 // Texty webu – čeština (CS)
 // Struktura je stejná jako v ostatních jazycích; klíče musí sedět.
 
-import { CONTACT_EMAIL } from "./shared.js";
-
 const cs = {
   // ============================================================
   // SPOLEČNÉ – navigace a patička (na všech stránkách)
@@ -18,6 +16,7 @@ const cs = {
     theme: "Barevný režim",
     lightMode: "Světlý režim",
     darkMode: "Tmavý režim",
+    language: "Jazyk",
   },
   footer: {
     socials: "Sociální Sítě",
@@ -259,7 +258,6 @@ const cs = {
   // ============================================================
   projectDetailUI: {
     backButton: "Zpět na projekty",
-    contactFallback: "Napsat",
   },
 
   // ============================================================
@@ -286,7 +284,6 @@ const cs = {
           description:
             "Máš otázku k webům nebo chceš na něčem spolupracovat? Ozvi se mi.",
           buttonText: "Napsat e-mail",
-          email: CONTACT_EMAIL,
         },
       ],
     },
@@ -316,7 +313,6 @@ const cs = {
           description:
             "Zajímají tě finance nebo chceš probrat investiční strategie? Ozvi se mi.",
           buttonText: "Napsat e-mail",
-          email: CONTACT_EMAIL,
         },
       ],
     },
@@ -345,7 +341,6 @@ const cs = {
           description:
             "Zaujala tě moje práce nebo potřebuješ něco vymodelovat? Ozvi se mi.",
           buttonText: "Napsat e-mail",
-          email: CONTACT_EMAIL,
         },
       ],
     },
@@ -369,7 +364,6 @@ const cs = {
           description:
             "Zajímá tě 3D tisk nebo bys chtěl poradit či něco probrat? Napiš mi.",
           buttonText: "Napsat e-mail",
-          email: CONTACT_EMAIL,
         },
       ],
     },

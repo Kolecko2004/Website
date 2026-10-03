@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Lock, LoaderCircle } from "lucide-react";
 import { login } from "./api";
 

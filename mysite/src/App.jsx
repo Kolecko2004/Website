@@ -1,27 +1,26 @@
-import React, { Suspense, lazy } from "react";
-import { Routes, Route, useParams, useLocation } from "react-router-dom";
-import Home from "./pages/Home";
+import { Suspense, lazy, useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import Home from "./pages/Home";
 import Experience from "./pages/Experience";
 import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
 import Hobbies from "./pages/Hobbies";
 import NotFound from "./pages/NotFound";
-import ScrollToTop from "./components/ScrollToTop";
 import usePageMeta from "./components/usePageMeta";
 
 // Administrace se stahuje až při otevření /admin (běžní návštěvníci ji nenačítají)
 const AdminPage = lazy(() => import("./admin/AdminPage"));
 
-function ProjectWrapper() {
-  const { projectId } = useParams(); 
-  return <ProjectDetail projectId={projectId} />;
-}
-
 export default function App() {
   const { pathname } = useLocation();
   usePageMeta();
+
+  // Každá stránka začíná nahoře
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   if (pathname === "/admin" || pathname.startsWith("/admin/")) {
     return (
@@ -33,7 +32,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <ScrollToTop />
       <Navbar />
       <main key={pathname} className="flex-grow page-in">
         <Routes>
@@ -41,7 +39,7 @@ export default function App() {
           <Route path="/experience" element={<Experience />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/hobbies" element={<Hobbies />} />
-          <Route path="/projects/:projectId" element={<ProjectWrapper />} />
+          <Route path="/projects/:projectId" element={<ProjectDetail />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

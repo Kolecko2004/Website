@@ -1,65 +1,31 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Clock, RefreshCw } from "lucide-react";
 
 // Pořadí a klíče období (texty jsou v locales → portfolio.periods)
 const PERIODS = ["threeMonths", "ytd", "oneYear"];
+const HOUR = 60 * 60 * 1000;
+const DATE = { day: "numeric", month: "numeric", year: "numeric" };
 
-const formatDate = (iso, lang) =>
-  new Date(iso).toLocaleDateString(lang === "cs" ? "cs-CZ" : "en-GB", {
-    day: "numeric",
-    month: "numeric",
-    year: "numeric",
-  });
-
-const formatDateTime = (iso, lang) =>
-  new Date(iso).toLocaleString(lang === "cs" ? "cs-CZ" : "en-GB", {
-    day: "numeric",
-    month: "numeric",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-
-// Data se přepočítávají každou celou hodinu (Netlify funkce portfolio-update)
-const nextFullHour = (now) => {
-  const next = new Date(now);
-  next.setMinutes(0, 0, 0);
-  next.setHours(next.getHours() + 1);
-  return next.getTime();
-};
-
-// Odpočet ve tvaru 23:05 (minuty:sekundy)
-const formatCountdown = (ms) => {
-  const total = Math.max(0, Math.floor(ms / 1000));
-  return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
-};
-
-// Živý odpočet do další aktualizace (překresluje se každou sekundu)
-function useCountdown() {
-  const [now, setNow] = useState(() => Date.now());
+// Odpočet do další aktualizace ve tvaru 23:05. Data se přepočítávají každou celou
+// hodinu UTC (Netlify funkce portfolio-update, @hourly); každou sekundu se
+// překresluje jen tento text, ne celé okno.
+function Countdown() {
+  const [now, setNow] = useState(Date.now);
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(timer);
   }, []);
-  return nextFullHour(now) - now;
+  const seconds = Math.floor((HOUR - (now % HOUR)) / 1000);
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
 }
-
-const formatPercent = (value, lang) =>
-  new Intl.NumberFormat(lang === "cs" ? "cs-CZ" : "en-GB", {
-    style: "percent",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-    signDisplay: "exceptZero",
-  }).format(value);
 
 // Živá výnosnost portfolia z /api/portfolio (Netlify funkce, data z Trading 212)
 export default function PortfolioReturns() {
   const { t, i18n } = useTranslation();
-  const lang = i18n.language?.startsWith("cs") ? "cs" : "en";
-  // status: "loading" | "ready" | "unavailable"
+  const locale = i18n.resolvedLanguage === "cs" ? "cs-CZ" : "en-GB";
+  // status: "loading" | "ready" | "syncing" | "unavailable"
   const [state, setState] = useState({ status: "loading" });
-  const untilNextUpdate = useCountdown();
 
   useEffect(() => {
     let cancelled = false;
@@ -82,14 +48,18 @@ export default function PortfolioReturns() {
   }
 
   const data = state.data;
+  const percent = new Intl.NumberFormat(locale, {
+    style: "percent",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+    signDisplay: "exceptZero",
+  });
 
   return (
     <div className="grid gap-4">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {PERIODS.map((period) => {
           const item = data?.returns[period];
-          const loading = !data;
-          const positive = item && item.value >= 0;
           return (
             <div
               key={period}
@@ -101,12 +71,12 @@ export default function PortfolioReturns() {
               {item ? (
                 <div
                   className={`mt-2 text-3xl font-black tabular-nums ${
-                    positive ? "text-green-400" : "text-red-400"
+                    item.value >= 0 ? "text-green-400" : "text-red-400"
                   }`}
                 >
-                  {formatPercent(item.value, lang)}
+                  {percent.format(item.value)}
                 </div>
-              ) : loading ? (
+              ) : !data ? (
                 // Načítání – šedý zástupný pruh
                 <div className="mt-3 h-8 w-28 mx-auto rounded-md bg-slate-700 animate-pulse" />
               ) : (
@@ -116,7 +86,7 @@ export default function PortfolioReturns() {
               {/* Od kdy se výnos počítá (u každého období) */}
               {item?.from && (
                 <div className="mt-1 text-xs text-slate-400">
-                  {t("portfolio.since", { date: formatDate(item.from, lang) })}
+                  {t("portfolio.since", { date: new Date(item.from).toLocaleDateString(locale, DATE) })}
                 </div>
               )}
             </div>
@@ -129,12 +99,16 @@ export default function PortfolioReturns() {
           <span className="inline-flex items-center gap-1.5">
             <Clock size={14} className="text-slate-500" />
             {t("portfolio.updated")}{" "}
-            <span className="font-semibold text-slate-300">{formatDateTime(data.updatedAt, lang)}</span>
+            <span className="font-semibold text-slate-300">
+              {new Date(data.updatedAt).toLocaleString(locale, { ...DATE, hour: "2-digit", minute: "2-digit" })}
+            </span>
           </span>
           <span className="inline-flex items-center gap-1.5">
             <RefreshCw size={14} className="text-slate-500" />
             {t("portfolio.nextUpdate")}{" "}
-            <span className="font-semibold tabular-nums text-slate-300">{formatCountdown(untilNextUpdate)}</span>
+            <span className="font-semibold tabular-nums text-slate-300">
+              <Countdown />
+            </span>
           </span>
         </div>
       )}

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
@@ -10,26 +10,26 @@ import {
   Search,
   Undo2,
 } from "lucide-react";
+import { LANGUAGES } from "../data/content";
 import { applyContent } from "../data/i18n";
 import { getContent, logout, saveContent } from "./api";
 import { FIELDS, SECTIONS } from "./fields";
 import TextField from "./TextField";
 
-const LANGS = ["cs", "en"];
 const EMPTY = { cs: {}, en: {} };
 // Jak dlouho po uložení svítí zelené potvrzení
 const SAVED_HIGHLIGHT_MS = 4000;
 
 // Vyhledávání bez ohledu na velikost písmen a diakritiku
-const normalize = (text) => text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const normalize = (text) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
 const valueOf = (overrides, field, lang) => overrides[lang][field.path] ?? field.defaults[lang];
 
 const isUnsaved = (draft, saved, field) =>
-  LANGS.some((lang) => valueOf(draft, field, lang) !== valueOf(saved, field, lang));
+  LANGUAGES.some((lang) => valueOf(draft, field, lang) !== valueOf(saved, field, lang));
 
 const isChanged = (overrides, field) =>
-  LANGS.some((lang) => valueOf(overrides, field, lang) !== field.defaults[lang]);
+  LANGUAGES.some((lang) => valueOf(overrides, field, lang) !== field.defaults[lang]);
 
 // Nastaví hodnotu pole v přepisech (stejná jako výchozí → přepis se odstraní)
 function withValue(overrides, field, lang, value) {
@@ -89,7 +89,7 @@ export default function Editor({ username, onLoggedOut }) {
   // Vrátí pole na uloženou hodnotu (zahodí rozpracovanou změnu)
   const revertField = (field) =>
     setDraft((current) =>
-      LANGS.reduce((next, lang) => withValue(next, field, lang, valueOf(saved, field, lang)), current),
+      LANGUAGES.reduce((next, lang) => withValue(next, field, lang, valueOf(saved, field, lang)), current),
     );
 
   // Uloží vybraná pole (nebo všechna změněná); ostatní rozpracované změny zůstanou
@@ -105,7 +105,7 @@ export default function Editor({ username, onLoggedOut }) {
       // Na server jde uložený stav + změny vybraných polí
       let payload = saved;
       for (const field of targets) {
-        for (const lang of LANGS) payload = withValue(payload, field, lang, valueOf(draftRef.current, field, lang));
+        for (const lang of LANGUAGES) payload = withValue(payload, field, lang, valueOf(draftRef.current, field, lang));
       }
 
       try {
@@ -116,7 +116,7 @@ export default function Editor({ username, onLoggedOut }) {
         let newDraft = newSaved;
         for (const field of FIELDS) {
           if (paths.has(field.path)) continue;
-          for (const lang of LANGS) {
+          for (const lang of LANGUAGES) {
             const value = valueOf(draftRef.current, field, lang);
             if (value !== valueOf(newSaved, field, lang)) newDraft = withValue(newDraft, field, lang, value);
           }
@@ -311,7 +311,7 @@ export default function Editor({ username, onLoggedOut }) {
                         {unsaved}
                       </span>
                     )}
-                    <span className={active ? "text-slate-400" : "text-slate-400"}>{fields.length}</span>
+                    <span className="text-slate-400">{fields.length}</span>
                   </span>
                 </Link>
               );
@@ -372,11 +372,10 @@ export default function Editor({ username, onLoggedOut }) {
   );
 }
 
-function countLabel(count) {
-  if (count === 1) return "1 text";
-  if (count >= 2 && count <= 4) return `${count} texty`;
-  return `${count} textů`;
-}
+// Česká množná čísla (1 text, 2–4 texty, 0 a 5+ textů)
+const TEXT_FORMS = { one: "text", few: "texty", other: "textů" };
+const plural = new Intl.PluralRules("cs");
+const countLabel = (count) => `${count} ${TEXT_FORMS[plural.select(count)]}`;
 
 // Seskupení polí podle skupiny (při hledání i podle stránky), pořadí zůstane
 function groupFields(fields, withSection) {

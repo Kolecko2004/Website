@@ -11,11 +11,7 @@ export default async (request, context) => {
   const handler = createAdminHandler({
     contentStore: getStore({ name: "content", consistency: "strong" }),
     adminStore: getStore({ name: "admin", consistency: "strong" }),
-    env: {
-      ADMIN_USERNAME: process.env.ADMIN_USERNAME,
-      ADMIN_PASSWORD_HASH: process.env.ADMIN_PASSWORD_HASH,
-      ADMIN_SESSION_SECRET: process.env.ADMIN_SESSION_SECRET,
-    },
+    env: process.env,
     // Po uložení vyčistit CDN cache /api/content, aby se změna projevila hned
     onContentSaved: () => purgeCache({ tags: ["site-content"] }),
   });

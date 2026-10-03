@@ -1,4 +1,3 @@
-import React from "react";
 import { Header } from "./Headers";
 
 // icon: volitelná ikona nad nadpisem

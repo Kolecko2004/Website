@@ -4,24 +4,16 @@
 //   TRADING212_SECRET_KEY=...
 // Nic neukládá na web – jen vypíše výsledek a kontroly.
 
+import { setTimeout as sleep } from "node:timers/promises";
+import { createMemoryStore } from "../lib/memory-store.mjs";
 import { createT212Client, updatePortfolio } from "../lib/portfolio-update.mjs";
-import { createPriceService } from "../lib/prices.mjs";
-
-const memoryStore = () => {
-  const data = new Map();
-  return {
-    get: async (key) => (data.has(key) ? structuredClone(data.get(key)) : null),
-    setJSON: async (key, value) => void data.set(key, structuredClone(value)),
-  };
-};
+import * as prices from "../lib/prices.mjs";
 
 const percent = (value) => (value == null ? "—" : `${(value * 100).toFixed(2)} %`);
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 try {
   const t212 = createT212Client({ key: process.env.TRADING212_API_KEY, secret: process.env.TRADING212_SECRET_KEY });
-  const store = memoryStore();
-  const prices = createPriceService();
+  const store = createMemoryStore();
 
   // Historie se stahuje po částech kvůli limitům API – při limitu chvíli počkat
   let outcome;

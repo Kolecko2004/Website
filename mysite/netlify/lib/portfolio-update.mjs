@@ -10,6 +10,8 @@ const API = "https://live.trading212.com";
 const HISTORY_DAYS = 400;
 
 export const STATE_KEY = "history-v3";
+export const RESULT_KEY = "result-v3";
+export const STATUS_KEY = "status-v3";
 
 // Spustí `fn` pro všechny položky, nejvýš `limit` najednou (šetrné k Yahoo)
 async function mapLimit(items, limit, fn) {
@@ -19,18 +21,18 @@ async function mapLimit(items, limit, fn) {
   });
   await Promise.all(workers);
 }
-export const RESULT_KEY = "result-v3";
-export const STATUS_KEY = "status-v3";
 
-export function createT212Client({ key, secret, fetch: fetchImpl = fetch }) {
+// Chybějící klíče se ohlásí při prvním dotazu, takže skončí ve stavu (status)
+// stejně jako každá jiná chyba API
+export function createT212Client({ key, secret }) {
   const missing = [!key && "TRADING212_API_KEY", !secret && "TRADING212_SECRET_KEY"].filter(Boolean);
-  if (missing.length) {
-    throw new Error(`Chybí ${missing.join(" a ")} v Netlify (po změně proměnných je potřeba nový deploy)`);
-  }
   const auth = "Basic " + Buffer.from(`${key}:${secret}`).toString("base64");
 
   return async function t212(path) {
-    const res = await fetchImpl(API + path, { headers: { Authorization: auth } });
+    if (missing.length) {
+      throw new Error(`Chybí ${missing.join(" a ")} v Netlify (po změně proměnných je potřeba nový deploy)`);
+    }
+    const res = await fetch(API + path, { headers: { Authorization: auth } });
     if (!res.ok) {
       const hint = {
         401: "špatný API klíč nebo secret",
@@ -129,7 +131,7 @@ async function syncEndpoint(name, cache, { t212, cutoff, deadline }) {
  * Hlavní funkce: synchronizace + výpočet.
  * @param {object} deps
  * @param {Function} deps.t212 – klient Trading 212 (createT212Client)
- * @param {object} deps.prices – createPriceService()
+ * @param {object} deps.prices – funkce z prices.mjs (symbolFor, series, fxSeries)
  * @param {{get: Function, setJSON: Function}} deps.store
  * @param {number} [deps.budgetMs] – kolik času smí běh strávit stahováním historie
  */
@@ -208,7 +210,7 @@ async function runUpdate({ t212, prices, store, now, status, budgetMs = 20_000 }
   });
 
   // Kurzy všech potřebných měn na měnu účtu
-  const currencies = new Set([...priceSeries.values()].filter(Boolean).map((s) => s.currency));
+  const currencies = new Set([...priceSeries.values()].map((s) => s.currency));
   for (const item of [...history.transactions, ...history.dividends]) if (item.currency) currencies.add(item.currency);
   for (const o of history.orders) if (o.walletCurrency) currencies.add(o.walletCurrency);
   currencies.delete(accountCurrency);

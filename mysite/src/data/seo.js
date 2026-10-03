@@ -4,33 +4,21 @@
 //   - vite.config.js: při buildu vytvoří HTML pro každou stránku + sitemap.xml
 //   - usePageMeta.js: za běhu mění titulek podle stránky a jazyka
 
+import en from "./locales/en.js";
+import { SOCIALS } from "./locales/shared.js";
+
 export const SITE_NAME = "Vojtěch Drozd";
 
 // Hlavní adresa webu (sitemap, canonical odkazy, strukturovaná data)
 export const SITE_URL = "https://vojtechdrozd.com";
 
-export const PERSON = {
-  name: "Vojtěch Drozd",
-  // Varianty jména, pod kterými lidé hledají
-  alternateName: ["Vojtech Drozd", "Drozd Vojtěch", "Drozd Vojtech"],
-  jobTitle: "Web Developer",
-  sameAs: [
-    "https://github.com/Kolecko2004",
-    "https://www.instagram.com/drozd_vojtech",
-  ],
-  alumniOf: "Czech Technical University in Prague",
-  address: "Prague, Czech Republic",
-};
-
-// Všechny stránky webu (pro sitemap a předgenerované HTML)
-export const PROJECT_SLUGS = ["web-production", "investing", "3d-modeling", "3d-printing"];
-
+// Všechny stránky webu (pro sitemap a předgenerované HTML); projekty podle locales → projectDetails
 export const ROUTES = [
   "/",
   "/projects",
   "/experience",
   "/hobbies",
-  ...PROJECT_SLUGS.map((slug) => `/projects/${slug}`),
+  ...Object.keys(en.projectDetails).map((slug) => `/projects/${slug}`),
 ];
 
 const stripHtml = (text) => text.replace(/<br\s*\/?>/g, " ").replace(/\s+/g, " ").trim();
@@ -62,19 +50,21 @@ export function pageMeta(path, t) {
 
 // Strukturovaná data pro Google (schema.org) – kdo je autor webu
 export function personJsonLd(siteUrl) {
+  // Varianty jména, pod kterými lidé hledají
+  const alternateName = ["Vojtech Drozd", "Drozd Vojtěch", "Drozd Vojtech"];
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "Person",
         "@id": `${siteUrl}/#person`,
-        name: PERSON.name,
-        alternateName: PERSON.alternateName,
+        name: SITE_NAME,
+        alternateName,
         url: `${siteUrl}/`,
         image: `${siteUrl}/icon-512.png`,
-        jobTitle: PERSON.jobTitle,
-        sameAs: PERSON.sameAs,
-        alumniOf: { "@type": "CollegeOrUniversity", name: PERSON.alumniOf },
+        jobTitle: "Web Developer",
+        sameAs: [SOCIALS.github, SOCIALS.instagram],
+        alumniOf: { "@type": "CollegeOrUniversity", name: "Czech Technical University in Prague" },
         address: { "@type": "PostalAddress", addressLocality: "Prague", addressCountry: "CZ" },
       },
       {
@@ -82,7 +72,7 @@ export function personJsonLd(siteUrl) {
         "@id": `${siteUrl}/#website`,
         url: `${siteUrl}/`,
         name: SITE_NAME,
-        alternateName: PERSON.alternateName,
+        alternateName,
         author: { "@id": `${siteUrl}/#person` },
         inLanguage: ["en", "cs"],
       },

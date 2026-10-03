@@ -6,20 +6,14 @@
 
 import { getStore } from "@netlify/blobs";
 import { createT212Client, updatePortfolio } from "../lib/portfolio-update.mjs";
-import { createPriceService } from "../lib/prices.mjs";
+import * as prices from "../lib/prices.mjs";
 
 export default async () => {
-  const store = getStore({ name: "portfolio", consistency: "strong" });
-  let t212;
-  try {
-    t212 = createT212Client({ key: process.env.TRADING212_API_KEY, secret: process.env.TRADING212_SECRET_KEY });
-  } catch (error) {
-    await store.setJSON("status-v3", { lastAttemptAt: new Date().toISOString(), lastError: error.message });
-    console.error(error.message);
-    return;
-  }
-
-  const { status } = await updatePortfolio({ t212, prices: createPriceService(), store });
+  const { status } = await updatePortfolio({
+    t212: createT212Client({ key: process.env.TRADING212_API_KEY, secret: process.env.TRADING212_SECRET_KEY }),
+    prices,
+    store: getStore({ name: "portfolio", consistency: "strong" }),
+  });
   if (status.lastError) console.error(status.lastError);
   else console.log(status.syncing ? "Stahuje se historie…" : "Výnosnost přepočítána");
 };

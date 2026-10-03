@@ -1,5 +1,5 @@
-import React from "react";
 import { Check, CircleCheck, LoaderCircle, RotateCcw, Save, X } from "lucide-react";
+import { LANGUAGES } from "../data/content";
 
 const LANGUAGE_NAMES = { cs: "Čeština", en: "Angličtina" };
 
@@ -10,7 +10,7 @@ const rowsFor = (text) =>
 // Jeden text ve dvou jazycích vedle sebe.
 // Barvy: žlutá = změněno a neuloženo, zelená = právě uloženo.
 export default function TextField({ field, values, savedValues, saving, justSaved, onChange, onSave, onRevert }) {
-  const unsavedLangs = ["cs", "en"].filter((lang) => values[lang] !== savedValues[lang]);
+  const unsavedLangs = LANGUAGES.filter((lang) => values[lang] !== savedValues[lang]);
   const unsaved = unsavedLangs.length > 0;
 
   const rowStyle = unsaved
@@ -56,7 +56,7 @@ export default function TextField({ field, values, savedValues, saving, justSave
       </div>
 
       <div className="mt-3 grid gap-3 md:grid-cols-2">
-        {["cs", "en"].map((lang) => {
+        {LANGUAGES.map((lang) => {
           const value = values[lang];
           const langUnsaved = unsavedLangs.includes(lang);
           const differsFromDefault = value !== field.defaults[lang];

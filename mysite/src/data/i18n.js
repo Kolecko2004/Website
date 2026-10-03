@@ -1,44 +1,51 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
 
 // Výchozí texty jsou v ./locales, změny z administrace se přeloží přes ně (viz content.js)
 import { DEFAULT_TEXTS, LANGUAGES, applyOverrides } from "./content";
 
-i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    resources: {
-      en: { translation: DEFAULT_TEXTS.en },
-      cs: { translation: DEFAULT_TEXTS.cs },
-    },
-    // Výchozí jazyk je angličtina; čeština jen po přepnutí (volba se pamatuje).
-    // Jazyk prohlížeče se záměrně nepoužívá. Nový klíč „language“ = staré
-    // automaticky uložené volby (i18nextLng) se ignorují.
-    fallbackLng: "en",
-    detection: {
-      order: ["localStorage"],
-      lookupLocalStorage: "language",
-      caches: ["localStorage"],
-    },
-    supportedLngs: ["en", "cs"],
-    nonExplicitSupportedLngs: true,
-    interpolation: {
-      escapeValue: false,
-    },
-    // Po změně textů (administrace) se komponenty samy překreslí
-    react: {
-      bindI18nStore: "added",
-    },
-  });
+// Výchozí jazyk je angličtina; čeština jen po přepnutí (volba se pamatuje v localStorage).
+// Jazyk prohlížeče se záměrně nepoužívá. Klíč „language“ (ne i18nextLng), aby se staré
+// automaticky uložené volby ignorovaly.
+const STORAGE_KEY = "language";
 
-// Jazyk stránky pro prohlížeč / čtečky obrazovky (při načtení i při přepnutí)
-const setHtmlLang = (lng = "en") => {
-  document.documentElement.lang = lng.startsWith("cs") ? "cs" : "en";
-};
-setHtmlLang(i18n.resolvedLanguage);
-i18n.on("languageChanged", setHtmlLang);
+function savedLanguage() {
+  try {
+    return localStorage.getItem(STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+const saved = savedLanguage();
+
+i18n.use(initReactI18next).init({
+  resources: {
+    en: { translation: DEFAULT_TEXTS.en },
+    cs: { translation: DEFAULT_TEXTS.cs },
+  },
+  lng: LANGUAGES.includes(saved) ? saved : "en",
+  fallbackLng: "en",
+  supportedLngs: LANGUAGES,
+  interpolation: {
+    escapeValue: false,
+  },
+  // Po změně textů (administrace) se komponenty samy překreslí
+  react: {
+    bindI18nStore: "added",
+  },
+});
+
+// Jazyk stránky pro prohlížeč / čtečky obrazovky; přepnutí se zapamatuje
+document.documentElement.lang = i18n.language;
+i18n.on("languageChanged", (lng) => {
+  document.documentElement.lang = lng;
+  try {
+    localStorage.setItem(STORAGE_KEY, lng);
+  } catch {
+    // bez localStorage platí volba jen do zavření stránky
+  }
+});
 
 // Použije přepisy textů: { en: { "cesta": "text" }, cs: { … } }
 export function applyContent(overrides = {}) {

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { LoaderCircle } from "lucide-react";
 import { getSession } from "./api";
 import { applyTheme } from "../components/useTheme";

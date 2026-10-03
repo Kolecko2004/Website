@@ -2,14 +2,13 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { randomBytes, scryptSync } from "node:crypto";
-import { hashPassword, verifyPassword, isLegacyHash } from "./auth.mjs";
+import { hashPassword, verifyPassword } from "./auth.mjs";
 
 test("nový hash: formát scrypt2 s parametry N = 2^16", () => {
   const hash = hashPassword("dlouhe-heslo-123");
   assert.match(hash, /^scrypt2:65536:8:1:[\w-]+:[\w-]+$/);
   assert.equal(verifyPassword("dlouhe-heslo-123", hash), true);
   assert.equal(verifyPassword("jine-heslo-12345", hash), false);
-  assert.equal(isLegacyHash(hash), false);
 });
 
 test("starý hash (scrypt:<salt>:<hash>) dál funguje", () => {
@@ -17,7 +16,6 @@ test("starý hash (scrypt:<salt>:<hash>) dál funguje", () => {
   const legacy = `scrypt:${salt.toString("base64url")}:${scryptSync("stare-heslo-123", salt, 64).toString("base64url")}`;
   assert.equal(verifyPassword("stare-heslo-123", legacy), true);
   assert.equal(verifyPassword("spatne", legacy), false);
-  assert.equal(isLegacyHash(legacy), true);
 });
 
 test("poškozený nebo podvržený hash → false (bez pádu)", () => {

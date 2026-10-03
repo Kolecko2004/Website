@@ -39,9 +39,6 @@ export function verifyPassword(password, stored) {
   return timingSafeEqual(actual, expected);
 }
 
-// true = hash používá starší (slabší) parametry → doporučit `npm run admin:setup`
-export const isLegacyHash = (stored) => !String(stored || "").startsWith("scrypt2:");
-
 // Porovnání řetězců v konstantním čase (uživatelské jméno)
 export function safeEqual(a, b) {
   const bufA = Buffer.from(String(a));

@@ -19,33 +19,10 @@ function lastCommitDate() {
   return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
 }
 
-// `npm run dev:mock` – /api/portfolio vrací ukázková data, aby šlo vidět,
-// jak okno s výnosností vypadá (Netlify funkce při `npm run dev` neběží)
-const portfolioMock = {
-  name: 'portfolio-mock',
-  apply: 'serve',
-  configureServer(server) {
-    if (!process.env.PORTFOLIO_MOCK) return
-    server.middlewares.use('/api/portfolio', (req, res) => {
-      res.setHeader('Content-Type', 'application/json')
-      res.end(
-        JSON.stringify({
-          available: true,
-          returns: {
-            threeMonths: { value: 0.0412, from: '2026-06-27', complete: true },
-            ytd: { value: -0.0135, from: '2026-01-01', complete: true },
-            oneYear: { value: 0.0873, from: '2026-01-15', complete: false },
-          },
-          updatedAt: new Date().toISOString(),
-          trackingSince: '2026-01-15',
-        }),
-      )
-    })
-  },
-}
-
-// `npm run dev:mock` – administrace a /api/content lokálně: skutečný kód z netlify/lib,
-// úložiště jen v paměti (po restartu se smaže), přihlášení admin / admin
+// `npm run dev:mock` – API lokálně (Netlify funkce při `npm run dev` neběží):
+//   /api/portfolio – ukázková data, aby šlo vidět, jak okno s výnosností vypadá
+//   /api/admin, /api/content – skutečný kód z netlify/lib, úložiště jen v paměti
+//   (po restartu se smaže), přihlášení admin / admin
 async function toWebRequest(req) {
   const chunks = []
   for await (const chunk of req) chunks.push(chunk)
@@ -65,11 +42,11 @@ async function sendWebResponse(res, response) {
   res.end(Buffer.from(await response.arrayBuffer()))
 }
 
-const adminMock = {
-  name: 'admin-mock',
+const mockApi = {
+  name: 'mock-api',
   apply: 'serve',
   async configureServer(server) {
-    if (!process.env.PORTFOLIO_MOCK) return
+    if (!process.env.MOCK_API) return
     const { createAdminHandler, createContentHandler } = await import('./netlify/lib/admin-handler.mjs')
     const { hashPassword } = await import('./netlify/lib/auth.mjs')
     const { createMemoryStore } = await import('./netlify/lib/memory-store.mjs')
@@ -85,6 +62,21 @@ const adminMock = {
     })
     const content = createContentHandler({ contentStore })
 
+    server.middlewares.use('/api/portfolio', (req, res) =>
+      sendWebResponse(
+        res,
+        Response.json({
+          available: true,
+          returns: {
+            threeMonths: { value: 0.0412, from: '2026-06-27', complete: true },
+            ytd: { value: -0.0135, from: '2026-01-01', complete: true },
+            oneYear: { value: 0.0873, from: '2026-01-15', complete: false },
+          },
+          updatedAt: new Date().toISOString(),
+          trackingSince: '2026-01-15',
+        }),
+      ),
+    )
     server.middlewares.use('/api/admin', async (req, res) => {
       sendWebResponse(res, await admin(await toWebRequest(req), '127.0.0.1'))
     })
@@ -95,7 +87,7 @@ const adminMock = {
 }
 
 // SEO při buildu: každá stránka dostane vlastní HTML se správným titulkem,
-// popisem a canonical odkazem + vznikne sitemap.xml.
+// popisem a canonical odkazem + vznikne sitemap.xml (robots.txt je v public/).
 // Domovská stránka přebírá title a description z index.html.
 // Adresa webu je SITE_URL v src/data/seo.js.
 const escapeHtml = (text) =>
@@ -106,13 +98,21 @@ const seoPages = {
   apply: 'build',
   closeBundle() {
     const siteUrl = SITE_URL.replace(/\/+$/, '')
+    // Netlify podstránky přesměrovává na tvar s lomítkem na konci → canonical i sitemap stejně
+    const urlFor = (route) => (route === '/' ? `${siteUrl}/` : `${siteUrl}${route}/`)
 
     const dist = join(process.cwd(), 'dist')
     // Open Graph z index.html se nahradí verzí pro konkrétní stránku (ať nejsou dvakrát)
     const template = readFileSync(join(dist, 'index.html'), 'utf8')
       .replace(/\n\s*<!-- Open Graph[^>]*-->/, '')
       .replace(/\n\s*<meta property="og:[^>]*>/g, '')
-    const lastmod = new Date().toISOString().slice(0, 10)
+
+    // HTML stránky s vlastním titulkem, popisem a značkami v <head> (texty už escapované)
+    const render = (title, description, tags) =>
+      template
+        .replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`)
+        .replace(/<meta name="description" content="[^"]*"\s*\/>/, `<meta name="description" content="${description}" />`)
+        .replace('</head>', `  ${tags.join('\n    ')}\n  </head>`)
 
     // Domovská stránka: texty přímo z index.html
     const homeMeta = {
@@ -124,8 +124,7 @@ const seoPages = {
       const meta = pageMeta(route, en)
       const title = meta ? escapeHtml(meta.title) : homeMeta.title
       const description = meta ? escapeHtml(meta.description) : homeMeta.description
-      // Netlify podstránky přesměrovává na tvar s lomítkem na konci → canonical stejně
-      const url = route === '/' ? `${siteUrl}/` : `${siteUrl}${route}/`
+      const url = urlFor(route)
       const tags = [
         `<link rel="canonical" href="${url}" />`,
         `<meta property="og:type" content="website" />`,
@@ -140,36 +139,28 @@ const seoPages = {
         tags.push(`<script type="application/ld+json">${JSON.stringify(personJsonLd(siteUrl))}</script>`)
       }
 
-      const html = template
-        .replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`)
-        .replace(/<meta name="description" content="[^"]*"\s*\/>/, `<meta name="description" content="${description}" />`)
-        .replace('</head>', `  ${tags.join('\n    ')}\n  </head>`)
-
       const dir = join(dist, route)
       mkdirSync(dir, { recursive: true })
-      writeFileSync(join(dir, 'index.html'), html)
+      writeFileSync(join(dir, 'index.html'), render(title, description, tags))
     }
 
     // 404.html – Netlify ji vrací pro neexistující adresy se stavem 404 (viz public/_redirects),
     // React pak vykreslí stránku NotFound. noindex, ať ji Google neindexuje.
     const notFound = pageMeta('/404', en)
-    const notFoundHtml = template
-      .replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(notFound.title)}</title>`)
-      .replace(/<meta name="description" content="[^"]*"\s*\/>/, `<meta name="description" content="${escapeHtml(notFound.description)}" />`)
-      .replace('</head>', `  <meta name="robots" content="noindex" />\n  </head>`)
-    writeFileSync(join(dist, '404.html'), notFoundHtml)
+    writeFileSync(
+      join(dist, '404.html'),
+      render(escapeHtml(notFound.title), escapeHtml(notFound.description), ['<meta name="robots" content="noindex" />']),
+    )
 
+    const lastmod = new Date().toISOString().slice(0, 10)
     const sitemap = [
       '<?xml version="1.0" encoding="UTF-8"?>',
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-      ...ROUTES.map((route) =>
-        `  <url><loc>${siteUrl}${route === '/' ? '/' : `${route}/`}</loc><lastmod>${lastmod}</lastmod></url>`,
-      ),
+      ...ROUTES.map((route) => `  <url><loc>${urlFor(route)}</loc><lastmod>${lastmod}</lastmod></url>`),
       '</urlset>',
       '',
     ].join('\n')
     writeFileSync(join(dist, 'sitemap.xml'), sitemap)
-    // robots.txt je v public/robots.txt
   },
 }
 
@@ -186,7 +177,7 @@ if (leakyEnv.length) {
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), portfolioMock, adminMock, seoPages],
+  plugins: [react(), mockApi, seoPages],
   define: {
     'import.meta.env.VITE_LAST_UPDATED': JSON.stringify(lastCommitDate()),
   },

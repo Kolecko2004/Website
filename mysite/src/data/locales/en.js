@@ -1,8 +1,6 @@
 // Texty webu – angličtina (EN)
 // Struktura je stejná jako v ostatních jazycích; klíče musí sedět.
 
-import { CONTACT_EMAIL } from "./shared.js";
-
 const en = {
   // ============================================================
   // SPOLEČNÉ – navigace a patička (na všech stránkách)
@@ -18,6 +16,7 @@ const en = {
     theme: "Color mode",
     lightMode: "Light mode",
     darkMode: "Dark mode",
+    language: "Language",
   },
   footer: {
     socials: "Socials",
@@ -260,7 +259,6 @@ const en = {
   // ============================================================
   projectDetailUI: {
     backButton: "Back to Projects",
-    contactFallback: "Contact Me",
   },
 
   // ============================================================
@@ -287,7 +285,6 @@ const en = {
           description:
             "Have a question about web development or want to collaborate? Feel free to reach out.",
           buttonText: "Send an Email",
-          email: CONTACT_EMAIL,
         },
       ],
     },
@@ -316,7 +313,6 @@ const en = {
           description:
             "Want to discuss financial markets or investment strategies? Feel free to reach out.",
           buttonText: "Send an Email",
-          email: CONTACT_EMAIL,
         },
       ],
     },
@@ -345,7 +341,6 @@ const en = {
           description:
             "Interested in my work or need something modeled? Get in touch.",
           buttonText: "Send an Email",
-          email: CONTACT_EMAIL,
         },
       ],
     },
@@ -369,7 +364,6 @@ const en = {
           description:
             "Interested in 3D printing or want to discuss something? Write to me.",
           buttonText: "Send an Email",
-          email: CONTACT_EMAIL,
         },
       ],
     },

@@ -1,20 +1,12 @@
 // Spuštění: node --test netlify/lib/portfolio-update.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { updatePortfolio, RESULT_KEY, STATUS_KEY, STATE_KEY } from "./portfolio-update.mjs";
+import { createMemoryStore as memoryStore } from "./memory-store.mjs";
+import { DAY } from "./portfolio-history.mjs";
+import { createT212Client, updatePortfolio, RESULT_KEY, STATUS_KEY, STATE_KEY } from "./portfolio-update.mjs";
 
-const DAY = 86400000;
 const NOW = Date.UTC(2026, 9, 2, 12);
 const at = (daysAgo) => new Date(NOW - daysAgo * DAY).toISOString();
-
-const memoryStore = () => {
-  const data = new Map();
-  return {
-    data,
-    get: async (key) => (data.has(key) ? structuredClone(data.get(key)) : null),
-    setJSON: async (key, value) => void data.set(key, structuredClone(value)),
-  };
-};
 
 // Falešné Trading 212 API: transakce po stránkách (od nejnovějších), volitelný limit 429
 function fakeT212({ transactions, orders = [], dividends = [], positions, summary, txLimitPerRun = Infinity }) {
@@ -88,9 +80,9 @@ test("celý běh: výsledek bez částek a s kontrolou hodnoty", async () => {
   assert.ok(Math.abs(result.check.valueDiffPct) < 1e-9, "hodnota z cen sedí s Trading 212");
   assert.equal(details.historyCounts.transactions, 3); // vklad před 450 dny je starší než stažená historie (400 dní) – pro výpočet není potřeba
 
-  const publicJson = JSON.stringify(store.data.get(RESULT_KEY));
+  const publicJson = JSON.stringify(await store.get(RESULT_KEY));
   assert.ok(!publicJson.includes("1083") && !publicJson.includes("A_US_EQ"), "žádné částky ani tituly");
-  assert.equal(store.data.get(STATUS_KEY).lastError, null);
+  assert.equal((await store.get(STATUS_KEY)).lastError, null);
 });
 
 test("limit API (429): historie se dotáhne v dalších bězích", async () => {
@@ -99,14 +91,14 @@ test("limit API (429): historie se dotáhne v dalších bězích", async () => {
 
   const first = await updatePortfolio({ t212, prices: fakePrices, store, now: NOW });
   assert.equal(first.status.syncing, true);
-  assert.equal(store.data.get(RESULT_KEY), undefined);
-  assert.equal(store.data.get(STATUS_KEY).syncing, true);
+  assert.equal(await store.get(RESULT_KEY), null);
+  assert.equal((await store.get(STATUS_KEY)).syncing, true);
 
   t212.resetRun();
   const second = await updatePortfolio({ t212, prices: fakePrices, store, now: NOW });
   assert.equal(second.status.syncing, false);
   assert.ok(second.result, "po dotažení historie je výsledek");
-  assert.equal(Object.keys(store.data.get(STATE_KEY).caches.transactions.items).length, 3);
+  assert.equal(Object.keys((await store.get(STATE_KEY)).caches.transactions.items).length, 3);
 });
 
 test("chybějící oprávnění (403) → srozumitelná chyba ve stavu", async () => {
@@ -118,7 +110,15 @@ test("chybějící oprávnění (403) → srozumitelná chyba ve stavu", async (
   };
   const { status } = await updatePortfolio({ t212, prices: fakePrices, store, now: NOW });
   assert.match(status.lastError, /403/);
-  assert.match(store.data.get(STATUS_KEY).lastError, /403/);
+  assert.match((await store.get(STATUS_KEY)).lastError, /403/);
+});
+
+test("chybějící klíče v Netlify → srozumitelná chyba ve stavu (bez dotazu na API)", async () => {
+  const store = memoryStore();
+  const t212 = createT212Client({ key: "", secret: undefined });
+  const { status } = await updatePortfolio({ t212, prices: fakePrices, store, now: NOW });
+  assert.match(status.lastError, /Chybí TRADING212_API_KEY a TRADING212_SECRET_KEY/);
+  assert.equal((await store.get(STATUS_KEY)).lastError, status.lastError);
 });
 
 test("další běh stáhne jen nové položky", async () => {
@@ -133,7 +133,7 @@ test("další běh stáhne jen nové položky", async () => {
     summary: { ...scenario.summary, cash: { availableToTrade: 103 } },
   };
   const { result } = await updatePortfolio({ t212: fakeT212(withDeposit), prices: fakePrices, store, now: NOW });
-  assert.equal(Object.keys(store.data.get(STATE_KEY).caches.transactions.items).length, 4);
+  assert.equal(Object.keys((await store.get(STATE_KEY)).caches.transactions.items).length, 4);
   // Dietz: (1183 − 900 − 100) / (900 + 100 × ~0) ≈ 183 / 900
   assert.ok(Math.abs(result.returns.oneYear.value - 183 / 900) < 0.001, String(result.returns.oneYear.value));
 });

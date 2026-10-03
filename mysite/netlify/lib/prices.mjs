@@ -2,6 +2,8 @@
 // Titul se dohledá podle ISIN; cena se bere v měně, ve které Yahoo titul vede,
 // a přepočte se na měnu účtu kurzem ze stejného dne.
 
+import { setTimeout as sleep } from "node:timers/promises";
+
 const UA = "Mozilla/5.0 (compatible; vojtechdrozd.com portfolio)";
 
 // Yahoo uvádí některé ceny v setinách měny (GBp = pence)
@@ -38,60 +40,54 @@ export function tickerToYahoo(ticker = "") {
   return null;
 }
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-export function createPriceService({ fetch: fetchImpl = fetch, symbolCache = {}, retryDelayMs = 1000 } = {}) {
-  // Při limitu (429) nebo výpadku Yahoo se dotaz 2× zopakuje
-  const get = async (url) => {
-    for (let attempt = 0; ; attempt++) {
-      const res = await fetchImpl(url, { headers: { "User-Agent": UA } });
-      if (res.ok) return res.json();
-      if (attempt >= 2 || (res.status !== 429 && res.status < 500)) {
-        const error = new Error(`Yahoo ${new URL(url).pathname} → HTTP ${res.status}`);
-        error.status = res.status;
-        throw error;
-      }
-      await sleep(retryDelayMs * (attempt + 1));
+// Při limitu (429) nebo výpadku Yahoo se dotaz 2× zopakuje
+async function get(url) {
+  for (let attempt = 0; ; attempt++) {
+    const res = await fetch(url, { headers: { "User-Agent": UA } });
+    if (res.ok) return res.json();
+    if (attempt >= 2 || (res.status !== 429 && res.status < 500)) {
+      const error = new Error(`Yahoo ${new URL(url).pathname} → HTTP ${res.status}`);
+      error.status = res.status;
+      throw error;
     }
-  };
-
-  // ISIN (+ ticker z Trading 212) → symbol na Yahoo; výsledek se pamatuje v `cache`
-  async function symbolFor(isin, cache = symbolCache, t212Ticker) {
-    if (cache[isin]) return cache[isin];
-    const fromTicker = tickerToYahoo(t212Ticker);
-    const data = await get(
-      `https://query2.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(isin)}&quotesCount=10&newsCount=0`,
-    );
-    const quotes = (data.quotes || []).filter((q) => q.symbol);
-    const symbol =
-      // výpis, který odpovídá tickeru z Trading 212 (stejná burza)
-      quotes.find((q) => q.symbol === fromTicker)?.symbol ||
-      quotes.find((q) => ["EQUITY", "ETF"].includes(q.quoteType))?.symbol ||
-      quotes[0]?.symbol ||
-      fromTicker;
-    if (!symbol) return null;
-    cache[isin] = symbol;
-    return symbol;
+    await sleep(1000 * (attempt + 1));
   }
-
-  // Denní uzavírací ceny od `from` do dneška: { currency, points: [[čas, cena], …] }
-  async function series(symbol, from) {
-    const period1 = Math.floor(from / 1000);
-    const period2 = Math.floor(Date.now() / 1000) + 86400;
-    const data = await get(
-      `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?period1=${period1}&period2=${period2}&interval=1d`,
-    );
-    const result = data.chart?.result?.[0];
-    if (!result?.timestamp) return null;
-    const [currency, factor] = normalizeCurrency(result.meta?.currency);
-    const closes = result.indicators?.quote?.[0]?.close || [];
-    const points = result.timestamp
-      .map((t, i) => [t * 1000, closes[i] == null ? null : closes[i] * factor])
-      .filter(([, close]) => close != null);
-    return { currency, points };
-  }
-
-  const fxSeries = (from, to, since) => series(`${from}${to}=X`, since);
-
-  return { symbolFor, series, fxSeries };
 }
+
+// ISIN (+ ticker z Trading 212) → symbol na Yahoo; výsledek se pamatuje v `cache`
+export async function symbolFor(isin, cache, t212Ticker) {
+  if (cache[isin]) return cache[isin];
+  const fromTicker = tickerToYahoo(t212Ticker);
+  const data = await get(
+    `https://query2.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(isin)}&quotesCount=10&newsCount=0`,
+  );
+  const quotes = (data.quotes || []).filter((q) => q.symbol);
+  const symbol =
+    // výpis, který odpovídá tickeru z Trading 212 (stejná burza)
+    quotes.find((q) => q.symbol === fromTicker)?.symbol ||
+    quotes.find((q) => ["EQUITY", "ETF"].includes(q.quoteType))?.symbol ||
+    quotes[0]?.symbol ||
+    fromTicker;
+  if (!symbol) return null;
+  cache[isin] = symbol;
+  return symbol;
+}
+
+// Denní uzavírací ceny od `from` do dneška: { currency, points: [[čas, cena], …] }
+export async function series(symbol, from) {
+  const period1 = Math.floor(from / 1000);
+  const period2 = Math.floor(Date.now() / 1000) + 86400;
+  const data = await get(
+    `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?period1=${period1}&period2=${period2}&interval=1d`,
+  );
+  const result = data.chart?.result?.[0];
+  if (!result?.timestamp) return null;
+  const [currency, factor] = normalizeCurrency(result.meta?.currency);
+  const closes = result.indicators?.quote?.[0]?.close || [];
+  const points = result.timestamp
+    .map((t, i) => [t * 1000, closes[i] == null ? null : closes[i] * factor])
+    .filter(([, close]) => close != null);
+  return { currency, points };
+}
+
+export const fxSeries = (from, to, since) => series(`${from}${to}=X`, since);

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Obsah se plynule objeví (vysune zespodu), až k němu uživatel doscrolluje.
 // delay (ms) – zpoždění, např. pro postupné objevení karet vedle sebe

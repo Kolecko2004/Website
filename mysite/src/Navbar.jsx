@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { Mail, Menu, X } from "lucide-react";
 import logo from "./assets/logo_white_transparent_cropped.png";
-import { LanguageSwitcher } from "./components/LanguageSwitcher";
-import { ThemeSwitcher } from "./components/ThemeSwitcher";
+import { LanguageSwitcher, ThemeSwitcher } from "./components/Switchers";
 import { CONTACT_EMAIL } from "./data/locales/shared";
 
 const LINKS = [
@@ -58,6 +57,20 @@ export default function Navbar() {
   const [openedAt, setOpenedAt] = useState(null);
   const menuOpen = openedAt === pathname;
 
+  // Odkazy a ovládání: na počítači v liště, na mobilu v rozbaleném menu
+  const links = LINKS.map(({ to, key }) => (
+    <NavbarLink key={to} to={to}>
+      {t(`nav.${key}`)}
+    </NavbarLink>
+  ));
+  const controls = (
+    <>
+      <MailButton />
+      <ThemeSwitcher />
+      <LanguageSwitcher />
+    </>
+  );
+
   return (
     <nav className="sticky top-0 z-50 w-full bg-slate-900/95 backdrop-blur px-6 md:px-10 overflow-hidden border-b border-slate-800 dark:bg-slate-950/75 dark:border-white/10">
       <div className="absolute -top-24 -left-24 w-64 h-64 bg-green-400/20 rounded-full blur-3xl pointer-events-none" />
@@ -68,24 +81,15 @@ export default function Navbar() {
           <img
             src={logo}
             alt="Vojtěch Drozd"
-            className="h-10 md:h-12 w-auto brightness-0 invert transition-opacity hover:opacity-80"
+            width={232}
+            height={144}
+            className="h-10 md:h-12 w-auto transition-opacity hover:opacity-80"
           />
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-8 lg:gap-12">
-          {LINKS.map((link) => (
-            <NavbarLink key={link.to} to={link.to}>
-              {t(`nav.${link.key}`)}
-            </NavbarLink>
-          ))}
-        </div>
-
-        <div className="hidden md:flex items-center gap-3">
-          <MailButton />
-          <ThemeSwitcher />
-          <LanguageSwitcher />
-        </div>
+        <div className="hidden md:flex items-center gap-8 lg:gap-12">{links}</div>
+        <div className="hidden md:flex items-center gap-3">{controls}</div>
 
         {/* Mobil – tlačítko menu */}
         <button
@@ -102,16 +106,8 @@ export default function Navbar() {
       {/* Mobil – rozbalené menu */}
       {menuOpen && (
         <div className="relative md:hidden flex flex-col gap-2 pb-6">
-          {LINKS.map((link) => (
-            <NavbarLink key={link.to} to={link.to}>
-              {t(`nav.${link.key}`)}
-            </NavbarLink>
-          ))}
-          <div className="flex items-center gap-3 pt-4">
-            <MailButton />
-            <ThemeSwitcher />
-            <LanguageSwitcher />
-          </div>
+          {links}
+          <div className="flex items-center gap-3 pt-4">{controls}</div>
         </div>
       )}
     </nav>

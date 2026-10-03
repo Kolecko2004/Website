@@ -15,7 +15,7 @@ const HOME_META = {
 export default function usePageMeta() {
   const { pathname } = useLocation();
   const { i18n } = useTranslation();
-  const lang = i18n.resolvedLanguage || "en";
+  const lang = i18n.resolvedLanguage;
 
   useEffect(() => {
     const texts = i18n.getResourceBundle(lang, "translation");

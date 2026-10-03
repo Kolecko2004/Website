@@ -1,4 +1,3 @@
-import React from "react";
 import { useTranslation, Trans } from "react-i18next";
 import Hero from "../components/Hero";
 import Timeline from "../components/Timeline";
@@ -16,11 +15,7 @@ function Experience() {
     <div>
       <Hero
         badge={t("experiencePage.badge")}
-        title={
-          <Trans i18nKey="experiencePage.heroTitle">
-            My journey <br /> so far
-          </Trans>
-        }
+        title={<Trans i18nKey="experiencePage.heroTitle" />}
         description={t("experiencePage.heroDescription")}
       />
       <div className="pb-8">
