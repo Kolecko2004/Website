@@ -16,13 +16,16 @@ export const DEFAULT_TEXTS = { en, cs };
 // Nový text přidaný do locales se v administraci objeví, jen když odpovídá vzoru.
 const EDITABLE_PATTERNS = [
   // Domovská stránka
+  "heroTitle",
   "heroBadge",
   "heroDescription",
+  "heroChips.*",
   "projects.description",
   "experience.description",
   "hobbies.description",
 
   // Projekty – přehled
+  "projectsPage.badge",
   "projectsPage.heroTitle",
   "projectsPage.heroDescription",
   "projectsPage.categories.*.title",
@@ -30,12 +33,14 @@ const EDITABLE_PATTERNS = [
 
   // Projekty – detail (bez textů tlačítek)
   "projectDetails.*.title",
+  "projectDetails.*.badge",
   "projectDetails.*.description",
   "projectDetails.*.sections.*.title",
   "projectDetails.*.sections.*.content",
   "projectDetails.*.sections.*.description",
 
   // Zkušenosti
+  "experiencePage.badge",
   "experiencePage.heroTitle",
   "experiencePage.heroDescription",
   "experiencePage.education.*.year",
@@ -48,6 +53,7 @@ const EDITABLE_PATTERNS = [
   "experiencePage.jobs.*.description",
 
   // Zájmy
+  "hobbiesPage.badge",
   "hobbiesPage.heroTitle",
   "hobbiesPage.heroDescription",
   "hobbiesPage.items.*.title",

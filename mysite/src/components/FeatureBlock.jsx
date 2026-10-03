@@ -5,7 +5,7 @@ export const FeatureBlock = ({ title, description, icon, tag, align = "center", 
 
   return (
     <div
-      className={`w-full h-full flex flex-col gap-5 rounded-[34px] bg-surface shadow-neu p-8 md:p-9 ${
+      className={`w-full h-full flex flex-col gap-5 rounded-[34px] bg-surface shadow-neu p-6 sm:p-8 md:p-9 ${
         left ? "items-start text-left" : "items-center text-center"
       }`}
     >

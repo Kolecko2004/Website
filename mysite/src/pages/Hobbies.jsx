@@ -1,14 +1,5 @@
 import { useTranslation } from "react-i18next";
-import {
-  Cat,
-  Clapperboard,
-  Dumbbell,
-  Flag,
-  Printer,
-  Sprout,
-  TrendingUp,
-  Users,
-} from "lucide-react";
+import { Cat, Clapperboard, Dumbbell, Flag, Sprout, Users } from "lucide-react";
 import Hero from "../components/Hero";
 import Reveal from "../components/Reveal";
 
@@ -16,11 +7,9 @@ import Reveal from "../components/Reveal";
 const ICONS = {
   gym: Dumbbell,
   formula1: Flag,
-  "3d-printing": Printer,
   friends: Users,
   plants: Sprout,
   cats: Cat,
-  investing: TrendingUp,
   movies: Clapperboard,
 };
 
@@ -36,12 +25,12 @@ export default function Hobbies() {
         title={t("hobbiesPage.heroTitle")}
         description={t("hobbiesPage.heroDescription")}
       />
-      <div className="max-w-6xl mx-auto px-6 flex flex-wrap gap-8">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 flex flex-wrap gap-8">
         {hobbies.map((hobby, index) => {
           const Icon = ICONS[hobby.id];
           return (
-            <Reveal key={hobby.id} delay={(index % 4) * 100} className="flex-[1_1_250px] flex">
-              <article className="w-full flex flex-col items-center text-center gap-4 rounded-[34px] bg-surface shadow-neu p-8">
+            <Reveal key={hobby.id} delay={(index % 3) * 100} className="flex-[1_1_300px] min-w-0 flex">
+              <article className="w-full flex flex-col items-center text-center gap-4 rounded-[34px] bg-surface shadow-neu p-6 sm:p-8">
                 <span className="flex items-center justify-center size-[84px] rounded-full shadow-neu-in text-accent-ink">
                   {Icon && <Icon size={32} aria-hidden="true" />}
                 </span>

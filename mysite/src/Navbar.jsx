@@ -85,8 +85,8 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop */}
-            <div className="hidden md:flex items-center gap-2">{links}</div>
-            <div className="hidden md:flex items-center gap-3.5">{controls}</div>
+            <div className="hidden lg:flex items-center gap-2">{links}</div>
+            <div className="hidden lg:flex items-center gap-3.5">{controls}</div>
 
             {/* Mobil – tlačítko menu */}
             <button
@@ -94,7 +94,7 @@ export default function Navbar() {
               onClick={() => setOpenedAt(menuOpen ? null : pathname)}
               aria-label={menuOpen ? t("nav.closeMenu") : t("nav.openMenu")}
               aria-expanded={menuOpen}
-              className={`md:hidden flex items-center justify-center size-12 rounded-full bg-surface cursor-pointer transition-shadow ${
+              className={`lg:hidden flex items-center justify-center size-12 rounded-full bg-surface cursor-pointer transition-shadow ${
                 menuOpen ? "shadow-neu-in" : "shadow-neu-sm"
               }`}
             >
@@ -104,7 +104,7 @@ export default function Navbar() {
 
           {/* Mobil – rozbalené menu */}
           {menuOpen && (
-            <div className="md:hidden flex flex-col gap-1.5 pt-4">
+            <div className="lg:hidden flex flex-col gap-1.5 pt-4">
               {links}
               <div className="flex flex-wrap items-center gap-3.5 pt-4 pb-1 px-1">{controls}</div>
             </div>

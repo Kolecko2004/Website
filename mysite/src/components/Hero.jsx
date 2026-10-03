@@ -7,13 +7,13 @@ export default function Hero({ badge, title, description, aside, children }) {
 
   return (
     <section
-      className={`w-full max-w-6xl mx-auto px-6 ${
-        split ? "flex flex-wrap items-center gap-16 pt-10 pb-16 md:pt-16" : "pt-16 pb-12 md:pt-20 md:pb-16"
+      className={`w-full max-w-6xl mx-auto px-4 md:px-6 ${
+        split ? "flex flex-wrap items-center gap-12 md:gap-16 pt-10 pb-16 md:pt-16" : "pt-16 pb-12 md:pt-20 md:pb-16"
       }`}
     >
       <div
         className={`hero-in flex flex-col gap-6 ${
-          split ? "flex-[1_1_460px] items-start" : "items-center text-center max-w-3xl mx-auto"
+          split ? "flex-[1_1_460px] min-w-0 items-start" : "items-center text-center max-w-3xl mx-auto"
         }`}
       >
         {badge && <Badge>{badge}</Badge>}
@@ -33,7 +33,7 @@ export default function Hero({ badge, title, description, aside, children }) {
         {children && <div className="mt-2">{children}</div>}
       </div>
 
-      {aside && <div className="flex-[1_1_380px] flex justify-center p-6">{aside}</div>}
+      {aside && <div className="flex-[1_1_380px] min-w-0 flex justify-center p-2 sm:p-6">{aside}</div>}
     </section>
   );
 }

@@ -19,7 +19,7 @@ export default {
         "neu-in": "inset 5px 5px 10px var(--lo), inset -5px -5px 10px var(--hi)",
       },
       fontFamily: {
-        sans: ['"Plus Jakarta Sans Variable"', "system-ui", "sans-serif"],
+        sans: ['"Manrope Variable"', "system-ui", "sans-serif"],
       },
     },
   },

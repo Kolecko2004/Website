@@ -22,7 +22,7 @@ const cs = {
     socials: "Sociální Sítě",
     contact: "Kontakt",
     emailMe: "Napište mi",
-    builtWith: "Vytvořeno pomocí Reactu, Tailwindu a Lucide.",
+    builtWith: "Webový vývojář a student z Prahy. Tenhle web jsem si sám navrhl i postavil.",
     copyright: "Vojtěch Drozd",
     instagram: "Instagram",
     github: "GitHub",
@@ -36,11 +36,11 @@ const cs = {
   heroTitle: "Vojtěch <br /> Drozd",
   heroBadge: "Student & vývojář",
   heroDescription:
-    "Vítej v mém digitálním portfoliu. Prozkoumej mé dosavadní zkušenosti, projekty a věci, kterým se věnuji ve volném čase.",
+    "Studuji třetí ročník Otevřené informatiky na ČVUT FEL a stavím moderní weby v Reactu. Začínal jsem na frontendu, dnes se učím i backend. Potřebujete web? Rád vám ho postavím.",
   explore: "Prozkoumat",
   // Štítky kolem monogramu v úvodu domovské stránky
   heroChips: {
-    role: "Softwarový vývojář",
+    role: "Webový vývojář",
     study: "ČVUT FEL · Otevřená informatika",
     city: "Praha",
   },
@@ -51,17 +51,17 @@ const cs = {
   projects: {
     title: "Projekty",
     description:
-      "Weby, 3D modely, tisk i investování – na čem pracuji a co zkouším mimo školu a práci.",
+      "Weby na míru, 3D modelování a tisk i investování – co dělám a s čím vám můžu pomoct.",
   },
   experience: {
     title: "Zkušenosti",
     description:
-      "Od první brigády až po vysokou školu – práce a studium, které mě formovaly.",
+      "Od McDonald's přes frontend v Numoteq až po ČVUT – kde jsem pracoval a co jsem vystudoval.",
   },
   hobbies: {
     title: "Zájmy",
     description:
-      "Posilovna, Formule 1 a čas s přáteli – co mě baví a nabíjí.",
+      "Posilovna, Formule 1, dobré filmy a kamarádi – u toho si odpočinu.",
   },
 
   // ============================================================
@@ -71,63 +71,57 @@ const cs = {
     badge: "zkušenosti",
     heroTitle: "Moje dosavadní <br /> cesta",
     heroDescription:
-      "Zde najdete přehled mé dosavadní pracovní praxe a absolvovaného vzdělání.",
+      "Práce a škola, které mě dovedly tam, kde jsem dnes.",
     workTitle: "Pracovní zkušenosti",
     educationTitle: "Vzdělání",
 
     // --- Vzdělání (od nejnovějšího) ---
     education: [
       {
-        year: "2024 — Dosud",
+        year: "2024 — dosud",
         title: "Fakulta elektrotechnická ČVUT v Praze",
-        subtitle: "Bakalářské studium - Informatika",
+        subtitle: "Bakalářské studium · Otevřená informatika",
         description:
-          "Studijní program: Otevřená informatika. Specializace: Počítačové hry a grafika. Zaměřeno na softwarové inženýrství, algoritmy a vývoj aplikací.",
+          "Specializace Počítačové hry a grafika – programování grafiky a her, algoritmy a softwarové inženýrství.",
       },
       {
         year: "2020 — 2024",
-        title: "Střední průmyslová škola strojnická",
-        subtitle: "Informační technologie",
+        title: "SPŠS Betlémská, Praha",
+        subtitle: "Informační technologie · maturita s vyznamenáním",
         description:
-          "Základy programování (především C#), počítačové sítě, hardware, 3D modelování a základy počítačem integrované výroby.",
-      },
-      {
-        year: "2011 — 2020",
-        title: "Základní škola",
-        subtitle: "ZŠ Červený vrch",
-        description: "Základní vzdělání v Praze.",
+          "Obor informačních technologií na strojní průmyslovce: programování (hlavně C#), počítačové sítě, hardware a 3D modelování, k tomu základy CNC programování a automatizace.",
       },
     ],
 
     // --- Práce (od nejnovější) ---
     jobs: [
       {
-        year: "2024 — Dosud",
-        title: "Bezpečnostní a recepční služby",
-        subtitle: "Cvičení / Brigáda",
+        year: "2024 — dosud",
+        title: "Recepce a ostraha",
+        subtitle: "Eaton · Roztoky u Prahy · brigáda",
         description:
-          "Odpovědnost za dohled nad objektem a administrativní úkony. Role poskytuje stabilní prostředí s možností skloubení práce se studiem na vysoké škole.",
+          "Starám se o recepci, ostrahu areálu a administrativní úkoly. Práci zvládám vedle denního studia na ČVUT.",
       },
       {
         year: "2023 — 2024",
         title: "Frontend Developer",
         subtitle: "Numoteq",
         description:
-          "Modernizace starších webových aplikací přechodem na React a Tailwind CSS. Optimalizace výkonu a zrychlení načítání stránek o 40 %.",
+          "Z dvoutýdenní stáže se stala dlouhodobá spolupráce. Ve čtyřčlenném týmu jsem podle grafických návrhů stavěl weby a webové aplikace pro menší firmy v Reactu a Tailwind CSS.",
       },
       {
         year: "Květen 2022 (2 týdny)",
         title: "Stážista IT podpory",
-        subtitle: "Eaton",
+        subtitle: "Eaton · školní praxe",
         description:
-          "Odborná školní praxe zaměřená na firemní IT infrastrukturu. Poskytování technické podpory zaměstnancům a údržba hardwaru.",
+          "Řešil jsem počítačové problémy kolegů, připravoval zařízení pro nově nastupující zaměstnance a účastnil se porad o firemním IT a chodu firmy.",
       },
       {
-        year: "Červenec 2021 — Duben 2023",
-        title: "Člen týmu / Pokladní / Guest Experience Leader",
-        subtitle: "McDonald's",
+        year: "Červenec 2021 — duben 2023",
+        title: "Leader péče o hosty",
+        subtitle: "McDonald's · centrum Prahy",
         description:
-          "Postup z řadového člena týmu na pozici Guest Experience Leader díky vysokému pracovnímu nasazení. Denní komunikace s mezinárodními zákazníky v angličtině na frekventované pobočce v centru města.",
+          "Začínal jsem na pokladně, kde si zákazníci hned od začátku chválili můj přístup. Později mě povýšili na leadera péče o hosty – když měl host jakýkoli problém, řešil jsem ho já. Na frekventované pobočce v centru Prahy jsem denně mluvil anglicky.",
       },
     ],
   },
@@ -137,9 +131,9 @@ const cs = {
   // ============================================================
   hobbiesPage: {
     badge: "Zájmy",
-    heroTitle: "Volný čas",
+    heroTitle: "Když zrovna nekóduji",
     heroDescription:
-      "Zde najdete, čemu se rád věnuji, když zrovna nestuduji nebo nepracuji.",
+      "Posilovna, Formule 1, dobré filmy a lidi kolem mě – u toho si odpočinu a načerpám energii.",
 
     // --- Karty zájmů (id musí odpovídat ikoně v Hobbies.jsx) ---
     items: [
@@ -147,47 +141,37 @@ const cs = {
         id: "gym",
         title: "Posilovna",
         description:
-          "Pravidelné cvičení mi pomáhá vyčistit hlavu a udržet se v kondici.",
+          "Chodím tam čtyřikrát až pětkrát týdně. Kromě tréninku je to i místo, kde potkávám kamarády.",
       },
       {
         id: "formula1",
         title: "Formule 1",
         description:
-          "Sleduji závody, strategii týmů i technologie, které stojí za monoposty.",
-      },
-      {
-        id: "3d-printing",
-        title: "3D Tisk",
-        description:
-          "Navrhuji a tisknu praktické díly a drobné vychytávky pro domov i pro zábavu.",
-      },
-      {
-        id: "friends",
-        title: "Čas s přáteli",
-        description:
-          "Čas strávený s přáteli je pro mě nejlepší způsob, jak si odpočinout a nabít baterky.",
-      },
-      {
-        id: "plants",
-        title: "Rostliny",
-        description: "Baví mě starat se o mé rostliny",
-      },
-      {
-        id: "cats",
-        title: "Kočky",
-        description: "Kočky jsou prostě ta nejlepší společnost doma.",
-      },
-      {
-        id: "investing",
-        title: "Investování",
-        description:
-          "Spravuji své vlastní portfolio a baví mě sledovat dění na trzích a v ekonomice.",
+          "Sleduji závody, strategii i techniku za nimi. Fandím hlavně Landu Norrisovi a Maxu Verstappenovi.",
       },
       {
         id: "movies",
         title: "Filmy a seriály",
         description:
-          "Po dlouhém dni si rád odpočinu u dobrého filmu nebo nového seriálu.",
+          "Po dlouhém dni si rád pustím dobrý film. Srdcovka je True Detective a cokoliv od Denise Villeneuva.",
+      },
+      {
+        id: "friends",
+        title: "Kamarádi",
+        description:
+          "Chodíme ven, jezdíme na výlety a prostě spolu trávíme čas. Nejlepší způsob, jak si odpočinout.",
+      },
+      {
+        id: "cats",
+        title: "Kočky",
+        description:
+          "Jsou prostě nejlepší. Víc k tomu není co dodat.",
+      },
+      {
+        id: "plants",
+        title: "Rostliny",
+        description:
+          "Pěstuji hlavně kaktusy a aloe vera – nenáročné, a přesto mě baví sledovat, jak rostou.",
       },
     ],
   },
@@ -197,36 +181,36 @@ const cs = {
   // ============================================================
   projectsPage: {
     badge: "Projekty",
-    heroTitle: "Moje osobní <br /> projekty",
+    heroTitle: "Na čem <br /> pracuji",
     heroDescription:
-      "Zde najdete to, na čem pracuji ve svém volném čase, nebo co mě baví.",
+      "Weby, 3D modelování, 3D tisk a investování – čemu se věnuji a s čím vám můžu pomoct.",
     viewProject: "Podívat se",
 
     // --- Karty projektů (slug musí odpovídat klíči v projectDetails) ---
     categories: [
       {
         slug: "web-production",
-        title: "Vývoj webů",
+        title: "Tvorba webů",
         description:
-          "Tvorba webových stránek v Reactu a Tailwindu, kterou dělám primárně pro radost a osobní rozvoj.",
+          "Informační weby a osobní vizitky na míru – od návrhu designu po spuštění. Rychlé, moderní a skvěle fungují i na mobilu.",
       },
       {
         slug: "investing",
-        title: "Investování & Finance",
+        title: "Investování a finance",
         description:
-          "Analýza finančních trhů, správa osobního portfolia a investiční strategie.",
+          "Dlouhodobé investování: pozice držím 3 a více let a rozhoduji se podle dění na světových trzích.",
       },
       {
         slug: "3d-modeling",
-        title: "3D Modelování",
+        title: "3D modelování",
         description:
-          "Tvorba funkčních a estetických CAD modelů, od technických návrhů až po přípravu pro 3D tisk.",
+          "Funkční i designové CAD modely – od technického výkresu po díl připravený k 3D tisku.",
       },
       {
         slug: "3d-printing",
-        title: "3D Tisk",
+        title: "3D tisk",
         description:
-          "Můj koníček, díky kterému převádím digitální nápady do reálných předmětů, primárně pro osobní účely a zábavu.",
+          "Na vlastní tiskárně Bambu Lab A1 tisknu praktické díly i věci pro radost – a rád navrhnu a vytisknu něco i pro vás.",
       },
     ],
   },
@@ -273,22 +257,22 @@ const cs = {
   projectDetails: {
     // ---------- web-production ----------
     "web-production": {
-      title: "Vývoj webů",
+      title: "Tvorba webů",
       badge: "Development",
       description:
-        "Tvorba webových stránek v Reactu a Tailwindu, kterou dělám primárně pro radost a osobní rozvoj.",
+        "Informační weby a osobní vizitky na míru – od návrhu designu po spuštění. Rychlé, moderní a skvěle fungují i na mobilu.",
       sections: [
         {
           type: "text",
-          title: "O mém webovém vývoji",
+          title: "Co pro vás můžu udělat",
           content:
-            "Programovat webové stránky pomocí moderních technologií jako React a Tailwind CSS jsem se naučil především díky své praxi ve firmě numoteq.\n\nDnes se webovému vývoji věnuji hlavně jako zábavě a skvělému způsobu, jak si neustále rozšiřovat své individuální schopnosti.\n\nA pokud vás zajímá, jak takový web z mé dílny vypadá v praxi, nemusíte chodit daleko – tou nejlepší vizitkou je přímo tato stránka, kterou si právě prohlížíte.",
+            "Stavím informační weby a osobní vizitky – jednodušší weby, které rychle a přehledně představí vás nebo vaši firmu. Design nemusíte mít připravený: domluvíme se, co si představujete, a navrhnu ho já.\n\nPracuji v Reactu a Tailwind CSS, stejně jako ve firmě Numoteq. Učím se i backend (Node.js, Express, TypeScript a PostgreSQL), takže na řadě jsou e-shopy.\n\nChcete vidět, jak takový web vypadá v praxi? Právě se na jeden díváte.",
         },
         {
           type: "contact",
           title: "Napište mi",
           description:
-            "Máš otázku k webům nebo chceš na něčem spolupracovat? Ozvi se mi.",
+            "Potřebujete web pro sebe nebo pro firmu? Napište mi, co si představujete, a domluvíme se.",
           buttonText: "Napsat e-mail",
         },
       ],
@@ -299,25 +283,24 @@ const cs = {
       title: "Investování a finance",
       badge: "Finance",
       description:
-        "Analýza finančních trhů, správa osobního portfolia a investiční strategie.",
+        "Dlouhodobé investování: pozice držím 3 a více let a rozhoduji se podle dění na světových trzích.",
       sections: [
         {
           type: "text",
           title: "Můj přístup k investování",
           content:
-            "K budování svého osobního portfolia přistupuji analyticky. Zaměřuji se na dlouhodobý růst, analýzu tržních trendů a efektivní řízení rizik.\n\nBaví mě propojovat práci s daty a analytické myšlení s reálnou ekonomikou.",
+            "Seriózně investuji zhruba čtyři roky a zaměřuji se na dlouhodobé investice – pozice obvykle držím tři roky a déle. Jádro portfolia tvoří americký akciový trh a technologický sektor, od roku 2021 investuji i do kryptoměn.\n\nNež do něčeho vložím peníze, sleduji světové zprávy a dění na trzích a informace si ověřuji z více zdrojů. Funguje to? Podívejte se na výnosnost mého portfolia níže.",
         },
         {
           type: "portfolio",
           title: "Výkonnost portfolia",
-          description:
-            "Živá výnosnost mého osobního portfolia, aktualizovaná každou hodinu.",
+          description: "Živá výnosnost mého osobního portfolia, aktualizovaná každou hodinu.",
         },
         {
           type: "contact",
-          title: "Napište mi",
+          title: "Rád to s vámi proberu",
           description:
-            "Zajímají tě finance nebo chceš probrat investiční strategie? Ozvi se mi.",
+            "Zajímá vás dlouhodobé investování nebo dění na trzích? Rád si o tom popovídám – jako investor s investorem, nejde o investiční poradenství.",
           buttonText: "Napsat e-mail",
         },
       ],
@@ -325,27 +308,27 @@ const cs = {
 
     // ---------- 3d-modeling ----------
     "3d-modeling": {
-      title: "3D Modelování",
+      title: "3D modelování",
       badge: "Design",
       description:
-        "Tvorba funkčních a estetických CAD modelů, od technických návrhů až po přípravu pro 3D tisk.",
+        "Funkční i designové CAD modely – od technického výkresu po díl připravený k 3D tisku.",
       sections: [
         {
           type: "text",
-          title: "Moje cesta k 3D modelování",
+          title: "Jak jsem se dostal k 3D modelování",
           content:
-            "Základy 3D modelování a technického kreslení jsem získal už na střední škole. Učili jsme se převádět technické návrhy do reálných 3D modelů pomocí softwaru (AutoCAD, Inventor, Solid Edge).\n\nZa pomyslný vrchol svých dosavadních CAD schopností považuji praktickou maturitní zkoušku z 3D modelování. Naším úkolem bylo podle dodané dokumentace vymodelovat kompletní parní stroj – od konstrukce jednotlivých menších součástek až po jejich finální složení do jedné velké funkční sestavy.\n\nAčkoliv na vysoké škole nemám tolik příležitostí tento obor přímo studijně rozvíjet, díky 3D tisku s ním zůstávám v pravidelném kontaktu. Navrhování vlastních funkčních dílů nebo jen modelování pro zábavu je pro mě skvělý způsob, jak si tyto dovednosti udržet a dále je posouvat, zejména s ohledem na 3D tisknutelnost a software jako Fusion 360.",
+            "Základy 3D modelování a technického kreslení jsem získal na střední škole, kde jsme podle technické dokumentace modelovali v AutoCADu, Inventoru a Solid Edge.\n\nVrcholem byla praktická maturita: podle dodané dokumentace vymodelovat kompletní parní stroj – od jednotlivých součástek až po finální sestavu.\n\nDnes modeluji hlavně ve Fusion 360 a díky 3D tisku u toho zůstávám pravidelně: navrhuji funkční díly, které hned vytisknu a vyzkouším.",
         },
         {
           type: "image-grid",
           title: "Ukázky práce",
-          description: "Návrhy a finální rendery mechanické sestavy.",
+          description: "Dva modely z Fusion 360: točená váza a cedulka na poštovní schránku.",
         },
         {
           type: "contact",
           title: "Napište mi",
           description:
-            "Zaujala tě moje práce nebo potřebuješ něco vymodelovat? Ozvi se mi.",
+            "Potřebujete něco navrhnout nebo vymodelovat? Napište mi na e-mail a domluvíme se.",
           buttonText: "Napsat e-mail",
         },
       ],
@@ -353,22 +336,22 @@ const cs = {
 
     // ---------- 3d-printing ----------
     "3d-printing": {
-      title: "3D Tisk",
+      title: "3D tisk",
       badge: "Hardware",
       description:
-        "Můj nový koníček, díky kterému převádím digitální nápady do reálných předmětů, primárně pro osobní účely a zábavu.",
+        "Na vlastní tiskárně Bambu Lab A1 tisknu praktické díly i věci pro radost – a rád navrhnu a vytisknu něco i pro vás.",
       sections: [
         {
           type: "text",
-          title: "Moje cesta k 3D tisku",
+          title: "Od nápadu po výtisk",
           content:
-            "3D tisk je mým poměrně novým koníčkem, který mě ale okamžitě naplno chytnul. Nedávno jsem si pořídil vlastní 3D tiskárnu a otevřely se mi tak úplně nové možnosti, jak zhmotnit své nápady.\n\nTiskárnu využívám hlavně pro osobní účely a pro zábavu. Ať už jde o tisk různých praktických organizérů, náhradních dílů, nebo jen drobných vychytávek pro radost, hrozně mě baví sledovat, jak mi fyzický výrobek roste doslova před očima.\n\nCelé se to navíc neuvěřitelně skvěle doplňuje s mými zkušenostmi s CAD softwarem. Když mi doma něco chybí nebo potřebuji specifickou součástku, prostě si ji sám navrhnu, připravím ve sliceru a rovnou vytisknu přesně podle svých představ.",
+            "Tisknu zhruba rok na tiskárně Bambu Lab A1. Za tu dobu jsem doma vylepšil spoustu věcí – od praktických organizérů po náhradní díly – a doma už mi skoro nezbývá, co tisknout.\n\nProto teď tisknu i pro ostatní. Díky zkušenostem s CAD nemusíte mít hotový model: domluvíme se, co potřebujete, navrhnu to ve Fusion 360 a vytisknu.",
         },
         {
           type: "contact",
           title: "Napište mi",
           description:
-            "Zajímá tě 3D tisk nebo bys chtěl poradit či něco probrat? Napiš mi.",
+            "Máte nápad na výtisk? Napište mi na e-mail a vymyslíme to spolu.",
           buttonText: "Napsat e-mail",
         },
       ],

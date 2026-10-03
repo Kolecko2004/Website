@@ -28,7 +28,7 @@ export default function ProjectDetail() {
         </Button>
       </Hero>
 
-      <div className="max-w-5xl mx-auto px-6 grid gap-9">
+      <div className="max-w-5xl mx-auto px-4 md:px-6 grid grid-cols-1 gap-9">
         {project.sections?.map((section, index) => (
           <Reveal key={index}>
             <FeatureBlock

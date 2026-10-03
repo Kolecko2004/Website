@@ -15,7 +15,7 @@ export default function Footer() {
 
   return (
     <footer className="max-w-6xl mx-auto px-4 md:px-6 pt-12 pb-10">
-      <div className="flex flex-wrap gap-10 rounded-[40px] bg-surface shadow-neu p-8 md:p-10">
+      <div className="flex flex-wrap gap-10 rounded-[40px] bg-surface shadow-neu p-6 sm:p-8 md:p-10">
         <div className="flex-[1_1_240px] flex flex-col gap-4">
           <span className="text-2xl font-extrabold tracking-[-0.02em]">{t("footer.copyright")}</span>
           <p className="text-muted leading-relaxed">{t("footer.builtWith")}</p>
@@ -48,7 +48,10 @@ export default function Footer() {
             className="self-start inline-flex items-center gap-2.5 max-w-full min-h-12 px-5 rounded-full shadow-neu-in text-sm font-bold [overflow-wrap:anywhere] hover:text-accent-ink"
           >
             <Mail size={18} aria-hidden="true" className="shrink-0 text-accent-ink" />
-            {CONTACT_EMAIL}
+            <span>
+              {CONTACT_EMAIL.split("@")[0]}@<wbr />
+              {CONTACT_EMAIL.split("@")[1]}
+            </span>
           </a>
         </div>
 

@@ -40,7 +40,7 @@ export function CountdownRing({ size = 200 }) {
   const { label, elapsed } = useCountdown();
 
   return (
-    <div className="relative shrink-0" style={{ width: size, height: size }}>
+    <div className="relative max-w-full aspect-square" style={{ width: size }}>
       <div className="absolute inset-0 rounded-full shadow-neu-in" />
       <div className="absolute inset-[10px] rounded-full" style={arcStyle(elapsed, 10)} />
       <div className="absolute inset-[18%] rounded-full bg-surface shadow-neu flex flex-col items-center justify-center gap-1 text-center">
@@ -67,10 +67,12 @@ function UpdateStatus({ updatedAt, locale }) {
           <span className="text-lg font-extrabold leading-tight tabular-nums">{label}</span>
         </span>
       </span>
-      <span className="inline-flex items-center gap-2.5 text-sm text-muted">
-        <Clock size={16} aria-hidden="true" className="shrink-0 text-accent-ink" />
-        {t("portfolio.updated")}
-        <strong className="text-ink tabular-nums">
+      <span className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-sm text-muted">
+        <span className="inline-flex items-center gap-2.5 whitespace-nowrap">
+          <Clock size={16} aria-hidden="true" className="shrink-0 text-accent-ink" />
+          {t("portfolio.updated")}
+        </span>
+        <strong className="text-ink tabular-nums whitespace-nowrap">
           {new Date(updatedAt).toLocaleString(locale, { ...DATE, hour: "2-digit", minute: "2-digit" })}
         </strong>
       </span>
@@ -120,12 +122,12 @@ export default function PortfolioReturns() {
           const item = data?.returns[period];
           const Arrow = item?.value < 0 ? ArrowDownRight : ArrowUpRight;
           return (
-            <div key={period} className="flex-[1_1_200px] flex flex-col gap-2.5 rounded-[28px] shadow-neu-in p-6">
+            <div key={period} className="flex-[1_1_200px] min-w-0 flex flex-col gap-2.5 rounded-[28px] shadow-neu-in p-5 sm:p-6">
               <span className="text-xs font-bold tracking-[0.12em] uppercase text-muted">
                 {t(`portfolio.periods.${period}`)}
               </span>
               {item ? (
-                <span className="flex items-center gap-2 text-4xl font-extrabold tabular-nums tracking-[-0.03em]">
+                <span className="flex items-center gap-2 text-3xl sm:text-4xl font-extrabold tabular-nums tracking-[-0.03em]">
                   <Arrow
                     size={26}
                     strokeWidth={2.4}

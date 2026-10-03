@@ -29,11 +29,11 @@ export default function Experience() {
               type="button"
               onClick={() => setTab(key)}
               aria-pressed={tab === key}
-              className={`inline-flex items-center gap-2.5 min-h-12 px-6 rounded-full font-bold cursor-pointer transition-shadow duration-200 ${
+              className={`inline-flex items-center gap-2.5 min-h-12 px-3.5 sm:px-6 rounded-full text-sm sm:text-base font-bold cursor-pointer transition-shadow duration-200 ${
                 tab === key ? "bg-surface shadow-neu-sm" : "text-muted hover:text-ink"
               }`}
             >
-              <Icon size={18} aria-hidden="true" className="text-accent-ink" />
+              <Icon size={18} aria-hidden="true" className="hidden sm:block text-accent-ink" />
               {t(`experiencePage.${title}`)}
             </button>
           ))}

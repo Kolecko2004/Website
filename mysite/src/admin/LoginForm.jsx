@@ -31,7 +31,7 @@ export default function LoginForm({ onLoggedIn }) {
 
   return (
     <div className="w-full max-w-md flex flex-col items-center gap-8">
-      <form onSubmit={submit} className="w-full rounded-[34px] bg-surface shadow-neu p-8 md:p-10">
+      <form onSubmit={submit} className="w-full rounded-[34px] bg-surface shadow-neu p-6 sm:p-8 md:p-10">
         <div className="mx-auto flex size-[70px] items-center justify-center rounded-3xl shadow-neu-in text-accent-ink">
           <Lock size={28} aria-hidden="true" />
         </div>

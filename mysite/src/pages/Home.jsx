@@ -44,10 +44,10 @@ function Dial() {
         <span className="text-[clamp(2.5rem,6vw,4.25rem)] font-extrabold leading-none tracking-[-0.05em]">VD</span>
         <span className="text-[13px] font-semibold text-muted">{t("heroChips.role")}</span>
       </div>
-      <Chip icon={GraduationCap} className="top-[4%] -left-[6%]">
+      <Chip icon={GraduationCap} className="top-[4%] left-0 sm:-left-[6%]">
         {t("heroChips.study")}
       </Chip>
-      <Chip icon={MapPin} className="bottom-[6%] -right-[4%]">
+      <Chip icon={MapPin} className="bottom-[6%] right-0 sm:-right-[4%]">
         {t("heroChips.city")}
       </Chip>
     </div>
@@ -75,10 +75,10 @@ export default function Home() {
         </div>
       </Hero>
 
-      <div className="max-w-6xl mx-auto px-6 flex flex-col gap-10">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 flex flex-col gap-10">
         <div className="flex flex-wrap gap-8">
           {SECTIONS.map(({ id, Icon }, index) => (
-            <Reveal key={id} delay={index * 120} className="flex-[1_1_300px] flex">
+            <Reveal key={id} delay={index * 120} className="flex-[1_1_300px] min-w-0 flex">
               <FeatureBlock
                 align="left"
                 title={t(`${id}.title`)}
@@ -95,8 +95,8 @@ export default function Home() {
 
         {/* Upoutávka na živou výnosnost portfolia */}
         <Reveal>
-          <section className="flex flex-wrap items-center gap-12 rounded-[40px] bg-surface shadow-neu p-8 md:p-10">
-            <div className="flex-[1_1_380px] flex flex-col items-start gap-5">
+          <section className="flex flex-wrap items-center gap-10 md:gap-12 rounded-[40px] bg-surface shadow-neu p-6 sm:p-8 md:p-10">
+            <div className="flex-[1_1_380px] min-w-0 flex flex-col items-start gap-5">
               <span className="flex items-center justify-center size-[70px] rounded-3xl shadow-neu-in text-accent-ink">
                 <TrendingUp size={28} aria-hidden="true" />
               </span>
@@ -108,7 +108,7 @@ export default function Home() {
               </p>
               <Button to="/projects/investing">{t("projectsPage.viewProject")}</Button>
             </div>
-            <div className="flex-[0_1_260px] flex justify-center">
+            <div className="flex-[0_1_260px] min-w-0 flex justify-center">
               <CountdownRing size={240} />
             </div>
           </section>
