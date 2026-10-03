@@ -38,6 +38,12 @@ const cs = {
   heroDescription:
     "Vítej v mém digitálním portfoliu. Prozkoumej mé dosavadní zkušenosti, projekty a věci, kterým se věnuji ve volném čase.",
   explore: "Prozkoumat",
+  // Štítky kolem monogramu v úvodu domovské stránky
+  heroChips: {
+    role: "Softwarový vývojář",
+    study: "ČVUT FEL · Otevřená informatika",
+    city: "Praha",
+  },
 
   // ============================================================
   // HOME PAGE – rozcestník (karty sekcí)

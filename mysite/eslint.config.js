@@ -19,7 +19,7 @@ export default defineConfig([
     },
     rules: {
       // ESLint 9 nepočítá použití komponenty v JSX (<Hero />) jako použití proměnné
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]', argsIgnorePattern: '^[A-Z_]' }],
     },
   },
   // Netlify funkce a vite.config běží v Node, ne v prohlížeči

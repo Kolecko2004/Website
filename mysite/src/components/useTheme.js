@@ -3,8 +3,8 @@ import { useSyncExternalStore } from "react";
 // Světlý / tmavý režim. Počáteční stav nastavuje public/theme-init.js (před vykreslením),
 // tady se jen čte a přepíná. Zdrojem pravdy je třída „dark“ na <html>, takže všechny
 // přepínače (lišta i mobilní menu) ukazují vždy totéž. Volba se ukládá do localStorage.
+// Nastavení systému se záměrně ignoruje – výchozí je vždy světlý režim.
 const STORAGE_KEY = "theme";
-const media = window.matchMedia("(prefers-color-scheme: dark)");
 const listeners = new Set();
 
 export function applyTheme(theme) {
@@ -14,24 +14,9 @@ export function applyTheme(theme) {
   listeners.forEach((listener) => listener());
 }
 
-// Bez vlastní volby se režim mění spolu se systémem
-function followSystem() {
-  try {
-    if (localStorage.getItem(STORAGE_KEY)) return;
-  } catch {
-    // bez localStorage se režim řídí systémem
-  }
-  applyTheme(media.matches ? "dark" : "light");
-}
-
-// Systém se sleduje, jen dokud je na stránce nějaký přepínač (administrace je vždy světlá)
 function subscribe(listener) {
   listeners.add(listener);
-  media.addEventListener("change", followSystem); // stejná funkce se přidá jen jednou
-  return () => {
-    listeners.delete(listener);
-    if (!listeners.size) media.removeEventListener("change", followSystem);
-  };
+  return () => listeners.delete(listener);
 }
 
 const currentTheme = () => (document.documentElement.classList.contains("dark") ? "dark" : "light");

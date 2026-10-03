@@ -13,25 +13,18 @@ const LINKS = [
   { to: "/hobbies", key: "hobbies" },
 ];
 
-// Odkaz s animovaným podtržením; aktivní stránka má podtržení trvale
+// Aktivní stránka je „zamáčknutá“, ostatní při najetí myší vystoupí
 const NavbarLink = ({ to, children }) => (
   <NavLink
     to={to}
     end={to === "/"}
-    className="group flex flex-col font-semibold text-lg text-white py-1"
+    className={({ isActive }) =>
+      `inline-flex items-center min-h-12 px-6 rounded-full font-bold transition-shadow duration-200 ${
+        isActive ? "shadow-neu-in" : "hover:shadow-neu-sm"
+      }`
+    }
   >
-    {({ isActive }) => (
-      <>
-        <span className={isActive ? "text-green-400" : ""}>{children}</span>
-        <div className="relative h-[2px] w-full mt-0.5 bg-slate-700 overflow-hidden">
-          <div
-            className={`absolute inset-0 bg-green-400 transition-transform duration-500 ease-in-out ${
-              isActive ? "translate-x-0" : "-translate-x-[101%] group-hover:translate-x-0"
-            }`}
-          />
-        </div>
-      </>
-    )}
+    {children}
   </NavLink>
 );
 
@@ -42,9 +35,9 @@ const MailButton = () => {
       href={`mailto:${CONTACT_EMAIL}`}
       aria-label={t("nav.email")}
       title={t("nav.email")}
-      className="flex items-center justify-center size-10 rounded-full bg-slate-800 border border-slate-700 dark:bg-white/5 dark:border-white/10 text-green-400 hover:border-green-400 transition-colors"
+      className="press flex items-center justify-center size-12 shrink-0 rounded-full bg-surface shadow-neu-sm text-accent-ink"
     >
-      <Mail size={18} />
+      <Mail size={20} aria-hidden="true" />
     </a>
   );
 };
@@ -72,44 +65,52 @@ export default function Navbar() {
   );
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-slate-900/95 backdrop-blur px-6 md:px-10 overflow-hidden border-b border-slate-800 dark:bg-slate-950/75 dark:border-white/10">
-      <div className="absolute -top-24 -left-24 w-64 h-64 bg-green-400/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-cyan-400/20 rounded-full blur-3xl pointer-events-none" />
+    <div className="sticky top-0 z-50 bg-surface pt-4 pb-3">
+      <nav className="max-w-6xl mx-auto px-4 md:px-6">
+        <div className="rounded-[30px] bg-surface shadow-neu px-4 py-3.5">
+          <div className="flex items-center justify-between gap-4">
+            {/* Logo v barvě textu (maska z bílého PNG), funguje ve světlém i tmavém režimu */}
+            <Link
+              to="/"
+              aria-label="Vojtěch Drozd"
+              className="press flex items-center justify-center size-[52px] shrink-0 rounded-full bg-surface shadow-neu-sm"
+            >
+              <span
+                className="block w-8 h-5 bg-ink"
+                style={{
+                  WebkitMask: `url(${logo}) center / contain no-repeat`,
+                  mask: `url(${logo}) center / contain no-repeat`,
+                }}
+              />
+            </Link>
 
-      <div className="relative max-w-7xl mx-auto flex items-center justify-between py-4 min-h-[72px]">
-        <Link to="/" className="shrink-0">
-          <img
-            src={logo}
-            alt="Vojtěch Drozd"
-            width={232}
-            height={144}
-            className="h-10 md:h-12 w-auto transition-opacity hover:opacity-80"
-          />
-        </Link>
+            {/* Desktop */}
+            <div className="hidden md:flex items-center gap-2">{links}</div>
+            <div className="hidden md:flex items-center gap-3.5">{controls}</div>
 
-        {/* Desktop */}
-        <div className="hidden md:flex items-center gap-8 lg:gap-12">{links}</div>
-        <div className="hidden md:flex items-center gap-3">{controls}</div>
+            {/* Mobil – tlačítko menu */}
+            <button
+              type="button"
+              onClick={() => setOpenedAt(menuOpen ? null : pathname)}
+              aria-label={menuOpen ? t("nav.closeMenu") : t("nav.openMenu")}
+              aria-expanded={menuOpen}
+              className={`md:hidden flex items-center justify-center size-12 rounded-full bg-surface cursor-pointer transition-shadow ${
+                menuOpen ? "shadow-neu-in" : "shadow-neu-sm"
+              }`}
+            >
+              {menuOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
+            </button>
+          </div>
 
-        {/* Mobil – tlačítko menu */}
-        <button
-          type="button"
-          onClick={() => setOpenedAt(menuOpen ? null : pathname)}
-          aria-label={menuOpen ? t("nav.closeMenu") : t("nav.openMenu")}
-          aria-expanded={menuOpen}
-          className="md:hidden flex items-center justify-center size-10 rounded-full bg-slate-800 border border-slate-700 dark:bg-white/5 dark:border-white/10 text-white cursor-pointer"
-        >
-          {menuOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
-      </div>
-
-      {/* Mobil – rozbalené menu */}
-      {menuOpen && (
-        <div className="relative md:hidden flex flex-col gap-2 pb-6">
-          {links}
-          <div className="flex items-center gap-3 pt-4">{controls}</div>
+          {/* Mobil – rozbalené menu */}
+          {menuOpen && (
+            <div className="md:hidden flex flex-col gap-1.5 pt-4">
+              {links}
+              <div className="flex flex-wrap items-center gap-3.5 pt-4 pb-1 px-1">{controls}</div>
+            </div>
+          )}
         </div>
-      )}
-    </nav>
+      </nav>
+    </div>
   );
 }

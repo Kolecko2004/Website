@@ -1,41 +1,38 @@
-import { Header } from "./Headers";
-
-// icon: volitelná ikona nad nadpisem
+// Vystouplá karta. icon: ikona v zamáčknuté jamce nad nadpisem; tag: štítek vpravo od ikony.
 // align: "center" pro krátké texty karet, "left" pro delší odstavce (lépe se čte)
-export const FeatureBlock = ({
-  title,
-  description,
-  icon,
-  align = "center",
-  accentColor = "bg-green-400",
-  children,
-}) => {
-  return (
-    <div className="group relative overflow-hidden bg-slate-900 max-w-6xl mx-auto text-center border border-slate-800 rounded-2xl p-6 md:p-8 shadow-xl w-full h-full flex flex-col transition-colors duration-500 hover:border-slate-700 dark:bg-slate-900/40 dark:backdrop-blur-sm dark:border-white/10 dark:hover:border-white/20 dark:shadow-black/30">
-      {/* Barevná záře – pomalu se pohybuje, při najetí myší zesílí */}
-      <div className="glow-drift absolute -top-24 -left-24 w-64 h-64 bg-green-400/15 group-hover:bg-green-400/25 rounded-full blur-3xl pointer-events-none transition-colors duration-700" />
-      <div className="glow-drift-reverse absolute -bottom-24 -right-24 w-64 h-64 bg-cyan-400/15 group-hover:bg-cyan-400/25 rounded-full blur-3xl pointer-events-none transition-colors duration-700" />
+export const FeatureBlock = ({ title, description, icon, tag, align = "center", children }) => {
+  const left = align === "left";
 
-      <div className="relative z-10 grid gap-5 flex-grow content-start">
-        {icon && (
-          <div className="mx-auto flex items-center justify-center size-14 rounded-xl bg-slate-800/80 border border-slate-700 dark:bg-white/5 dark:border-white/10">
-            {icon}
-          </div>
-        )}
-        <Header level={2} className="text-white">
-          {title}
-        </Header>
-        <div className={`w-16 h-1 ${accentColor} mx-auto rounded-full transition-all duration-500 ease-out group-hover:w-28`}></div>
-        <div
-          className={`md:px-8 text-slate-300 leading-relaxed text-base md:text-lg whitespace-pre-line ${
-            align === "left" ? "text-left max-w-3xl mx-auto" : ""
-          }`}
-        >
+  return (
+    <div
+      className={`w-full h-full flex flex-col gap-5 rounded-[34px] bg-surface shadow-neu p-8 md:p-9 ${
+        left ? "items-start text-left" : "items-center text-center"
+      }`}
+    >
+      {(icon || tag) && (
+        <div className={`flex items-center gap-4 ${left ? "self-stretch justify-between" : "justify-center"}`}>
+          {icon && (
+            <span className="flex items-center justify-center size-[70px] rounded-3xl shadow-neu-in text-accent-ink">
+              {icon}
+            </span>
+          )}
+          {tag && (
+            <span className="px-4 py-2 rounded-full shadow-neu-in text-xs font-bold tracking-[0.1em] uppercase">
+              {tag}
+            </span>
+          )}
+        </div>
+      )}
+
+      <h2 className="text-2xl md:text-[28px] font-extrabold tracking-[-0.02em] leading-tight">{title}</h2>
+
+      {description && (
+        <div className={`text-muted leading-relaxed md:text-lg whitespace-pre-line ${left ? "max-w-3xl" : ""}`}>
           {description}
         </div>
-      </div>
+      )}
 
-      {children && <div className="relative z-10 mt-6">{children}</div>}
+      {children && <div className={`mt-auto pt-2 self-stretch ${left ? "" : "flex justify-center"}`}>{children}</div>}
     </div>
   );
 };

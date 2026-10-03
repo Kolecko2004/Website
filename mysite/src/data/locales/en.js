@@ -38,6 +38,12 @@ const en = {
   heroDescription:
     "Welcome to my digital portfolio. Explore my background, projects, and the things I enjoy doing in my free time.",
   explore: "Explore",
+  // Štítky kolem monogramu v úvodu domovské stránky
+  heroChips: {
+    role: "Software developer",
+    study: "CTU FEL · Open Informatics",
+    city: "Prague",
+  },
 
   // ============================================================
   // HOME PAGE – rozcestník (karty sekcí)

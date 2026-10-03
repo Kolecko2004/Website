@@ -48,7 +48,7 @@ export default function AdminPage() {
   if (status === "loading") {
     return (
       <Centered>
-        <LoaderCircle className="animate-spin text-slate-400" size={28} />
+        <LoaderCircle className="animate-spin text-muted" size={28} />
       </Centered>
     );
   }
@@ -56,12 +56,12 @@ export default function AdminPage() {
   if (status === "not-configured" || status === "error") {
     return (
       <Centered>
-        <div className="max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-          <h1 className="text-xl font-bold text-slate-900">Administrace není dostupná</h1>
-          <p className="mt-3 text-slate-600">{error}</p>
+        <div className="max-w-md rounded-[34px] bg-surface shadow-neu p-8 md:p-10">
+          <h1 className="text-2xl font-extrabold tracking-[-0.02em]">Administrace není dostupná</h1>
+          <p className="mt-3 text-muted">{error}</p>
           {status === "not-configured" && (
-            <p className="mt-3 text-sm text-slate-500">
-              Spusť v projektu <code className="rounded bg-slate-100 px-1">npm run admin:setup</code>,
+            <p className="mt-3 text-sm text-muted">
+              Spusť v projektu <code className="rounded-lg shadow-neu-in px-2 py-0.5 text-ink">npm run admin:setup</code>,
               výsledné proměnné přidej v Netlify a spusť nový deploy.
             </p>
           )}
@@ -82,5 +82,5 @@ export default function AdminPage() {
 }
 
 const Centered = ({ children }) => (
-  <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">{children}</div>
+  <div className="min-h-screen flex items-center justify-center bg-surface text-ink px-4 py-10">{children}</div>
 );

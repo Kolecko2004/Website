@@ -17,40 +17,36 @@ export default function ProjectDetail() {
   if (!Object.hasOwn(PROJECTS, projectId) || typeof project !== "object") {
     return <NotFound />;
   }
-  const { accent, images } = PROJECTS[projectId];
+  const { images } = PROJECTS[projectId];
 
   return (
-    <div className="pb-16">
-      <Hero
-        badge={project.badge}
-        title={project.title}
-        description={project.description}
-      >
+    <div className="pb-8">
+      <Hero badge={project.badge} title={project.title} description={project.description}>
         {/* Vždy vede na přehled projektů (i když uživatel přišel přímo odkazem zvenku) */}
-        <Button className="mx-auto" to="/projects" back>
+        <Button to="/projects" back>
           {t("projectDetailUI.backButton")}
         </Button>
       </Hero>
 
-      <div className="grid gap-6 md:gap-8 max-w-5xl mx-auto px-6">
+      <div className="max-w-5xl mx-auto px-6 grid gap-9">
         {project.sections?.map((section, index) => (
           <Reveal key={index}>
             <FeatureBlock
               title={section.title}
               description={section.content || section.description}
-              align={section.type === "text" ? "left" : "center"}
-              accentColor={accent.bg}
+              align={section.type === "contact" ? "center" : "left"}
             >
               {section.type === "image-grid" && images && (
-                <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {images.map((img, i) => (
-                    <img
-                      key={img}
-                      src={img}
-                      alt={`${project.title} ${i + 1}`}
-                      loading="lazy"
-                      className="h-72 w-full object-cover rounded-xl border border-slate-700 shadow-lg"
-                    />
+                    <div key={img} className="rounded-[26px] shadow-neu-in p-2.5">
+                      <img
+                        src={img}
+                        alt={`${project.title} ${i + 1}`}
+                        loading="lazy"
+                        className="h-72 w-full object-cover rounded-[20px]"
+                      />
+                    </div>
                   ))}
                 </div>
               )}
@@ -58,11 +54,7 @@ export default function ProjectDetail() {
               {section.type === "portfolio" && <PortfolioReturns />}
 
               {section.type === "contact" && (
-                <Button
-                  href={`mailto:${CONTACT_EMAIL}`}
-                  className="mx-auto"
-                  arrowColor={accent.text}
-                >
+                <Button href={`mailto:${CONTACT_EMAIL}`} variant="primary">
                   {section.buttonText}
                 </Button>
               )}

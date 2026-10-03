@@ -1,10 +1,7 @@
-// Nadpis stránky (level 1) nebo sekce (level 2)
-const SIZES = {
-  1: "text-5xl sm:text-6xl md:text-8xl font-black text-slate-900 tracking-tight dark:bg-gradient-to-b dark:from-white dark:to-slate-400 dark:bg-clip-text dark:text-transparent",
-  2: "text-3xl md:text-5xl font-bold bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent",
-};
-
-export const Header = ({ level = 1, children, className = "" }) => {
-  const Tag = `h${level}`;
-  return <Tag className={`leading-tight ${SIZES[level]} ${className}`}>{children}</Tag>;
-};
+// Štítek nad nadpisem – vystouplá „pilulka“ s tečkou v barvě akcentu
+export const Badge = ({ children }) => (
+  <span className="inline-flex items-center gap-2.5 px-[18px] py-[11px] rounded-full bg-surface shadow-neu-sm text-[13px] font-bold tracking-[0.14em] uppercase">
+    <span className="size-2 rounded-full bg-accent-ink" />
+    {children}
+  </span>
+);

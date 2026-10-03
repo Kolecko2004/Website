@@ -3,36 +3,30 @@ import { Moon, Sun } from "lucide-react";
 import useTheme from "./useTheme";
 
 const LANGUAGES = [
-  { value: "en", content: "EN", label: "Switch to English" },
-  { value: "cs", content: "CS", label: "Přepnout do češtiny" },
+  { value: "en", label: "Switch to English" },
+  { value: "cs", label: "Přepnout do češtiny" },
 ];
 
-// Přepínač ve tvaru „pilulky“ – stejný vzhled pro jazyk i světlý / tmavý režim.
-// activeColor: barva vybrané volby (ikona přebírá barvu textu)
-function Toggle({ label, options, value, onChange }) {
+// Jazyk: zamáčknutá drážka, vybraný jazyk vystupuje
+export function LanguageSwitcher() {
+  const { t, i18n } = useTranslation();
   return (
-    <div
-      role="group"
-      aria-label={label}
-      className="inline-flex items-center p-1 rounded-full bg-slate-800 border border-slate-700 dark:bg-white/5 dark:border-white/10 select-none"
-    >
-      {options.map((option) => {
-        const active = option.value === value;
+    <div role="group" aria-label={t("nav.language")} className="flex gap-1 p-1 rounded-full shadow-neu-in select-none">
+      {LANGUAGES.map(({ value, label }) => {
+        const active = i18n.resolvedLanguage === value;
         return (
           <button
-            key={option.value}
+            key={value}
             type="button"
-            onClick={() => onChange(option.value)}
+            onClick={() => i18n.changeLanguage(value)}
             aria-pressed={active}
-            aria-label={option.label}
-            title={option.label}
-            className={`flex items-center justify-center px-2.5 py-1 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer ${
-              active
-                ? `bg-slate-700 shadow-sm ${option.activeColor || "text-white"}`
-                : "text-slate-400 hover:text-slate-200"
+            aria-label={label}
+            title={label}
+            className={`min-h-10 px-3.5 rounded-full text-[13px] font-bold uppercase cursor-pointer transition-shadow duration-200 ${
+              active ? "bg-surface shadow-neu-sm" : "text-muted hover:text-ink"
             }`}
           >
-            {option.content}
+            {value}
           </button>
         );
       })}
@@ -40,24 +34,28 @@ function Toggle({ label, options, value, onChange }) {
   );
 }
 
-export function LanguageSwitcher() {
-  const { t, i18n } = useTranslation();
-  return (
-    <Toggle
-      label={t("nav.language")}
-      options={LANGUAGES}
-      value={i18n.resolvedLanguage}
-      onChange={(lng) => i18n.changeLanguage(lng)}
-    />
-  );
-}
-
+// Světlý / tmavý režim: vypínač s posuvným „knoflíkem“
 export function ThemeSwitcher() {
   const { t } = useTranslation();
   const [theme, setTheme] = useTheme();
-  const options = [
-    { value: "light", content: <Sun size={16} />, label: t("nav.lightMode"), activeColor: "text-amber-300" },
-    { value: "dark", content: <Moon size={16} />, label: t("nav.darkMode"), activeColor: "text-cyan-400" },
-  ];
-  return <Toggle label={t("nav.theme")} options={options} value={theme} onChange={setTheme} />;
+  const dark = theme === "dark";
+
+  return (
+    <button
+      type="button"
+      onClick={() => setTheme(dark ? "light" : "dark")}
+      aria-pressed={dark}
+      aria-label={t("nav.darkMode")}
+      title={dark ? t("nav.lightMode") : t("nav.darkMode")}
+      className="relative w-20 h-[46px] shrink-0 rounded-full shadow-neu-in cursor-pointer"
+    >
+      <span
+        className={`absolute top-1.5 left-1.5 flex items-center justify-center size-[34px] rounded-full bg-surface shadow-neu-sm text-accent-ink transition-transform duration-300 ${
+          dark ? "translate-x-[34px]" : ""
+        }`}
+      >
+        {dark ? <Moon size={16} aria-hidden="true" /> : <Sun size={16} aria-hidden="true" />}
+      </span>
+    </button>
+  );
 }

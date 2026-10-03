@@ -10,9 +10,7 @@ import {
   Users,
 } from "lucide-react";
 import Hero from "../components/Hero";
-import { FeatureBlock } from "../components/FeatureBlock";
 import Reveal from "../components/Reveal";
-import { accentAt } from "../data/visuals";
 
 // Ikony podle id zájmu (texty jsou v locales/*.js → hobbiesPage.items)
 const ICONS = {
@@ -32,24 +30,24 @@ export default function Hobbies() {
   const hobbies = t("hobbiesPage.items", { returnObjects: true }) || [];
 
   return (
-    <div>
+    <div className="pb-8">
       <Hero
         badge={t("hobbiesPage.badge")}
         title={t("hobbiesPage.heroTitle")}
         description={t("hobbiesPage.heroDescription")}
       />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-6xl mx-auto mb-16 px-6">
+      <div className="max-w-6xl mx-auto px-6 flex flex-wrap gap-8">
         {hobbies.map((hobby, index) => {
           const Icon = ICONS[hobby.id];
-          const accent = accentAt(index);
           return (
-            <Reveal key={hobby.id} delay={(index % 2) * 150} className="flex flex-col">
-              <FeatureBlock
-                title={hobby.title}
-                description={hobby.description}
-                icon={Icon && <Icon className={accent.text} size={28} />}
-                accentColor={accent.bg}
-              />
+            <Reveal key={hobby.id} delay={(index % 4) * 100} className="flex-[1_1_250px] flex">
+              <article className="w-full flex flex-col items-center text-center gap-4 rounded-[34px] bg-surface shadow-neu p-8">
+                <span className="flex items-center justify-center size-[84px] rounded-full shadow-neu-in text-accent-ink">
+                  {Icon && <Icon size={32} aria-hidden="true" />}
+                </span>
+                <h2 className="mt-1 text-[22px] font-extrabold">{hobby.title}</h2>
+                <p className="text-muted leading-relaxed">{hobby.description}</p>
+              </article>
             </Reveal>
           );
         })}

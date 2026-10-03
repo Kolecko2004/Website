@@ -1,23 +1,81 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Clock, RefreshCw } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Clock } from "lucide-react";
 
 // Pořadí a klíče období (texty jsou v locales → portfolio.periods)
 const PERIODS = ["threeMonths", "ytd", "oneYear"];
 const HOUR = 60 * 60 * 1000;
 const DATE = { day: "numeric", month: "numeric", year: "numeric" };
 
-// Odpočet do další aktualizace ve tvaru 23:05. Data se přepočítávají každou celou
-// hodinu UTC (Netlify funkce portfolio-update, @hourly); každou sekundu se
-// překresluje jen tento text, ne celé okno.
-function Countdown() {
+// Odpočet do další aktualizace – data se přepočítávají každou celou hodinu UTC
+// (Netlify funkce portfolio-update, @hourly). Vrací text „23:05“ a uplynulou část hodiny v %.
+function useCountdown() {
   const [now, setNow] = useState(Date.now);
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(timer);
   }, []);
-  const seconds = Math.floor((HOUR - (now % HOUR)) / 1000);
-  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+  const left = HOUR - (now % HOUR);
+  const seconds = Math.floor(left / 1000);
+  return {
+    label: `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`,
+    elapsed: 100 - (left / HOUR) * 100,
+  };
+}
+
+// Barevný oblouk prstence o tloušťce `thickness` px
+const arcStyle = (elapsed, thickness) => {
+  const mask = `radial-gradient(farthest-side, transparent calc(100% - ${thickness}px), #000 calc(100% - ${thickness - 1}px))`;
+  return {
+    background: `conic-gradient(var(--accent) 0 ${elapsed}%, transparent ${elapsed}% 100%)`,
+    WebkitMask: mask,
+    mask,
+  };
+};
+
+// Velký prstenec s odpočtem (upoutávka na domovské stránce).
+// Každou sekundu se překresluje jen tento prstenec, ne celá stránka.
+export function CountdownRing({ size = 200 }) {
+  const { t } = useTranslation();
+  const { label, elapsed } = useCountdown();
+
+  return (
+    <div className="relative shrink-0" style={{ width: size, height: size }}>
+      <div className="absolute inset-0 rounded-full shadow-neu-in" />
+      <div className="absolute inset-[10px] rounded-full" style={arcStyle(elapsed, 10)} />
+      <div className="absolute inset-[18%] rounded-full bg-surface shadow-neu flex flex-col items-center justify-center gap-1 text-center">
+        <span className="text-[11px] font-bold tracking-[0.12em] uppercase text-muted">{t("portfolio.nextUpdate")}</span>
+        <span className="text-3xl font-extrabold tabular-nums tracking-[-0.02em]">{label}</span>
+      </div>
+    </div>
+  );
+}
+
+// Kompaktní stavový řádek pod výnosy: malý prstenec + odpočet a čas poslední aktualizace
+function UpdateStatus({ updatedAt, locale }) {
+  const { t } = useTranslation();
+  const { label, elapsed } = useCountdown();
+
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-4 rounded-3xl shadow-neu-in px-5 py-4">
+      <span className="inline-flex items-center gap-3.5">
+        <span className="relative size-11 shrink-0 rounded-full bg-surface shadow-neu-sm">
+          <span className="absolute inset-[5px] rounded-full" style={arcStyle(elapsed, 4)} />
+        </span>
+        <span className="flex flex-col">
+          <span className="text-[11px] font-bold tracking-[0.12em] uppercase text-muted">{t("portfolio.nextUpdate")}</span>
+          <span className="text-lg font-extrabold leading-tight tabular-nums">{label}</span>
+        </span>
+      </span>
+      <span className="inline-flex items-center gap-2.5 text-sm text-muted">
+        <Clock size={16} aria-hidden="true" className="shrink-0 text-accent-ink" />
+        {t("portfolio.updated")}
+        <strong className="text-ink tabular-nums">
+          {new Date(updatedAt).toLocaleString(locale, { ...DATE, hour: "2-digit", minute: "2-digit" })}
+        </strong>
+      </span>
+    </div>
+  );
 }
 
 // Živá výnosnost portfolia z /api/portfolio (Netlify funkce, data z Trading 212)
@@ -44,7 +102,7 @@ export default function PortfolioReturns() {
   }, []);
 
   if (state.status === "unavailable" || state.status === "syncing") {
-    return <p className="text-slate-400 text-sm">{t(`portfolio.${state.status}`)}</p>;
+    return <p className="text-muted text-sm">{t(`portfolio.${state.status}`)}</p>;
   }
 
   const data = state.data;
@@ -56,62 +114,44 @@ export default function PortfolioReturns() {
   });
 
   return (
-    <div className="grid gap-4">
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+    <div className="w-full flex flex-col gap-8 text-left">
+      <div className="flex flex-wrap gap-6">
         {PERIODS.map((period) => {
           const item = data?.returns[period];
+          const Arrow = item?.value < 0 ? ArrowDownRight : ArrowUpRight;
           return (
-            <div
-              key={period}
-              className="rounded-xl bg-slate-800/80 border border-slate-700 px-4 py-5 dark:bg-white/5 dark:border-white/10"
-            >
-              <div className="text-xs font-bold uppercase tracking-widest text-slate-400">
+            <div key={period} className="flex-[1_1_200px] flex flex-col gap-2.5 rounded-[28px] shadow-neu-in p-6">
+              <span className="text-xs font-bold tracking-[0.12em] uppercase text-muted">
                 {t(`portfolio.periods.${period}`)}
-              </div>
+              </span>
               {item ? (
-                <div
-                  className={`mt-2 text-3xl font-black tabular-nums ${
-                    item.value >= 0 ? "text-green-400" : "text-red-400"
-                  }`}
-                >
+                <span className="flex items-center gap-2 text-4xl font-extrabold tabular-nums tracking-[-0.03em]">
+                  <Arrow
+                    size={26}
+                    strokeWidth={2.4}
+                    aria-hidden="true"
+                    className={item.value < 0 ? "text-muted" : "text-accent-ink"}
+                  />
                   {percent.format(item.value)}
-                </div>
+                </span>
               ) : !data ? (
-                // Načítání – šedý zástupný pruh
-                <div className="mt-3 h-8 w-28 mx-auto rounded-md bg-slate-700 animate-pulse" />
+                // Načítání – zástupný pruh
+                <span className="h-10 w-32 rounded-xl shadow-neu-sm animate-pulse" />
               ) : (
                 // Za toto období nejsou data (účet ještě neexistoval)
-                <div className="mt-2 text-3xl font-black text-slate-500">—</div>
+                <span className="text-4xl font-extrabold text-muted">—</span>
               )}
-              {/* Od kdy se výnos počítá (u každého období) */}
               {item?.from && (
-                <div className="mt-1 text-xs text-slate-400">
+                <span className="text-sm text-muted">
                   {t("portfolio.since", { date: new Date(item.from).toLocaleDateString(locale, DATE) })}
-                </div>
+                </span>
               )}
             </div>
           );
         })}
       </div>
 
-      {data && (
-        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-slate-400">
-          <span className="inline-flex items-center gap-1.5">
-            <Clock size={14} className="text-slate-500" />
-            {t("portfolio.updated")}{" "}
-            <span className="font-semibold text-slate-300">
-              {new Date(data.updatedAt).toLocaleString(locale, { ...DATE, hour: "2-digit", minute: "2-digit" })}
-            </span>
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <RefreshCw size={14} className="text-slate-500" />
-            {t("portfolio.nextUpdate")}{" "}
-            <span className="font-semibold tabular-nums text-slate-300">
-              <Countdown />
-            </span>
-          </span>
-        </div>
-      )}
+      {data && <UpdateStatus updatedAt={data.updatedAt} locale={locale} />}
     </div>
   );
 }

@@ -1,33 +1,31 @@
 import Reveal from "./Reveal";
 
 const TimelineItem = ({ year, title, subtitle, description, isLast }) => (
-  <div className="relative pl-8 pb-12 group">
-    {/* Svislá čára k další položce */}
-    {!isLast && (
-      <div className="absolute left-[11px] top-2 h-full w-[2px] bg-slate-200 group-hover:bg-slate-300 dark:bg-slate-800 dark:group-hover:bg-slate-700 transition-colors" />
-    )}
+  <div className="flex gap-5 md:gap-7">
+    {/* Vystouplá tečka a zamáčknutá drážka k další položce */}
+    <div className="flex flex-col items-center w-10 shrink-0">
+      <span className="flex items-center justify-center size-10 shrink-0 rounded-full bg-surface shadow-neu-sm">
+        <span className="size-3.5 rounded-full bg-accent" />
+      </span>
+      {!isLast && <span className="w-2 flex-1 min-h-8 my-3.5 rounded-full shadow-neu-in" />}
+    </div>
 
-    {/* Tečka s přechodem barev (stejný jako v patičce) */}
-    <div className="absolute left-0 top-1 z-10 size-6 rounded-full border-4 border-white dark:border-slate-950 bg-gradient-to-r from-green-400 to-cyan-400 shadow-sm" />
-
-    <div className="flex flex-col">
-      <span className="text-xs font-bold uppercase tracking-wider text-cyan-500 dark:text-cyan-400 mb-1">
+    <article className="flex-1 min-w-0 flex flex-col gap-2 rounded-[30px] bg-surface shadow-neu px-6 py-7 md:px-8 mb-9">
+      <span className="self-start px-4 py-2 rounded-full shadow-neu-in text-xs font-bold tracking-[0.1em] uppercase">
         {year}
       </span>
-      <h3 className="text-xl font-bold text-slate-900 dark:text-white">{title}</h3>
-      <p className="font-medium text-slate-500 dark:text-slate-400 mb-3">{subtitle}</p>
-      <p className="text-slate-500 dark:text-slate-400 leading-relaxed max-w-2xl text-sm">
-        {description}
-      </p>
-    </div>
+      <h3 className="mt-2 text-xl md:text-[23px] font-extrabold tracking-[-0.01em]">{title}</h3>
+      <p className="font-semibold text-muted">{subtitle}</p>
+      <p className="mt-1 leading-relaxed text-muted">{description}</p>
+    </article>
   </div>
 );
 
 export default function Timeline({ items }) {
   return (
-    <div className="max-w-3xl mx-auto py-12 px-6">
+    <div className="max-w-[860px] mx-auto px-6">
       {items.map((item, index) => (
-        <Reveal key={index}>
+        <Reveal key={item.title}>
           <TimelineItem {...item} isLast={index === items.length - 1} />
         </Reveal>
       ))}

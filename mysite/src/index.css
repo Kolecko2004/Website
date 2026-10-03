@@ -2,36 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Písmo, řádkování a okraje nastavuje Tailwind (preflight + fontFamily.sans v tailwind.config.js) */
-body {
-  background-color: #fff;
-  color: #0f172a;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* ============================================================
+   NEUMORFISMUS – barvy a stíny
+   Vše je „vytlačené“ z jedné plochy: světlý stín vlevo nahoře,
+   tmavý vpravo dole. Třídy shadow-neu / shadow-neu-sm / shadow-neu-in
+   a barvy surface / ink / muted / accent jsou v tailwind.config.js.
+   ============================================================ */
+:root {
+  --bg: #e4e9f0;
+  --hi: #ffffff;
+  --lo: #b9c2d0;
+  --ink: #22304a;
+  --muted: #55627a;
+  --accent: #3e5bf2;
+  --accent-ink: var(--accent);
 }
 
-/* Tmavý režim (třída „dark“ na <html>, viz public/theme-init.js):
-   tmavé pozadí s jemnou zelenou a tyrkysovou září v barvách webu */
-.dark body {
-  background-color: #020617; /* slate-950 */
-  background-image:
-    radial-gradient(55rem 35rem at 0% 0%, rgb(74 222 128 / 0.09), transparent 60%),
-    radial-gradient(50rem 35rem at 100% 15%, rgb(34 211 238 / 0.08), transparent 60%),
-    radial-gradient(60rem 40rem at 50% 100%, rgb(34 211 238 / 0.05), transparent 65%);
-  background-attachment: fixed;
-  color: #e2e8f0; /* slate-200 */
+/* Tmavý režim (třída „dark“ na <html>, viz public/theme-init.js) */
+.dark {
+  --bg: #272b33;
+  --hi: #333944;
+  --lo: #191c21;
+  --ink: #e9edf4;
+  --muted: #a9b3c4;
+  /* akcent jako text/ikona musí být na tmavé ploše světlejší */
+  --accent-ink: color-mix(in srgb, var(--accent) 50%, #fff);
+}
+
+/* Písmo, řádkování a okraje nastavuje Tailwind (preflight + fontFamily.sans v tailwind.config.js) */
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color 350ms,
+    color 350ms;
 }
 
 ::selection {
-  background-color: #4ade80;
-  color: #0f172a;
+  background-color: var(--accent);
+  color: #fff;
 }
 
 /* Viditelný obrys při ovládání klávesnicí */
 :focus-visible {
-  outline: 2px solid #22d3ee;
-  outline-offset: 3px;
-  border-radius: 6px;
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 4px;
+}
+
+/* Stisknutí: vystouplý prvek se „zamáčkne“ do plochy */
+@layer components {
+  .press {
+    @apply transition-[box-shadow,transform] duration-200 active:translate-y-0 active:shadow-neu-in;
+  }
 }
 
 /* ============================================================
@@ -86,30 +110,10 @@ body {
   transform: none;
 }
 
-/* Záře v kartách pomalu „dýchá“ */
-@keyframes glow-drift {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(24px, 16px) scale(1.15);
-  }
-}
-
-.glow-drift {
-  animation: glow-drift 12s ease-in-out infinite;
-}
-.glow-drift-reverse {
-  animation: glow-drift 14s ease-in-out infinite reverse;
-}
-
 /* Omezení pohybu v systému → vše hned a bez animací */
 @media (prefers-reduced-motion: reduce) {
   .page-in,
-  .hero-in > *,
-  .glow-drift,
-  .glow-drift-reverse {
+  .hero-in > * {
     animation: none;
   }
 
@@ -117,5 +121,11 @@ body {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  *,
+  ::before,
+  ::after {
+    transition-duration: 0s !important;
   }
 }
